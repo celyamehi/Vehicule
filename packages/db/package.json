@@ -12,11 +12,23 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "lint": "eslint src"
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint src test scripts",
+    "test": "vitest run",
+    "db:generer": "drizzle-kit generate",
+    "db:migrer": "tsx scripts/migrer.ts",
+    "db:seed": "tsx scripts/seed.ts"
   },
   "dependencies": {
-    "@lvb/shared": "workspace:*"
+    "@lvb/shared": "workspace:*",
+    "drizzle-orm": "^0.44.7",
+    "postgres": "^3.4.9"
+  },
+  "devDependencies": {
+    "dotenv": "^17.4.2",
+    "drizzle-kit": "^0.31.11",
+    "tsx": "^4.23.15",
+    "vitest": "^3.2.7"
   }
 }
