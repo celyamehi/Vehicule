@@ -11,7 +11,8 @@ ambiguïté sont dans [`DECISIONS.md`](DECISIONS.md).
 - Construire **phase par phase** (section 13 du cahier). Phase en cours : **Phase 1**.
   Ne rien construire d'une phase suivante sans validation explicite.
 - Ordre dans une phase : **base de données → API → interfaces**.
-- Avancer étape par étape et demander validation à la fin de chaque étape.
+- Dans une phase, enchaîner les étapes sans attendre de validation intermédiaire (commit à chaque
+  étape) ; demander validation **entre deux phases**.
 - En cas d'ambiguïté : choisir une option par défaut raisonnable, l'écrire dans `DECISIONS.md`
   (date, contexte, choix, alternative), et continuer plutôt que bloquer.
 
@@ -26,6 +27,7 @@ ambiguïté sont dans [`DECISIONS.md`](DECISIONS.md).
 | `packages/api`    | API NestJS, REST `/api/v1` + OpenAPI + Socket.IO, seule à écrire en base |
 | `packages/db`     | Schéma Drizzle, migrations SQL versionnées, seed                         |
 | `packages/shared` | Types, schémas Zod, règles métier pures, traductions (i18n)              |
+| `packages/ui`     | Composants React, session, client API partagés par les 3 sites (D32)     |
 
 Paquets internes nommés `@lvb/<nom>`, référencés en `workspace:*`.
 
@@ -66,6 +68,6 @@ pnpm infra:up         # PostgreSQL + PostGIS, Redis, stockage S3 (Docker)
 pnpm build            # build de tous les paquets
 pnpm typecheck        # vérification des types
 pnpm lint             # ESLint
-pnpm test             # tests
+pnpm turbo run test --concurrency=1  # tests (base partagée : en série)
 pnpm format           # Prettier
 ```
