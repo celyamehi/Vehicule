@@ -255,6 +255,9 @@ export const agences = pgTable(
     politiqueAnnulation: politiqueAnnulationEnum().notNull().default("moderee"),
     ageMinimum: smallint().notNull().default(21),
     ancienneteMinPermisAnnees: smallint().notNull().default(2),
+    /** Frais au retour (4.6) : prix d'un kilomètre au-delà du forfait, d'un huitième de réservoir. */
+    prixKmSupplementaire: integer().notNull().default(20),
+    prixHuitiemeCarburant: integer().notNull().default(1000),
     ...horodatage,
   },
   (t) => [
@@ -264,6 +267,10 @@ export const agences = pgTable(
     check("agences_battement_positif", sql`${t.battementMinutes} BETWEEN 0 AND 1440`),
     check("agences_commission_valide", sql`${t.tauxCommissionBp} BETWEEN 0 AND 10000`),
     check("agences_age_minimum", sql`${t.ageMinimum} BETWEEN 18 AND 99`),
+    check(
+      "agences_frais_positifs",
+      sql`${t.prixKmSupplementaire} >= 0 AND ${t.prixHuitiemeCarburant} >= 0`,
+    ),
   ],
 );
 
@@ -463,6 +470,20 @@ export type DetailPrix = {
   tarifId?: string;
 };
 
+/** Frais au retour, en DZD. */
+export type FraisRetour = {
+  kmParcourus: number;
+  kmInclus: number | null;
+  kmSupplementaires: number;
+  montantKm: number;
+  huitiemesManquants: number;
+  montantCarburant: number;
+  joursRetard: number;
+  montantRetard: number;
+  montantDommages: number;
+  total: number;
+};
+
 /** Conditions copiées dans la réservation (âge, permis, km, carburant, annulation). */
 export type ConditionsFigees = {
   ageMinimum: number;
@@ -511,6 +532,8 @@ export const reservations = pgTable(
     departLe: timestamp({ withTimezone: true }),
     retourLe: timestamp({ withTimezone: true }),
     annuleeLe: timestamp({ withTimezone: true }),
+    /** Frais calculés au retour (comparaison des états des lieux, section 4.6). */
+    fraisRetour: jsonb().$type<FraisRetour>(),
     ...horodatage,
   },
   (t) => [

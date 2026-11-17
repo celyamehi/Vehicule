@@ -4,6 +4,7 @@ import {
   ErreurTarif,
   STATUTS_RESERVATION,
   calculerCommission,
+  calculerFraisRetour,
   calculerPrix,
   calculerRemboursement,
   choisirTarif,
@@ -346,5 +347,58 @@ describe("commission (6.3.8)", () => {
     ).toBe(1_049);
     for (const origine of ["comptoir", "telephone", "blocage"] as const)
       expect(calculerCommission({ origine, montant: 20_000, tauxCommissionBp: 1000 })).toBe(0);
+  });
+});
+
+describe("frais au retour (4.6)", () => {
+  const base = {
+    depart: { kilometrage: 10_000, carburant: 8 },
+    retour: { kilometrage: 10_600, carburant: 6 },
+    debut: a("2026-07-01T10:00"),
+    finPrevue: a("2026-07-03T10:00"),
+    retourReel: a("2026-07-03T10:30"),
+    kmInclusParJour: 250,
+    prixJourApplique: 5000,
+    prixKmSupplementaire: 20,
+    prixHuitiemeCarburant: 1000,
+  };
+
+  it("facture les km au-delà du forfait et le carburant manquant", () => {
+    expect(calculerFraisRetour(base)).toEqual({
+      kmParcourus: 600,
+      kmInclus: 500,
+      kmSupplementaires: 100,
+      montantKm: 2000,
+      huitiemesManquants: 2,
+      montantCarburant: 2000,
+      joursRetard: 0,
+      montantRetard: 0,
+      montantDommages: 0,
+      total: 4000,
+    });
+  });
+
+  it("facture un jour de retard au-delà de la tolérance et élargit le forfait km", () => {
+    const f = calculerFraisRetour({
+      ...base,
+      retourReel: a("2026-07-03T11:30"),
+      montantDommages: 3000,
+    });
+    expect(f.joursRetard).toBe(1);
+    expect(f.montantRetard).toBe(5000);
+    expect(f.kmInclus).toBe(750);
+    expect(f.kmSupplementaires).toBe(0);
+    expect(f.total).toBe(5000 + 2000 + 3000);
+  });
+
+  it("kilométrage illimité, plein refait, retour anticipé : aucun frais", () => {
+    const f = calculerFraisRetour({
+      ...base,
+      kmInclusParJour: null,
+      retour: { kilometrage: 12_000, carburant: 8 },
+      retourReel: a("2026-07-02T09:00"),
+    });
+    expect(f.total).toBe(0);
+    expect(f.kmInclus).toBeNull();
   });
 });

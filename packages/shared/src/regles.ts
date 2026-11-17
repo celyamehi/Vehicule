@@ -295,3 +295,65 @@ export function calculerCommission(params: {
   if (params.origine !== "plateforme") return 0;
   return Math.round((params.montant * params.tauxCommissionBp) / 10_000);
 }
+
+// ---------------------------------------------------------------------------
+// 4.6 Frais au retour (comparaison des états des lieux)
+// ---------------------------------------------------------------------------
+
+export type FraisRetour = {
+  kmParcourus: number;
+  kmInclus: number | null;
+  kmSupplementaires: number;
+  montantKm: number;
+  huitiemesManquants: number;
+  montantCarburant: number;
+  joursRetard: number;
+  montantRetard: number;
+  montantDommages: number;
+  total: number;
+};
+
+/**
+ * Compare les états des lieux de départ et de retour et calcule les frais :
+ * kilomètres au-delà du forfait, carburant manquant (en huitièmes), jours de retard
+ * (au prix journalier figé, avec la même tolérance que la facturation) et dommages saisis.
+ */
+export function calculerFraisRetour(params: {
+  depart: { kilometrage: number; carburant: number };
+  retour: { kilometrage: number; carburant: number };
+  debut: Date;
+  finPrevue: Date;
+  retourReel: Date;
+  kmInclusParJour: number | null;
+  prixJourApplique: number;
+  prixKmSupplementaire: number;
+  prixHuitiemeCarburant: number;
+  montantDommages?: number;
+}): FraisRetour {
+  const kmParcourus = Math.max(0, params.retour.kilometrage - params.depart.kilometrage);
+  const joursPrevus = joursFactures(params.debut, params.finPrevue);
+  const joursReels =
+    params.retourReel > params.finPrevue
+      ? joursFactures(params.debut, params.retourReel)
+      : joursPrevus;
+  const joursRetard = Math.max(0, joursReels - joursPrevus);
+  const kmInclus = params.kmInclusParJour === null ? null : params.kmInclusParJour * joursReels;
+  const kmSupplementaires = kmInclus === null ? 0 : Math.max(0, kmParcourus - kmInclus);
+  const huitiemesManquants = Math.max(0, params.depart.carburant - params.retour.carburant);
+  const montantKm = kmSupplementaires * params.prixKmSupplementaire;
+  const montantCarburant = huitiemesManquants * params.prixHuitiemeCarburant;
+  const montantRetard = joursRetard * params.prixJourApplique;
+  const montantDommages = Math.max(0, Math.round(params.montantDommages ?? 0));
+  return {
+    kmParcourus,
+    kmInclus,
+    kmSupplementaires,
+    montantKm,
+    huitiemesManquants,
+    montantCarburant,
+    joursRetard,
+    montantRetard,
+    montantDommages,
+    total: montantKm + montantCarburant + montantRetard + montantDommages,
+  };
+}

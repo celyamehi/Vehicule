@@ -261,6 +261,8 @@ export const agenceParametres = z.object({
   politiqueAnnulation: z.enum(POLITIQUES_ANNULATION).optional(),
   ageMinimum: z.number().int().min(18).max(99).optional(),
   ancienneteMinPermisAnnees: z.number().int().min(0).max(20).optional(),
+  prixKmSupplementaire: montant.optional(),
+  prixHuitiemeCarburant: montant.optional(),
   logoUrl: z.string().max(300).optional().nullable(),
   telephone: telephone.optional(),
   adresse: z.string().trim().min(5).max(300).optional(),
