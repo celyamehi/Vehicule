@@ -1,0 +1,9 @@
+{
+  "identities": [
+    {
+      "name": "lvb-dev",
+      "credentials": [{ "accessKey": "lvb", "secretKey": "lvb_dev_secret" }],
+      "actions": ["Admin", "Read", "Write", "List", "Tagging"]
+    }
+  ]
+}

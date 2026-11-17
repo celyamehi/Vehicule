@@ -1,0 +1,6 @@
+node_modules
+dist
+.next
+coverage
+pnpm-lock.yaml
+CAHIER_DES_CHARGES.md
