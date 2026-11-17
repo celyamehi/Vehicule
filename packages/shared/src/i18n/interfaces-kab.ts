@@ -48,14 +48,16 @@ export const interfacesKab: Pick<Messages, "ui" | "loueur" | "client" | "admin">
     },
     inscription: {
       titre: "Sekles tanixt-iw",
-      intro: "Ahil d baṭel yerna yettwaseqdac seg tura. Tikeṛṛusin-ik ad d-banent deg usmel mi ara yettwaqbel ufaylu-ik.",
+      intro:
+        "Ahil d baṭel yerna yettwaseqdac seg tura. Tikeṛṛusin-ik ad d-banent deg usmel mi ara yettwaqbel ufaylu-ik.",
       raisonSociale: "Isem n tnixt",
       nif: "NIF",
       registreCommerce: "Aɣmis n ttjaṛa",
       agrement: "Uṭṭun n turagt",
       justificatifs: "Isemliyen (RC, NIF, turagt)",
       creer: "Snulfu-d tanixt-iw",
-      enAttente: "Tanixt-ik tettraǧu aqbal: ahil yettwaseqdac, maca tikeṛṛusin-ik mazal ur d-banent ara deg usmel.",
+      enAttente:
+        "Tanixt-ik tettraǧu aqbal: ahil yettwaseqdac, maca tikeṛṛusin-ik mazal ur d-banent ara deg usmel.",
       suspendue: "Tanixt-ik tettwaḥbes. Nermes tiɣerɣert.",
       aucuneAgence: "Ur telliḍ ara d aεeggal n kra n tnixt.",
       choisirAgence: "Fren tanixt",
@@ -98,7 +100,8 @@ export const interfacesKab: Pick<Messages, "ui" | "loueur" | "client" | "admin">
       motifRefus: "Ssebba n tugin",
       annuler: "Sefsex asekri",
       motifAnnulation: "Ssebba",
-      avertissementAnnulation: "Asefsex sɣur tanixt ad yerr i umsaɣ akk idrimen-is, ad yesseḥder tazmilt n tnixt.",
+      avertissementAnnulation:
+        "Asefsex sɣur tanixt ad yerr i umsaɣ akk idrimen-is, ad yesseḥder tazmilt n tnixt.",
       nonPresentation: "Ur d-yusi ara",
       depart: "Efk takeṛṛust",
       retour: "Ṭṭef takeṛṛust",
@@ -147,7 +150,13 @@ export const interfacesKab: Pick<Messages, "ui" | "loueur" | "client" | "admin">
       zone: "Adeg",
       description: "Aglam",
       types: { rayure: "Ajerreḍ", bosse: "Taḥfirt", casse: "Arraẓ", autre: "Nniḍen" },
-      zones: { avant: "Sdat", arriere: "Deffir", gauche: "Tama tazelmaḍt", droite: "Tama tayfust", toit: "Asqif" },
+      zones: {
+        avant: "Sdat",
+        arriere: "Deffir",
+        gauche: "Tama tazelmaḍt",
+        droite: "Tama tayfust",
+        toit: "Asqif",
+      },
       photosHorodatees: "Tugniwin (s uzemz s wudem awurman)",
       observations: "Iwenniten",
       signatureClient: "Azmul n umsaɣ",
@@ -267,7 +276,8 @@ export const interfacesKab: Pick<Messages, "ui" | "loueur" | "client" | "admin">
       villes: "Asekri n tkeṛṛusin s temdint",
     },
     recherche: {
-      resultats: "{n, plural, =0 {Ulac takeṛṛust} one {# n tkeṛṛust tella} other {# n tkeṛṛusin llant}}",
+      resultats:
+        "{n, plural, =0 {Ulac takeṛṛust} one {# n tkeṛṛust tella} other {# n tkeṛṛusin llant}}",
       filtres: "Imsizdigen",
       appliquer: "Snes",
       reinitialiser: "Ales awennez",
@@ -327,7 +337,8 @@ export const interfacesKab: Pick<Messages, "ui" | "loueur" | "client" | "admin">
       passees: "Yezrin",
       aucune: "Mazal ur tesεiḍ ara asekri.",
       annuler: "Sefsex",
-      confirmerAnnulation: "Ad tesfesxeḍ asekri-a? Akken tella tsertit n tnixt, ad k-d-uɣalen {pourcentage} % n yedrimen.",
+      confirmerAnnulation:
+        "Ad tesfesxeḍ asekri-a? Akken tella tsertit n tnixt, ad k-d-uɣalen {pourcentage} % n yedrimen.",
       annulee: "Asekri yettwasefsex",
       modifierDates: "Beddel izemzen",
       contrat: "Amtawa (PDF)",
@@ -346,12 +357,19 @@ export const interfacesKab: Pick<Messages, "ui" | "loueur" | "client" | "admin">
     },
     seo: {
       titreVille: "Asekri n tkeṛṛust deg {ville}",
-      descriptionVille: "Serwes u kru takeṛṛust deg {ville} ɣer tinixin yettwasneqden. Ssuma akk tettban, tiririt ddaw n 2 n yisragen.",
+      descriptionVille:
+        "Serwes u kru takeṛṛust deg {ville} ɣer tinixin yettwasneqden. Ssuma akk tettban, tiririt ddaw n 2 n yisragen.",
     },
     pied: { confidentialite: "Tabaḍnit", apropos: "Ɣef-nneɣ", agences: "D tanixt i telliḍ?" },
   },
   admin: {
-    nav: { tableau: "Imesmilen", agences: "Tinixin", reservations: "Isekriyen", documents: "Isemliyen", utilisateurs: "Iseqdacen" },
+    nav: {
+      tableau: "Imesmilen",
+      agences: "Tinixin",
+      reservations: "Isekriyen",
+      documents: "Isemliyen",
+      utilisateurs: "Iseqdacen",
+    },
     stats: {
       agencesValidees: "Tinixin yettwaqeblen",
       agencesEnAttente: "Tinixin yettraǧun",
@@ -379,7 +397,18 @@ export const interfacesKab: Pick<Messages, "ui" | "loueur" | "client" | "admin">
       vehicules: "Tikeṛṛusin",
       score: "Tazmilt",
     },
-    documents: { titre: "Isemliyen ara yettwasneqden", verifier: "Creḍ yettwasenqed", refuser: "Agi", aucun: "Ulac isemli yettraǧun" },
-    utilisateurs: { titre: "Iseqdacen", bloquer: "Sewḥel", debloquer: "Kkes asewḥel", inscritLe: "Yeskles ass n" },
+    documents: {
+      titre: "Isemliyen ara yettwasneqden",
+      verifier: "Creḍ yettwasenqed",
+      refuser: "Agi",
+      aucun: "Ulac isemli yettraǧun",
+    },
+    utilisateurs: {
+      statuts: { actif: "Yermed", bloque: "Yettwasewḥel", supprime: "Yettwakkes" },
+      titre: "Iseqdacen",
+      bloquer: "Sewḥel",
+      debloquer: "Kkes asewḥel",
+      inscritLe: "Yeskles ass n",
+    },
   },
 };

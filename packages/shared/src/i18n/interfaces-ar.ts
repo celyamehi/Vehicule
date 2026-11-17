@@ -55,7 +55,8 @@ export const interfacesAr: Pick<Messages, "ui" | "loueur" | "client" | "admin"> 
       agrement: "رقم الاعتماد",
       justificatifs: "الوثائق الثبوتية (نسخ السجل التجاري، الرقم الجبائي، الاعتماد)",
       creer: "إنشاء وكالتي",
-      enAttente: "وكالتك في انتظار المصادقة: البرنامج قابل للاستعمال، لكن سياراتك غير ظاهرة بعد على الموقع.",
+      enAttente:
+        "وكالتك في انتظار المصادقة: البرنامج قابل للاستعمال، لكن سياراتك غير ظاهرة بعد على الموقع.",
       suspendue: "وكالتك موقوفة. اتصل بالمنصة.",
       aucuneAgence: "أنت لست عضوًا في أي وكالة.",
       choisirAgence: "اختر وكالة",
@@ -147,7 +148,13 @@ export const interfacesAr: Pick<Messages, "ui" | "loueur" | "client" | "admin"> 
       zone: "الموضع",
       description: "الوصف",
       types: { rayure: "خدش", bosse: "انبعاج", casse: "كسر", autre: "آخر" },
-      zones: { avant: "الأمام", arriere: "الخلف", gauche: "الجانب الأيسر", droite: "الجانب الأيمن", toit: "السقف" },
+      zones: {
+        avant: "الأمام",
+        arriere: "الخلف",
+        gauche: "الجانب الأيسر",
+        droite: "الجانب الأيمن",
+        toit: "السقف",
+      },
       photosHorodatees: "الصور (مؤرخة تلقائيًا)",
       observations: "ملاحظات",
       signatureClient: "توقيع الزبون",
@@ -267,7 +274,8 @@ export const interfacesAr: Pick<Messages, "ui" | "loueur" | "client" | "admin"> 
       villes: "كراء السيارات حسب المدينة",
     },
     recherche: {
-      resultats: "{n, plural, zero {لا توجد سيارة متاحة} one {سيارة واحدة متاحة} two {سيارتان متاحتان} few {# سيارات متاحة} many {# سيارة متاحة} other {# سيارة متاحة}}",
+      resultats:
+        "{n, plural, zero {لا توجد سيارة متاحة} one {سيارة واحدة متاحة} two {سيارتان متاحتان} few {# سيارات متاحة} many {# سيارة متاحة} other {# سيارة متاحة}}",
       filtres: "التصفية",
       appliquer: "تطبيق",
       reinitialiser: "إعادة التعيين",
@@ -327,7 +335,8 @@ export const interfacesAr: Pick<Messages, "ui" | "loueur" | "client" | "admin"> 
       passees: "السابقة",
       aucune: "ليس لديك أي حجز بعد.",
       annuler: "إلغاء",
-      confirmerAnnulation: "إلغاء هذا الحجز؟ حسب سياسة الوكالة، سيتم استرجاع {pourcentage} % من المبلغ.",
+      confirmerAnnulation:
+        "إلغاء هذا الحجز؟ حسب سياسة الوكالة، سيتم استرجاع {pourcentage} % من المبلغ.",
       annulee: "تم إلغاء الحجز",
       modifierDates: "تعديل التواريخ",
       contrat: "العقد (PDF)",
@@ -346,12 +355,19 @@ export const interfacesAr: Pick<Messages, "ui" | "loueur" | "client" | "admin"> 
     },
     seo: {
       titreVille: "كراء السيارات في {ville}",
-      descriptionVille: "قارن واحجز سيارة للكراء في {ville} لدى وكالات موثوقة. السعر الإجمالي معروض، والرد في أقل من ساعتين.",
+      descriptionVille:
+        "قارن واحجز سيارة للكراء في {ville} لدى وكالات موثوقة. السعر الإجمالي معروض، والرد في أقل من ساعتين.",
     },
     pied: { confidentialite: "الخصوصية", apropos: "من نحن", agences: "هل أنت وكالة؟" },
   },
   admin: {
-    nav: { tableau: "المؤشرات", agences: "الوكالات", reservations: "الحجوزات", documents: "الوثائق", utilisateurs: "المستخدمون" },
+    nav: {
+      tableau: "المؤشرات",
+      agences: "الوكالات",
+      reservations: "الحجوزات",
+      documents: "الوثائق",
+      utilisateurs: "المستخدمون",
+    },
     stats: {
       agencesValidees: "وكالات مصادق عليها",
       agencesEnAttente: "وكالات في الانتظار",
@@ -379,7 +395,18 @@ export const interfacesAr: Pick<Messages, "ui" | "loueur" | "client" | "admin"> 
       vehicules: "السيارات",
       score: "التقييم",
     },
-    documents: { titre: "وثائق للتحقق", verifier: "تأكيد التحقق", refuser: "رفض", aucun: "لا توجد وثائق في الانتظار" },
-    utilisateurs: { titre: "المستخدمون", bloquer: "حظر", debloquer: "رفع الحظر", inscritLe: "تاريخ التسجيل" },
+    documents: {
+      titre: "وثائق للتحقق",
+      verifier: "تأكيد التحقق",
+      refuser: "رفض",
+      aucun: "لا توجد وثائق في الانتظار",
+    },
+    utilisateurs: {
+      statuts: { actif: "نشط", bloque: "محظور", supprime: "محذوف" },
+      titre: "المستخدمون",
+      bloquer: "حظر",
+      debloquer: "رفع الحظر",
+      inscritLe: "تاريخ التسجيل",
+    },
   },
 };

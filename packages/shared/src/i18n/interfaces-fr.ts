@@ -10,7 +10,8 @@ export const interfacesFr = {
     verifier: "Se connecter",
     changerNumero: "Changer de numéro",
     renvoyer: "Renvoyer le code",
-    consentement: "J'accepte la politique de confidentialité et le traitement de mes données (loi 18-07).",
+    consentement:
+      "J'accepte la politique de confidentialité et le traitement de mes données (loi 18-07).",
     reessayer: "Réessayer",
     enregistre: "Modifications enregistrées",
     confirmerAction: "Confirmez-vous cette action ?",
@@ -46,14 +47,16 @@ export const interfacesFr = {
     },
     inscription: {
       titre: "Inscrire mon agence",
-      intro: "Le logiciel est gratuit et utilisable dès maintenant. Vos véhicules apparaîtront sur le site après validation de votre dossier.",
+      intro:
+        "Le logiciel est gratuit et utilisable dès maintenant. Vos véhicules apparaîtront sur le site après validation de votre dossier.",
       raisonSociale: "Raison sociale",
       nif: "NIF",
       registreCommerce: "Registre du commerce",
       agrement: "N° d'agrément",
       justificatifs: "Justificatifs (scans du RC, NIF, agrément)",
       creer: "Créer mon agence",
-      enAttente: "Votre agence est en attente de validation : le logiciel est utilisable, mais vos véhicules ne sont pas encore visibles sur le site.",
+      enAttente:
+        "Votre agence est en attente de validation : le logiciel est utilisable, mais vos véhicules ne sont pas encore visibles sur le site.",
       suspendue: "Votre agence est suspendue. Contactez la plateforme.",
       aucuneAgence: "Vous n'êtes membre d'aucune agence.",
       choisirAgence: "Choisir une agence",
@@ -80,7 +83,8 @@ export const interfacesFr = {
       bloquer: "Bloquer une période",
       motifBlocage: "Motif (entretien, usage personnel…)",
       debloquer: "Débloquer",
-      glisserAide: "Glissez une réservation vers un autre véhicule de la même catégorie pour la réaffecter.",
+      glisserAide:
+        "Glissez une réservation vers un autre véhicule de la même catégorie pour la réaffecter.",
       reaffectee: "Réservation réaffectée",
     },
     reservations: {
@@ -96,7 +100,8 @@ export const interfacesFr = {
       motifRefus: "Motif du refus",
       annuler: "Annuler la réservation",
       motifAnnulation: "Motif",
-      avertissementAnnulation: "L'annulation par l'agence rembourse intégralement le client et baisse le score de l'agence.",
+      avertissementAnnulation:
+        "L'annulation par l'agence rembourse intégralement le client et baisse le score de l'agence.",
       nonPresentation: "Non-présentation",
       depart: "Remettre le véhicule",
       retour: "Réceptionner le véhicule",
@@ -263,7 +268,8 @@ export const interfacesFr = {
       depart: "Départ",
       retour: "Retour",
       atoutPrix: "Prix transparent",
-      atoutPrixTexte: "Le prix total est affiché avant de réserver : options, caution, tout est clair.",
+      atoutPrixTexte:
+        "Le prix total est affiché avant de réserver : options, caution, tout est clair.",
       atoutAgences: "Agences vérifiées",
       atoutAgencesTexte: "Chaque agence est agréée et contrôlée par notre équipe.",
       atoutRapide: "Confirmation rapide",
@@ -271,7 +277,8 @@ export const interfacesFr = {
       villes: "Location de voiture par ville",
     },
     recherche: {
-      resultats: "{n, plural, =0 {Aucun véhicule disponible} one {# véhicule disponible} other {# véhicules disponibles}}",
+      resultats:
+        "{n, plural, =0 {Aucun véhicule disponible} one {# véhicule disponible} other {# véhicules disponibles}}",
       filtres: "Filtres",
       appliquer: "Appliquer",
       reinitialiser: "Réinitialiser",
@@ -331,7 +338,8 @@ export const interfacesFr = {
       passees: "Passées",
       aucune: "Vous n'avez pas encore de réservation.",
       annuler: "Annuler",
-      confirmerAnnulation: "Annuler cette réservation ? Selon la politique de l'agence, vous serez remboursé à {pourcentage} %.",
+      confirmerAnnulation:
+        "Annuler cette réservation ? Selon la politique de l'agence, vous serez remboursé à {pourcentage} %.",
       annulee: "Réservation annulée",
       modifierDates: "Modifier les dates",
       contrat: "Contrat (PDF)",
@@ -350,7 +358,8 @@ export const interfacesFr = {
     },
     seo: {
       titreVille: "Location voiture {ville}",
-      descriptionVille: "Comparez et réservez une voiture de location à {ville} auprès d'agences vérifiées. Prix total affiché, réponse en moins de 2 heures.",
+      descriptionVille:
+        "Comparez et réservez une voiture de location à {ville} auprès d'agences vérifiées. Prix total affiché, réponse en moins de 2 heures.",
     },
     pied: {
       confidentialite: "Confidentialité",
@@ -400,6 +409,7 @@ export const interfacesFr = {
       aucun: "Aucun document en attente",
     },
     utilisateurs: {
+      statuts: { actif: "Actif", bloque: "Bloqué", supprime: "Supprimé" },
       titre: "Utilisateurs",
       bloquer: "Bloquer",
       debloquer: "Débloquer",
