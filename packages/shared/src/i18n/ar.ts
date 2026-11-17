@@ -1,3 +1,4 @@
+import { interfacesAr } from "./interfaces-ar.js";
 import type { Messages } from "./fr.js";
 
 /** Traductions arabes (interface en RTL). */
@@ -240,4 +241,5 @@ export const ar: Messages = {
     carburantManquant: "وقود ناقص",
     retard: "تأخير",
   },
+  ...interfacesAr,
 };

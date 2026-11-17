@@ -1,3 +1,4 @@
+import { interfacesKab } from "./interfaces-kab.js";
 import type { Messages } from "./fr.js";
 
 /**
@@ -244,4 +245,5 @@ export const kab: Messages = {
     carburantManquant: "Lesans ixuṣṣen",
     retard: "Aεeṭṭel",
   },
+  ...interfacesKab,
 };

@@ -1,0 +1,30 @@
+{
+  "name": "@lvb/ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "@fontsource/noto-naskh-arabic": "^5.2.0",
+    "@lvb/shared": "workspace:*",
+    "socket.io-client": "^4.8.4"
+  },
+  "peerDependencies": {
+    "next": ">=15",
+    "next-intl": ">=4",
+    "react": ">=19"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "next": "^15.5.29",
+    "next-intl": "^4.15.1",
+    "react": "^19.3.1"
+  }
+}

@@ -1,3 +1,5 @@
+import { interfacesFr } from "./interfaces-fr.js";
+
 /**
  * Traductions françaises — langue de référence : ar.ts et kab.ts doivent avoir exactement
  * les mêmes clés (vérifié par le typage `Messages` et par les tests).
@@ -247,6 +249,7 @@ export const fr = {
     carburantManquant: "Carburant manquant",
     retard: "Retard",
   },
+  ...interfacesFr,
 } as const;
 
 type Elargir<T> = T extends string ? string : { [K in keyof T]: Elargir<T[K]> };
