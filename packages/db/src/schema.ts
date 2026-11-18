@@ -124,6 +124,14 @@ export const statutPaiementEnum = pgEnum("statut_paiement", [
   "echoue",
   "annule",
 ]);
+export const statutAvisEnum = pgEnum("statut_avis", ["publie", "masque"]);
+export const auteurMessageEnum = pgEnum("auteur_message", ["client", "agence"]);
+export const statutAmendeEnum = pgEnum("statut_amende", [
+  "a_traiter",
+  "refacturee",
+  "payee",
+  "contestee",
+]);
 export const typeEntretienEnum = pgEnum("type_entretien", [
   "vidange",
   "assurance",
@@ -251,6 +259,8 @@ export const agences = pgTable(
     telephone: text().notNull(),
     email: text(),
     logoUrl: text(),
+    /** Identifiant d'URL de la page publique de l'agence (ex. yemma-gouraya-location). */
+    slug: text(),
     photos: jsonb().$type<string[]>().notNull().default([]),
     justificatifs: jsonb().$type<string[]>().notNull().default([]),
     statut: statutAgenceEnum().notNull().default("en_attente"),
@@ -273,6 +283,7 @@ export const agences = pgTable(
   },
   (t) => [
     uniqueIndex("agences_nif_uq").on(t.nif),
+    uniqueIndex("agences_slug_uq").on(t.slug),
     index("agences_statut_wilaya_idx").on(t.statut, t.wilaya),
     check("agences_wilaya_valide", sql`${t.wilaya} BETWEEN 1 AND 58`),
     check("agences_battement_positif", sql`${t.battementMinutes} BETWEEN 0 AND 1440`),
@@ -481,6 +492,14 @@ export type DetailPrix = {
   tarifId?: string;
 };
 
+/** Adresse de livraison saisie par le client. */
+export type Livraison = {
+  adresse: string;
+  commune: string;
+  instructions?: string;
+  recuperation: boolean;
+};
+
 /** Frais au retour, en DZD. */
 export type FraisRetour = {
   kmParcourus: number;
@@ -533,6 +552,8 @@ export const reservations = pgTable(
     caution: integer().notNull().default(0),
     conditions: jsonb().$type<ConditionsFigees>(),
     optionsChoisies: jsonb().$type<string[]>().notNull().default([]),
+    /** Livraison du véhicule à une adresse (hôtel, domicile, aéroport) et récupération éventuelle. */
+    livraison: jsonb().$type<Livraison>(),
     /** Échéance d'expiration pour les statuts en attente (job planifié, règle 6.3.3). */
     expireLe: timestamp({ withTimezone: true }),
     motifRefus: text(),
@@ -751,5 +772,118 @@ export const entretiens = pgTable(
       "entretiens_km_positifs",
       sql`coalesce(${t.kilometrage}, 0) >= 0 AND coalesce(${t.prochaineEcheanceKm}, 0) >= 0`,
     ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// Avis (règle 6.3.9), messagerie, amendes, factures
+// ---------------------------------------------------------------------------
+
+/** Un avis par réservation terminée, dans les 14 jours suivant le retour. */
+export const avis = pgTable(
+  "avis",
+  {
+    ...cleId,
+    agenceId: uuid()
+      .notNull()
+      .references(() => agences.id, { onDelete: "cascade" }),
+    reservationId: uuid()
+      .notNull()
+      .references(() => reservations.id, { onDelete: "cascade" }),
+    vehiculeId: uuid().references(() => vehicules.id, { onDelete: "set null" }),
+    auteurId: uuid()
+      .notNull()
+      .references(() => utilisateurs.id),
+    note: smallint().notNull(),
+    commentaire: text(),
+    reponseAgence: text(),
+    reponduLe: timestamp({ withTimezone: true }),
+    statut: statutAvisEnum().notNull().default("publie"),
+    signale: boolean().notNull().default(false),
+    ...horodatage,
+  },
+  (t) => [
+    uniqueIndex("avis_reservation_uq").on(t.reservationId),
+    index("avis_agence_idx").on(t.agenceId, t.statut, t.createdAt),
+    check("avis_note_valide", sql`${t.note} BETWEEN 1 AND 5`),
+  ],
+);
+
+/** Messagerie entre le client et l'agence, liée à une réservation (3.5). */
+export const messages = pgTable(
+  "messages",
+  {
+    ...cleId,
+    agenceId: uuid()
+      .notNull()
+      .references(() => agences.id, { onDelete: "cascade" }),
+    reservationId: uuid()
+      .notNull()
+      .references(() => reservations.id, { onDelete: "cascade" }),
+    auteurId: uuid()
+      .notNull()
+      .references(() => utilisateurs.id),
+    auteur: auteurMessageEnum().notNull(),
+    texte: text().notNull(),
+    luLe: timestamp({ withTimezone: true }),
+    ...horodatage,
+  },
+  (t) => [
+    index("messages_reservation_idx").on(t.reservationId, t.createdAt),
+    check("messages_texte_non_vide", sql`length(trim(${t.texte})) BETWEEN 1 AND 2000`),
+  ],
+);
+
+/** Amendes et contraventions reçues par l'agence, rattachées au conducteur responsable. */
+export const amendes = pgTable(
+  "amendes",
+  {
+    ...cleId,
+    agenceId: uuid()
+      .notNull()
+      .references(() => agences.id, { onDelete: "cascade" }),
+    vehiculeId: uuid().notNull(),
+    reservationId: uuid().references(() => reservations.id, { onDelete: "set null" }),
+    clientId: uuid().references(() => utilisateurs.id),
+    dateInfraction: timestamp({ withTimezone: true }).notNull(),
+    montant: integer().notNull(),
+    motif: text().notNull(),
+    lieu: text(),
+    reference: text(),
+    statut: statutAmendeEnum().notNull().default("a_traiter"),
+    notes: text(),
+    creePar: uuid().references(() => utilisateurs.id),
+    ...horodatage,
+  },
+  (t) => [
+    index("amendes_agence_idx").on(t.agenceId, t.dateInfraction),
+    foreignKey({
+      name: "amendes_vehicule_meme_agence_fk",
+      columns: [t.vehiculeId, t.agenceId],
+      foreignColumns: [vehicules.id, vehicules.agenceId],
+    }).onDelete("cascade"),
+    check("amendes_montant_positif", sql`${t.montant} >= 0`),
+  ],
+);
+
+/** Factures numérotées par agence et par année (4.9). */
+export const factures = pgTable(
+  "factures",
+  {
+    ...cleId,
+    agenceId: uuid()
+      .notNull()
+      .references(() => agences.id, { onDelete: "cascade" }),
+    reservationId: uuid()
+      .notNull()
+      .references(() => reservations.id, { onDelete: "cascade" }),
+    numero: text().notNull(),
+    montant: integer().notNull(),
+    emiseLe: timestamp({ withTimezone: true }).notNull().defaultNow(),
+    ...horodatage,
+  },
+  (t) => [
+    uniqueIndex("factures_reservation_uq").on(t.reservationId),
+    uniqueIndex("factures_numero_uq").on(t.agenceId, t.numero),
   ],
 );

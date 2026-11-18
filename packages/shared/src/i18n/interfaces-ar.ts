@@ -1,7 +1,19 @@
 import type { Messages } from "./fr.js";
 
 /** Textes des interfaces — arabe (RTL). */
-export const interfacesAr: Pick<Messages, "ui" | "loueur" | "client" | "admin"> = {
+export const interfacesAr: Pick<
+  Messages,
+  | "ui"
+  | "loueur"
+  | "client"
+  | "admin"
+  | "avis"
+  | "messagerie"
+  | "livraison"
+  | "pageAgence"
+  | "amendes"
+  | "factures"
+> = {
   ui: {
     connexionTitre: "تسجيل الدخول",
     connexionSousTitre: "ستتلقى رمزًا عبر رسالة قصيرة لتسجيل الدخول.",
@@ -36,6 +48,9 @@ export const interfacesAr: Pick<Messages, "ui" | "loueur" | "client" | "admin"> 
   },
   loueur: {
     nav: {
+      amendes: "المخالفات",
+      avis: "الآراء",
+      pageAgence: "صفحتي",
       entretien: "الصيانة",
       tableauDeBord: "لوحة القيادة",
       planning: "الجدول الزمني",
@@ -90,8 +105,10 @@ export const interfacesAr: Pick<Messages, "ui" | "loueur" | "client" | "admin"> 
       enRetard: "متأخر",
       bientot: "قريبًا",
       ok: "محدّث",
-      dansJours: "{n, plural, =0 {اليوم} one {بعد يوم واحد} two {بعد يومين} few {بعد # أيام} many {بعد # يومًا} other {بعد # يوم}}",
-      depuisJours: "{n, plural, one {متأخر بيوم واحد} two {متأخر بيومين} few {متأخر بـ # أيام} many {متأخر بـ # يومًا} other {متأخر بـ # يوم}}",
+      dansJours:
+        "{n, plural, =0 {اليوم} one {بعد يوم واحد} two {بعد يومين} few {بعد # أيام} many {بعد # يومًا} other {بعد # يوم}}",
+      depuisJours:
+        "{n, plural, one {متأخر بيوم واحد} two {متأخر بيومين} few {متأخر بـ # أيام} many {متأخر بـ # يومًا} other {متأخر بـ # يوم}}",
       kmRestants: "متبقي {km} كلم",
       kmDepasses: "تجاوز بـ {km} كلم",
       derniereFois: "آخر مرة يوم {date}",
@@ -99,7 +116,8 @@ export const interfacesAr: Pick<Messages, "ui" | "loueur" | "client" | "admin"> 
       revenus: "مداخيل الكراء",
       couts: "تكاليف الصيانة",
       marge: "الهامش",
-      locations: "{n, plural, zero {لا كراء} one {كراء واحد} two {كراءان} few {# عمليات كراء} many {# عملية كراء} other {# عملية كراء}}",
+      locations:
+        "{n, plural, zero {لا كراء} one {كراء واحد} two {كراءان} few {# عمليات كراء} many {# عملية كراء} other {# عملية كراء}}",
       aSurveiller: "صيانة مرتقبة",
       types: {
         vidange: "تغيير الزيت",
@@ -414,6 +432,7 @@ export const interfacesAr: Pick<Messages, "ui" | "loueur" | "client" | "admin"> 
   },
   admin: {
     nav: {
+      avis: "الآراء",
       tableau: "المؤشرات",
       agences: "الوكالات",
       reservations: "الحجوزات",
@@ -461,5 +480,92 @@ export const interfacesAr: Pick<Messages, "ui" | "loueur" | "client" | "admin"> 
       debloquer: "رفع الحظر",
       inscritLe: "تاريخ التسجيل",
     },
+  },
+  avis: {
+    titre: "آراء الزبائن",
+    laisser: "أضف رأيك",
+    note: "تقييمك",
+    commentaire: "تعليقك (اختياري)",
+    envoyer: "نشر رأيي",
+    merci: "شكرًا! رأيك يساعد الزبائن الآخرين.",
+    nombre:
+      "{n, plural, zero {لا توجد آراء} one {رأي واحد} two {رأيان} few {# آراء} many {# رأيًا} other {# رأي}}",
+    aucun: "لا توجد آراء بعد.",
+    reponseAgence: "رد الوكالة",
+    repondre: "الرد",
+    reponse: "ردك",
+    signaler: "إبلاغ",
+    signale: "تم الإبلاغ",
+    masquer: "إخفاء",
+    publier: "نشر",
+    delai: "يمكنك إبداء رأيك خلال 14 يومًا بعد الإرجاع.",
+    etoiles: "{n} من 5",
+  },
+  messagerie: {
+    titre: "الرسائل",
+    placeholder: "اكتب رسالة…",
+    envoyer: "إرسال",
+    aucun: "لا توجد رسائل. اطرح سؤالك على الوكالة هنا.",
+    aucunAgence: "لا توجد رسائل مع هذا الزبون.",
+    vous: "أنت",
+    agence: "الوكالة",
+    client: "الزبون",
+    nouveau: "رسالة جديدة",
+  },
+  livraison: {
+    titre: "التوصيل إلى عنوان",
+    aide: "فندق، منزل، مطار: الوكالة توصل لك السيارة.",
+    adresse: "عنوان التوصيل",
+    commune: "البلدية",
+    instructions: "تعليمات (الطابق، معلم قريب…)",
+    recuperation: "استرجاع السيارة من نفس العنوان عند الإرجاع",
+    livreA: "التوصيل: {adresse}، {commune}",
+    recupere: "الاسترجاع من نفس العنوان",
+  },
+  pageAgence: {
+    titre: "صفحة الحجز الخاصة بي",
+    sousTitre: "شارك هذا الرابط على فيسبوك وإنستغرام وواتساب: تصل الحجوزات مباشرة إلى البرنامج.",
+    lien: "رابط صفحتك",
+    copier: "نسخ الرابط",
+    copie: "تم نسخ الرابط",
+    partagerWhatsapp: "مشاركة على واتساب",
+    partagerFacebook: "مشاركة على فيسبوك",
+    qr: "رمز QR لعرضه في الوكالة",
+    telechargerQr: "تحميل رمز QR",
+    message: "احجز سياراتنا عبر الإنترنت: {url}",
+    vehicules: "سياراتنا",
+    disponibles: "متوفرة من {debut} إلى {fin}",
+    nonValidee: "ستظهر صفحتك بمجرد المصادقة على وكالتك.",
+    horaires: "أوقات العمل",
+    pointsRetrait: "نقاط الاستلام",
+  },
+  amendes: {
+    titre: "المخالفات",
+    sousTitre: "سجّل مخالفة: البرنامج يجد من كان يقود السيارة.",
+    ajouter: "تسجيل مخالفة",
+    date: "تاريخ وساعة المخالفة",
+    montant: "المبلغ (د.ج)",
+    motif: "السبب",
+    lieu: "المكان",
+    reference: "مرجع المحضر",
+    responsable: "السائق المسؤول",
+    aucunResponsable: "لا يوجد كراء في هذا التاريخ: السيارة كانت في الوكالة.",
+    aucune: "لا توجد مخالفات مسجلة.",
+    statuts: {
+      a_traiter: "للمعالجة",
+      refacturee: "أعيدت فوترتها للزبون",
+      payee: "مدفوعة",
+      contestee: "محل اعتراض",
+    },
+    notes: "ملاحظات",
+    reservation: "الحجز {code}",
+  },
+  factures: {
+    moyen: "وسيلة الدفع",
+    facture: "الفاتورة",
+    telecharger: "الفاتورة (PDF)",
+    exporter: "تصدير (Excel)",
+    export: "التصدير المحاسبي",
+    exportAide: "الحجوزات والمقبوضات والصيانة خلال الفترة، بصيغة Excel.",
   },
 };

@@ -1,7 +1,19 @@
 import type { Messages } from "./fr.js";
 
 /** Textes des interfaces — kabyle (à faire relire par un locuteur natif, décision D17). */
-export const interfacesKab: Pick<Messages, "ui" | "loueur" | "client" | "admin"> = {
+export const interfacesKab: Pick<
+  Messages,
+  | "ui"
+  | "loueur"
+  | "client"
+  | "admin"
+  | "avis"
+  | "messagerie"
+  | "livraison"
+  | "pageAgence"
+  | "amendes"
+  | "factures"
+> = {
   ui: {
     connexionTitre: "Tuqqna",
     connexionSousTitre: "Ad d-tremseḍ tangalt s SMS akken ad teqqneḍ.",
@@ -36,6 +48,9 @@ export const interfacesKab: Pick<Messages, "ui" | "loueur" | "client" | "admin">
   },
   loueur: {
     nav: {
+      amendes: "Tixeṭṭiyin",
+      avis: "Tiktiwin",
+      pageAgence: "Asebter-iw",
       entretien: "Aḥareb",
       tableauDeBord: "Tafelwit n usenqed",
       planning: "Aɣawas",
@@ -416,6 +431,7 @@ export const interfacesKab: Pick<Messages, "ui" | "loueur" | "client" | "admin">
   },
   admin: {
     nav: {
+      avis: "Tiktiwin",
       tableau: "Imesmilen",
       agences: "Tinixin",
       reservations: "Isekriyen",
@@ -463,5 +479,92 @@ export const interfacesKab: Pick<Messages, "ui" | "loueur" | "client" | "admin">
       debloquer: "Kkes asewḥel",
       inscritLe: "Yeskles ass n",
     },
+  },
+  avis: {
+    titre: "Tiktiwin n yimsaɣen",
+    laisser: "Efk-d tamuɣli-inek",
+    note: "Tazmilt-ik",
+    commentaire: "Awennit-ik (afrayan)",
+    envoyer: "Suffeɣ tamuɣli-inu",
+    merci: "Tanemmirt! Tamuɣli-inek tettεawan imsaɣen nniḍen.",
+    nombre: "{n, plural, =0 {Ulac tamuɣli} one {# n tmuɣli} other {# n tmuɣliwin}}",
+    aucun: "Mazal ulac tamuɣli.",
+    reponseAgence: "Tiririt n tnixt",
+    repondre: "Err",
+    reponse: "Tiririt-ik",
+    signaler: "Mmel",
+    signale: "Yettwammel",
+    masquer: "Ffer",
+    publier: "Suffeɣ",
+    delai: "Tzemreḍ ad d-tefkeḍ tamuɣli-inek alamma d 14 n wussan seld tuɣalin.",
+    etoiles: "{n} seg 5",
+  },
+  messagerie: {
+    titre: "Iznan",
+    placeholder: "Aru izen…",
+    envoyer: "Azen",
+    aucun: "Ulac izen. Efk asteqsi-inek i tnixt dagi.",
+    aucunAgence: "Ulac izen d umsaɣ-a.",
+    vous: "Kečč·kemm",
+    agence: "Tanixt",
+    client: "Amsaɣ",
+    nouveau: "Izen amaynut",
+  },
+  livraison: {
+    titre: "Tawwurt ɣer tansa",
+    aide: "Asensu, axxam, anafag: tanixt ad ak-d-tawi takeṛṛust.",
+    adresse: "Tansa n tewwurt",
+    commune: "Taɣiwant",
+    instructions: "Iwellihen (asurif, tamatart…)",
+    recuperation: "Ṭṭef takeṛṛust deg yiwet n tansa deg tuɣalin",
+    livreA: "Tawwurt: {adresse}, {commune}",
+    recupere: "Tuṭṭfa deg yiwet n tansa",
+  },
+  pageAgence: {
+    titre: "Asebter-iw n usekri",
+    sousTitre:
+      "Bḍu aseɣwen-a ɣef Facebook, Instagram d WhatsApp: isekriyen ad d-awḍen srid ɣer uhil.",
+    lien: "Aseɣwen n usebter-ik",
+    copier: "Nɣel aseɣwen",
+    copie: "Aseɣwen yettwanɣel",
+    partagerWhatsapp: "Bḍu ɣef WhatsApp",
+    partagerFacebook: "Bḍu ɣef Facebook",
+    qr: "Tangalt QR ara d-tesbaneḍ deg tnixt",
+    telechargerQr: "Sader tangalt QR",
+    message: "Kru tikeṛṛusin-nneɣ s internet: {url}",
+    vehicules: "Tikeṛṛusin-nneɣ",
+    disponibles: "Llant seg {debut} ar {fin}",
+    nonValidee: "Asebter-ik ad d-iban mi ara tettwaqbel tnixt-ik.",
+    horaires: "Akud n uxeddim",
+    pointsRetrait: "Imukan n tuṭṭfa",
+  },
+  amendes: {
+    titre: "Tixeṭṭiyin",
+    sousTitre: "Sekles taxeṭṭit: ahil ad d-yaf anwa i yettenhar.",
+    ajouter: "Sekles taxeṭṭit",
+    date: "Azemz d usrag n tuccḍa",
+    montant: "Azal (DA)",
+    motif: "Ssebba",
+    lieu: "Adeg",
+    reference: "Tamuli n PV",
+    responsable: "Amenhar yettwasuksen",
+    aucunResponsable: "Ulac asekri deg uzemz-a: takeṛṛust tella deg tnixt.",
+    aucune: "Ulac taxeṭṭit yettwaskelsen.",
+    statuts: {
+      a_traiter: "Ad tettwasesfer",
+      refacturee: "Tettwafatur i umsaɣ",
+      payee: "Tettwaxelleṣ",
+      contestee: "Tettwagi",
+    },
+    notes: "Tizmilin",
+    reservation: "Asekri {code}",
+  },
+  factures: {
+    moyen: "Abrid n uxelleṣ",
+    facture: "Tafaturt",
+    telecharger: "Tafaturt (PDF)",
+    exporter: "Sifeḍ (Excel)",
+    export: "Asifeḍ n tsiḍent",
+    exportAide: "Isekriyen, axelleṣ d uḥareb n tallit, s umasal Excel.",
   },
 };

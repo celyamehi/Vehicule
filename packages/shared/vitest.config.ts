@@ -11,6 +11,7 @@ export default defineConfig({
       thresholds: {
         "src/regles.ts": { lines: 90, branches: 90, functions: 90 },
         "src/entretien.ts": { lines: 90, branches: 90, functions: 90 },
+        "src/fonctionnalites.ts": { lines: 90, branches: 90, functions: 90 },
       },
     },
   },

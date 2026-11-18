@@ -20,7 +20,8 @@ import {
   utilisateurs,
   vehicules,
 } from "@lvb/db";
-import { MS_JOUR, dateAlger, depuisHeureAlger, schemas } from "@lvb/shared";
+import { randomBytes } from "node:crypto";
+import { MS_JOUR, creerSlug, dateAlger, depuisHeureAlger, schemas } from "@lvb/shared";
 import { and, asc, desc, eq, gte, ilike, inArray, lt, or, sql } from "drizzle-orm";
 import { z } from "zod";
 import { MonAgence, Moi, Permission, RouteAgence } from "../auth/decorateurs.js";
@@ -60,7 +61,11 @@ export class AgenceController {
     return this.db.transaction(async (tx) => {
       const [agence] = await tx
         .insert(agences)
-        .values({ ...c, statut: "en_attente" })
+        .values({
+          ...c,
+          statut: "en_attente",
+          slug: creerSlug(c.raisonSociale, randomBytes(2).toString("hex")),
+        })
         .returning();
       await tx
         .insert(membresAgence)

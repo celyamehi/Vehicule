@@ -299,9 +299,7 @@
       "uniqueConstraints": {
         "categories_vehicule_code_unique": {
           "name": "categories_vehicule_code_unique",
-          "columns": [
-            "code"
-          ],
+          "columns": ["code"],
           "nullsNotDistinct": false
         }
       },
@@ -393,26 +391,18 @@
         "clients_agence_agence_id_agences_id_fk": {
           "name": "clients_agence_agence_id_agences_id_fk",
           "tableFrom": "clients_agence",
-          "columnsFrom": [
-            "agence_id"
-          ],
+          "columnsFrom": ["agence_id"],
           "tableTo": "agences",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         },
         "clients_agence_utilisateur_id_utilisateurs_id_fk": {
           "name": "clients_agence_utilisateur_id_utilisateurs_id_fk",
           "tableFrom": "clients_agence",
-          "columnsFrom": [
-            "utilisateur_id"
-          ],
+          "columnsFrom": ["utilisateur_id"],
           "tableTo": "utilisateurs",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -626,26 +616,18 @@
         "contrats_agence_id_agences_id_fk": {
           "name": "contrats_agence_id_agences_id_fk",
           "tableFrom": "contrats",
-          "columnsFrom": [
-            "agence_id"
-          ],
+          "columnsFrom": ["agence_id"],
           "tableTo": "agences",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         },
         "contrats_reservation_id_reservations_id_fk": {
           "name": "contrats_reservation_id_reservations_id_fk",
           "tableFrom": "contrats",
-          "columnsFrom": [
-            "reservation_id"
-          ],
+          "columnsFrom": ["reservation_id"],
           "tableTo": "reservations",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -761,26 +743,18 @@
         "documents_identite_utilisateur_id_utilisateurs_id_fk": {
           "name": "documents_identite_utilisateur_id_utilisateurs_id_fk",
           "tableFrom": "documents_identite",
-          "columnsFrom": [
-            "utilisateur_id"
-          ],
+          "columnsFrom": ["utilisateur_id"],
           "tableTo": "utilisateurs",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         },
         "documents_identite_verifie_par_utilisateurs_id_fk": {
           "name": "documents_identite_verifie_par_utilisateurs_id_fk",
           "tableFrom": "documents_identite",
-          "columnsFrom": [
-            "verifie_par"
-          ],
+          "columnsFrom": ["verifie_par"],
           "tableTo": "utilisateurs",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         }
@@ -939,41 +913,27 @@
         "entretiens_agence_id_agences_id_fk": {
           "name": "entretiens_agence_id_agences_id_fk",
           "tableFrom": "entretiens",
-          "columnsFrom": [
-            "agence_id"
-          ],
+          "columnsFrom": ["agence_id"],
           "tableTo": "agences",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         },
         "entretiens_cree_par_utilisateurs_id_fk": {
           "name": "entretiens_cree_par_utilisateurs_id_fk",
           "tableFrom": "entretiens",
-          "columnsFrom": [
-            "cree_par"
-          ],
+          "columnsFrom": ["cree_par"],
           "tableTo": "utilisateurs",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         },
         "entretiens_vehicule_meme_agence_fk": {
           "name": "entretiens_vehicule_meme_agence_fk",
           "tableFrom": "entretiens",
-          "columnsFrom": [
-            "vehicule_id",
-            "agence_id"
-          ],
+          "columnsFrom": ["vehicule_id", "agence_id"],
           "tableTo": "vehicules",
-          "columnsTo": [
-            "id",
-            "agence_id"
-          ],
+          "columnsTo": ["id", "agence_id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -1115,39 +1075,27 @@
         "etats_des_lieux_agence_id_agences_id_fk": {
           "name": "etats_des_lieux_agence_id_agences_id_fk",
           "tableFrom": "etats_des_lieux",
-          "columnsFrom": [
-            "agence_id"
-          ],
+          "columnsFrom": ["agence_id"],
           "tableTo": "agences",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         },
         "etats_des_lieux_reservation_id_reservations_id_fk": {
           "name": "etats_des_lieux_reservation_id_reservations_id_fk",
           "tableFrom": "etats_des_lieux",
-          "columnsFrom": [
-            "reservation_id"
-          ],
+          "columnsFrom": ["reservation_id"],
           "tableTo": "reservations",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         },
         "etats_des_lieux_signe_par_utilisateurs_id_fk": {
           "name": "etats_des_lieux_signe_par_utilisateurs_id_fk",
           "tableFrom": "etats_des_lieux",
-          "columnsFrom": [
-            "signe_par"
-          ],
+          "columnsFrom": ["signe_par"],
           "tableTo": "utilisateurs",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         }
@@ -1284,26 +1232,18 @@
         "journal_actions_agence_id_agences_id_fk": {
           "name": "journal_actions_agence_id_agences_id_fk",
           "tableFrom": "journal_actions",
-          "columnsFrom": [
-            "agence_id"
-          ],
+          "columnsFrom": ["agence_id"],
           "tableTo": "agences",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         },
         "journal_actions_utilisateur_id_utilisateurs_id_fk": {
           "name": "journal_actions_utilisateur_id_utilisateurs_id_fk",
           "tableFrom": "journal_actions",
-          "columnsFrom": [
-            "utilisateur_id"
-          ],
+          "columnsFrom": ["utilisateur_id"],
           "tableTo": "utilisateurs",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         }
@@ -1400,26 +1340,18 @@
         "membres_agence_agence_id_agences_id_fk": {
           "name": "membres_agence_agence_id_agences_id_fk",
           "tableFrom": "membres_agence",
-          "columnsFrom": [
-            "agence_id"
-          ],
+          "columnsFrom": ["agence_id"],
           "tableTo": "agences",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         },
         "membres_agence_utilisateur_id_utilisateurs_id_fk": {
           "name": "membres_agence_utilisateur_id_utilisateurs_id_fk",
           "tableFrom": "membres_agence",
-          "columnsFrom": [
-            "utilisateur_id"
-          ],
+          "columnsFrom": ["utilisateur_id"],
           "tableTo": "utilisateurs",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -1521,13 +1453,9 @@
         "notifications_utilisateur_id_utilisateurs_id_fk": {
           "name": "notifications_utilisateur_id_utilisateurs_id_fk",
           "tableFrom": "notifications",
-          "columnsFrom": [
-            "utilisateur_id"
-          ],
+          "columnsFrom": ["utilisateur_id"],
           "tableTo": "utilisateurs",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -1652,39 +1580,27 @@
         "paiements_agence_id_agences_id_fk": {
           "name": "paiements_agence_id_agences_id_fk",
           "tableFrom": "paiements",
-          "columnsFrom": [
-            "agence_id"
-          ],
+          "columnsFrom": ["agence_id"],
           "tableTo": "agences",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         },
         "paiements_reservation_id_reservations_id_fk": {
           "name": "paiements_reservation_id_reservations_id_fk",
           "tableFrom": "paiements",
-          "columnsFrom": [
-            "reservation_id"
-          ],
+          "columnsFrom": ["reservation_id"],
           "tableTo": "reservations",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         },
         "paiements_enregistre_par_utilisateurs_id_fk": {
           "name": "paiements_enregistre_par_utilisateurs_id_fk",
           "tableFrom": "paiements",
-          "columnsFrom": [
-            "enregistre_par"
-          ],
+          "columnsFrom": ["enregistre_par"],
           "tableTo": "utilisateurs",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         }
@@ -1772,13 +1688,9 @@
         "photos_vehicule_vehicule_id_vehicules_id_fk": {
           "name": "photos_vehicule_vehicule_id_vehicules_id_fk",
           "tableFrom": "photos_vehicule",
-          "columnsFrom": [
-            "vehicule_id"
-          ],
+          "columnsFrom": ["vehicule_id"],
           "tableTo": "vehicules",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -1922,13 +1834,9 @@
         "points_retrait_agence_id_agences_id_fk": {
           "name": "points_retrait_agence_id_agences_id_fk",
           "tableFrom": "points_retrait",
-          "columnsFrom": [
-            "agence_id"
-          ],
+          "columnsFrom": ["agence_id"],
           "tableTo": "agences",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -1937,10 +1845,7 @@
       "uniqueConstraints": {
         "points_retrait_id_agence_uq": {
           "name": "points_retrait_id_agence_uq",
-          "columns": [
-            "id",
-            "agence_id"
-          ],
+          "columns": ["id", "agence_id"],
           "nullsNotDistinct": false
         }
       },
@@ -2234,84 +2139,54 @@
         "reservations_agence_id_agences_id_fk": {
           "name": "reservations_agence_id_agences_id_fk",
           "tableFrom": "reservations",
-          "columnsFrom": [
-            "agence_id"
-          ],
+          "columnsFrom": ["agence_id"],
           "tableTo": "agences",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         },
         "reservations_client_id_utilisateurs_id_fk": {
           "name": "reservations_client_id_utilisateurs_id_fk",
           "tableFrom": "reservations",
-          "columnsFrom": [
-            "client_id"
-          ],
+          "columnsFrom": ["client_id"],
           "tableTo": "utilisateurs",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         },
         "reservations_cree_par_utilisateurs_id_fk": {
           "name": "reservations_cree_par_utilisateurs_id_fk",
           "tableFrom": "reservations",
-          "columnsFrom": [
-            "cree_par"
-          ],
+          "columnsFrom": ["cree_par"],
           "tableTo": "utilisateurs",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         },
         "reservations_vehicule_meme_agence_fk": {
           "name": "reservations_vehicule_meme_agence_fk",
           "tableFrom": "reservations",
-          "columnsFrom": [
-            "vehicule_id",
-            "agence_id"
-          ],
+          "columnsFrom": ["vehicule_id", "agence_id"],
           "tableTo": "vehicules",
-          "columnsTo": [
-            "id",
-            "agence_id"
-          ],
+          "columnsTo": ["id", "agence_id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         },
         "reservations_point_depart_meme_agence_fk": {
           "name": "reservations_point_depart_meme_agence_fk",
           "tableFrom": "reservations",
-          "columnsFrom": [
-            "point_retrait_depart_id",
-            "agence_id"
-          ],
+          "columnsFrom": ["point_retrait_depart_id", "agence_id"],
           "tableTo": "points_retrait",
-          "columnsTo": [
-            "id",
-            "agence_id"
-          ],
+          "columnsTo": ["id", "agence_id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         },
         "reservations_point_retour_meme_agence_fk": {
           "name": "reservations_point_retour_meme_agence_fk",
           "tableFrom": "reservations",
-          "columnsFrom": [
-            "point_retrait_retour_id",
-            "agence_id"
-          ],
+          "columnsFrom": ["point_retrait_retour_id", "agence_id"],
           "tableTo": "points_retrait",
-          "columnsTo": [
-            "id",
-            "agence_id"
-          ],
+          "columnsTo": ["id", "agence_id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         }
@@ -2416,13 +2291,9 @@
         "sessions_utilisateur_id_utilisateurs_id_fk": {
           "name": "sessions_utilisateur_id_utilisateurs_id_fk",
           "tableFrom": "sessions",
-          "columnsFrom": [
-            "utilisateur_id"
-          ],
+          "columnsFrom": ["utilisateur_id"],
           "tableTo": "utilisateurs",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -2565,39 +2436,27 @@
         "tarifs_agence_id_agences_id_fk": {
           "name": "tarifs_agence_id_agences_id_fk",
           "tableFrom": "tarifs",
-          "columnsFrom": [
-            "agence_id"
-          ],
+          "columnsFrom": ["agence_id"],
           "tableTo": "agences",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         },
         "tarifs_vehicule_id_vehicules_id_fk": {
           "name": "tarifs_vehicule_id_vehicules_id_fk",
           "tableFrom": "tarifs",
-          "columnsFrom": [
-            "vehicule_id"
-          ],
+          "columnsFrom": ["vehicule_id"],
           "tableTo": "vehicules",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         },
         "tarifs_categorie_id_categories_vehicule_id_fk": {
           "name": "tarifs_categorie_id_categories_vehicule_id_fk",
           "tableFrom": "tarifs",
-          "columnsFrom": [
-            "categorie_id"
-          ],
+          "columnsFrom": ["categorie_id"],
           "tableTo": "categories_vehicule",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         }
@@ -2928,41 +2787,27 @@
         "vehicules_agence_id_agences_id_fk": {
           "name": "vehicules_agence_id_agences_id_fk",
           "tableFrom": "vehicules",
-          "columnsFrom": [
-            "agence_id"
-          ],
+          "columnsFrom": ["agence_id"],
           "tableTo": "agences",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         },
         "vehicules_categorie_id_categories_vehicule_id_fk": {
           "name": "vehicules_categorie_id_categories_vehicule_id_fk",
           "tableFrom": "vehicules",
-          "columnsFrom": [
-            "categorie_id"
-          ],
+          "columnsFrom": ["categorie_id"],
           "tableTo": "categories_vehicule",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         },
         "vehicules_point_retrait_meme_agence_fk": {
           "name": "vehicules_point_retrait_meme_agence_fk",
           "tableFrom": "vehicules",
-          "columnsFrom": [
-            "point_retrait_id",
-            "agence_id"
-          ],
+          "columnsFrom": ["point_retrait_id", "agence_id"],
           "tableTo": "points_retrait",
-          "columnsTo": [
-            "id",
-            "agence_id"
-          ],
+          "columnsTo": ["id", "agence_id"],
           "onUpdate": "no action",
           "onDelete": "no action"
         }
@@ -2971,10 +2816,7 @@
       "uniqueConstraints": {
         "vehicules_id_agence_uq": {
           "name": "vehicules_id_agence_uq",
-          "columns": [
-            "id",
-            "agence_id"
-          ],
+          "columns": ["id", "agence_id"],
           "nullsNotDistinct": false
         }
       },
@@ -3000,105 +2842,57 @@
     "public.boite": {
       "name": "boite",
       "schema": "public",
-      "values": [
-        "manuelle",
-        "automatique"
-      ]
+      "values": ["manuelle", "automatique"]
     },
     "public.carburant": {
       "name": "carburant",
       "schema": "public",
-      "values": [
-        "essence",
-        "diesel",
-        "gpl",
-        "hybride",
-        "electrique"
-      ]
+      "values": ["essence", "diesel", "gpl", "hybride", "electrique"]
     },
     "public.langue": {
       "name": "langue",
       "schema": "public",
-      "values": [
-        "fr",
-        "ar",
-        "kab",
-        "en"
-      ]
+      "values": ["fr", "ar", "kab", "en"]
     },
     "public.moment_etat_des_lieux": {
       "name": "moment_etat_des_lieux",
       "schema": "public",
-      "values": [
-        "depart",
-        "retour"
-      ]
+      "values": ["depart", "retour"]
     },
     "public.moyen_paiement": {
       "name": "moyen_paiement",
       "schema": "public",
-      "values": [
-        "especes",
-        "cib",
-        "edahabia",
-        "virement",
-        "baridimob",
-        "cheque"
-      ]
+      "values": ["especes", "cib", "edahabia", "virement", "baridimob", "cheque"]
     },
     "public.origine_reservation": {
       "name": "origine_reservation",
       "schema": "public",
-      "values": [
-        "plateforme",
-        "comptoir",
-        "telephone",
-        "blocage"
-      ]
+      "values": ["plateforme", "comptoir", "telephone", "blocage"]
     },
     "public.politique_annulation": {
       "name": "politique_annulation",
       "schema": "public",
-      "values": [
-        "souple",
-        "moderee",
-        "stricte"
-      ]
+      "values": ["souple", "moderee", "stricte"]
     },
     "public.role_membre": {
       "name": "role_membre",
       "schema": "public",
-      "values": [
-        "gerant",
-        "employe"
-      ]
+      "values": ["gerant", "employe"]
     },
     "public.role_plateforme": {
       "name": "role_plateforme",
       "schema": "public",
-      "values": [
-        "utilisateur",
-        "admin"
-      ]
+      "values": ["utilisateur", "admin"]
     },
     "public.statut_agence": {
       "name": "statut_agence",
       "schema": "public",
-      "values": [
-        "en_attente",
-        "validee",
-        "suspendue"
-      ]
+      "values": ["en_attente", "validee", "suspendue"]
     },
     "public.statut_paiement": {
       "name": "statut_paiement",
       "schema": "public",
-      "values": [
-        "en_attente",
-        "reussi",
-        "echoue",
-        "annule"
-      ]
+      "values": ["en_attente", "reussi", "echoue", "annule"]
     },
     "public.statut_reservation": {
       "name": "statut_reservation",
@@ -3120,39 +2914,22 @@
     "public.statut_utilisateur": {
       "name": "statut_utilisateur",
       "schema": "public",
-      "values": [
-        "actif",
-        "bloque",
-        "supprime"
-      ]
+      "values": ["actif", "bloque", "supprime"]
     },
     "public.statut_vehicule": {
       "name": "statut_vehicule",
       "schema": "public",
-      "values": [
-        "disponible",
-        "loue",
-        "en_entretien",
-        "hors_service"
-      ]
+      "values": ["disponible", "loue", "en_entretien", "hors_service"]
     },
     "public.statut_verification": {
       "name": "statut_verification",
       "schema": "public",
-      "values": [
-        "en_attente",
-        "verifie",
-        "refuse"
-      ]
+      "values": ["en_attente", "verifie", "refuse"]
     },
     "public.type_document": {
       "name": "type_document",
       "schema": "public",
-      "values": [
-        "permis",
-        "cni",
-        "passeport"
-      ]
+      "values": ["permis", "cni", "passeport"]
     },
     "public.type_entretien": {
       "name": "type_entretien",
@@ -3172,14 +2949,7 @@
     "public.type_paiement": {
       "name": "type_paiement",
       "schema": "public",
-      "values": [
-        "acompte",
-        "solde",
-        "caution",
-        "restitution_caution",
-        "remboursement",
-        "frais"
-      ]
+      "values": ["acompte", "solde", "caution", "restitution_caution", "remboursement", "frais"]
     }
   },
   "schemas": {},

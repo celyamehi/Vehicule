@@ -51,6 +51,28 @@ export type DonneesContrat = {
   signatures: { client?: Buffer | null; agence?: Buffer | null; signeLe?: Date | null };
 };
 
+export type DonneesFacture = {
+  numero: string;
+  emiseLe: Date;
+  codeReservation: string;
+  agence: {
+    raisonSociale: string;
+    adresse: string;
+    telephone: string;
+    nif: string;
+    registreCommerce: string;
+    agrement: string | null;
+    logo?: Buffer | null;
+  };
+  client: { nom: string; telephone: string };
+  vehicule: string;
+  debut: Date;
+  fin: Date;
+  lignes: { cle: string; detail: string; montant: number }[];
+  total: number;
+  dejaPaye: number;
+};
+
 export type DonneesEtatDesLieux = {
   numeroReservation: string;
   moment: "depart" | "retour";
@@ -400,6 +422,58 @@ export class GenerateurPdf {
         doc.page.height - MARGE - 10,
         { width: LARGEUR, align: "right" },
       );
+    return this.terminer(doc);
+  }
+
+  /** Facture bilingue (4.9) : lignes de prestation, total, déjà encaissé, reste à payer. */
+  async facture(d: DonneesFacture): Promise<Buffer> {
+    const doc = this.nouveau();
+    this.entete(doc, d.agence, [
+      `${fr("pdf.nif")} : ${d.agence.nif}`,
+      `${fr("pdf.rc")} : ${d.agence.registreCommerce}`,
+      ...(d.agence.agrement ? [`${fr("pdf.agrement")} : ${d.agence.agrement}`] : []),
+    ]);
+    this.titre(doc, "pdf.factureTitre");
+    this.ligne(doc, "pdf.numeroFacture", d.numero);
+    this.ligne(doc, "pdf.dateFacture", dateHeure(d.emiseLe));
+    this.ligne(doc, "pdf.numero", d.codeReservation);
+    this.section(doc, "pdf.client");
+    this.ligne(doc, "commun.nom", d.client.nom);
+    this.ligne(doc, "commun.telephone", d.client.telephone);
+    this.section(doc, "pdf.designation");
+    this.ligne(doc, "pdf.vehicule", `${d.vehicule} — ${dateHeure(d.debut)} / ${dateHeure(d.fin)}`);
+    for (const l of d.lignes)
+      this.ligne(doc, l.cle, `${l.detail ? `${l.detail} — ` : ""}${dzd(l.montant)}`);
+    this.section(doc, "pdf.totalAPayer");
+    this.ligne(doc, "pdf.totalAPayer", dzd(d.total));
+    this.ligne(doc, "pdf.dejaPaye", dzd(d.dejaPaye));
+    this.ligne(doc, "pdf.resteAPayer", dzd(Math.max(0, d.total - d.dejaPaye)));
+    doc.moveDown(1);
+    doc
+      .font("latin")
+      .fontSize(8.5)
+      .fillColor(GRIS)
+      .text(fr("pdf.mentionsFacture"), MARGE, doc.y, { width: LARGEUR / 2 });
+    doc
+      .font("arabe")
+      .fontSize(9)
+      .text(ar("pdf.mentionsFacture"), MARGE + LARGEUR / 2, doc.y - 12, {
+        width: LARGEUR / 2,
+        align: "right",
+      });
+    doc.moveDown(1);
+    doc
+      .font("latinGras")
+      .fontSize(10)
+      .fillColor("#111")
+      .text(fr("pdf.merci"), MARGE, doc.y, { width: LARGEUR / 2 });
+    doc
+      .font("arabeGras")
+      .fontSize(11)
+      .text(ar("pdf.merci"), MARGE + LARGEUR / 2, doc.y - 14, {
+        width: LARGEUR / 2,
+        align: "right",
+      });
     return this.terminer(doc);
   }
 

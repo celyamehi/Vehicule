@@ -31,6 +31,9 @@ type LigneRecherche = {
   km_inclus_par_jour: number | null;
   raison_sociale: string;
   score: number;
+  note_moyenne: number | null;
+  nombre_avis: number;
+  slug: string | null;
   agence_wilaya: number;
   politique_annulation: string;
   age_minimum: number;
@@ -121,6 +124,7 @@ export class RechercheService {
       p.wilaya ? sql`pr.wilaya = ${p.wilaya}` : undefined,
       p.commune ? sql`pr.commune ILIKE ${p.commune}` : undefined,
       p.pointRetraitId ? sql`pr.id = ${p.pointRetraitId}` : undefined,
+      p.agenceId ? sql`a.id = ${p.agenceId}` : undefined,
       p.categorie ? sql`c.code = ${p.categorie}` : undefined,
       p.boite ? sql`v.boite = ${p.boite}` : undefined,
       p.carburant ? sql`v.carburant = ${p.carburant}` : undefined,
@@ -139,7 +143,9 @@ export class RechercheService {
     const lignes = (await this.db.execute(sql`
       SELECT v.id, v.agence_id, v.categorie_id, c.code AS categorie, v.marque, v.modele, v.annee, v.boite,
              v.carburant, v.places, v.options, v.km_inclus_par_jour,
-             a.raison_sociale, a.score, a.wilaya AS agence_wilaya, a.politique_annulation, a.age_minimum,
+             a.raison_sociale, a.score, a.slug, a.wilaya AS agence_wilaya,
+             (SELECT round(avg(av.note)::numeric, 1)::float FROM avis av WHERE av.agence_id = a.id AND av.statut = 'publie') AS note_moyenne,
+             (SELECT count(*)::int FROM avis av WHERE av.agence_id = a.id AND av.statut = 'publie') AS nombre_avis, a.politique_annulation, a.age_minimum,
              pr.id AS point_id, pr.nom AS point_nom, pr.commune, pr.adresse AS point_adresse,
              ST_Y(pr.position::geometry) AS lat, ST_X(pr.position::geometry) AS lon,
              ${point ? sql`ST_Distance(pr.position, ${point})` : sql`NULL::float`} AS distance_m
@@ -160,6 +166,7 @@ export class RechercheService {
           tarifs: tarifsVehicule.get(l.id) ?? [],
         });
         if (p.prixMax && prix.total > p.prixMax) return [];
+        if (p.noteMin && (l.note_moyenne ?? 0) < p.noteMin) return [];
         return [{ ligne: l, prix }];
       } catch {
         return []; // Véhicule sans tarif applicable : non réservable en ligne.
@@ -169,8 +176,11 @@ export class RechercheService {
     const comparateurs = {
       prix: (x: (typeof resultats)[number], y: (typeof resultats)[number]) =>
         x.prix.total - y.prix.total,
+      // Note des avis publiés, puis score de fiabilité de l'agence, puis prix.
       note: (x: (typeof resultats)[number], y: (typeof resultats)[number]) =>
-        y.ligne.score - x.ligne.score || x.prix.total - y.prix.total,
+        (y.ligne.note_moyenne ?? 0) - (x.ligne.note_moyenne ?? 0) ||
+        y.ligne.score - x.ligne.score ||
+        x.prix.total - y.prix.total,
       distance: (x: (typeof resultats)[number], y: (typeof resultats)[number]) =>
         (x.ligne.distance_m ?? Infinity) - (y.ligne.distance_m ?? Infinity),
     };
@@ -205,6 +215,9 @@ export class RechercheService {
           id: l.agence_id,
           raisonSociale: l.raison_sociale,
           score: l.score,
+          slug: l.slug,
+          noteMoyenne: l.note_moyenne,
+          nombreAvis: l.nombre_avis,
           politiqueAnnulation: l.politique_annulation,
         },
         pointRetrait: {
@@ -217,6 +230,78 @@ export class RechercheService {
           distanceKm: l.distance_m === null ? null : Math.round(l.distance_m / 100) / 10,
         },
       })),
+    };
+  }
+
+  /** Page publique d'une agence (lien à partager sur Facebook / WhatsApp). */
+  async pageAgence(slug: string) {
+    const [a] = await this.db
+      .select()
+      .from(agences)
+      .where(and(eq(agences.slug, slug), eq(agences.statut, "validee")));
+    if (!a) throw introuvable();
+    const points = (await this.db.execute(sql`
+      SELECT id, nom, adresse, commune, horaires, ST_Y(position::geometry) AS lat, ST_X(position::geometry) AS lon
+      FROM points_retrait WHERE agence_id = ${a.id} AND actif ORDER BY created_at`)) as unknown as {
+      id: string;
+      nom: string;
+      adresse: string;
+      commune: string;
+      horaires: Record<string, [string, string][]>;
+      lat: number | null;
+      lon: number | null;
+    }[];
+    const flotte = await this.db
+      .select({ v: vehicules, categorie: categoriesVehicule.code })
+      .from(vehicules)
+      .innerJoin(categoriesVehicule, eq(categoriesVehicule.id, vehicules.categorieId))
+      .where(
+        and(
+          eq(vehicules.agenceId, a.id),
+          eq(vehicules.visiblePlateforme, true),
+          sql`${vehicules.statut} <> 'hors_service'`,
+        ),
+      )
+      .orderBy(asc(categoriesVehicule.ordre));
+    const photos = await this.photosDe(flotte.map((f) => f.v.id));
+    const lesTarifs = await this.tarifsParVehicule(
+      flotte.map((f) => ({ id: f.v.id, agence_id: a.id, categorie_id: f.v.categorieId })),
+    );
+    const [notes] = (await this.db.execute(
+      sql`SELECT round(avg(note)::numeric, 1)::float AS moyenne, count(*)::int AS nombre FROM avis WHERE agence_id = ${a.id} AND statut = 'publie'`,
+    )) as unknown as { moyenne: number | null; nombre: number }[];
+    return {
+      id: a.id,
+      slug: a.slug,
+      raisonSociale: a.raisonSociale,
+      adresse: a.adresse,
+      wilaya: a.wilaya,
+      telephone: a.telephone,
+      logo: a.logoUrl ? await this.stockage.urlLecture(a.logoUrl, 3600) : null,
+      photo: a.photos[0] ? await this.stockage.urlLecture(a.photos[0], 3600) : null,
+      politiqueAnnulation: a.politiqueAnnulation,
+      confirmationInstantanee: a.confirmationInstantanee,
+      noteMoyenne: notes?.moyenne ?? null,
+      nombreAvis: notes?.nombre ?? 0,
+      points,
+      vehicules: flotte.map(({ v, categorie }) => {
+        const base = (lesTarifs.get(v.id) ?? [])
+          .filter((t) => !t.saisonDebut)
+          .sort((x, y) => (y.vehiculeId ? 1 : 0) - (x.vehiculeId ? 1 : 0))[0];
+        return {
+          id: v.id,
+          marque: v.marque,
+          modele: v.modele,
+          annee: v.annee,
+          categorie,
+          boite: v.boite,
+          carburant: v.carburant,
+          places: v.places,
+          kmInclusParJour: v.kmInclusParJour,
+          photo: photos.get(v.id)?.[0] ?? null,
+          prixJour: base?.prixJour ?? null,
+        };
+      }),
     };
   }
 
@@ -285,6 +370,12 @@ export class RechercheService {
         wilaya: l.a.wilaya,
         telephone: l.a.telephone,
         score: l.a.score,
+        slug: l.a.slug,
+        ...(
+          (await this.db.execute(
+            sql`SELECT round(avg(note)::numeric, 1)::float AS "noteMoyenne", count(*)::int AS "nombreAvis" FROM avis WHERE agence_id = ${l.a.id} AND statut = 'publie'`,
+          )) as unknown as { noteMoyenne: number | null; nombreAvis: number }[]
+        )[0],
       },
       pointRetrait: {
         id: l.p.id,

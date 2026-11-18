@@ -345,6 +345,17 @@ export class ReservationsService {
         caution: detailPrix.caution,
         conditions: this.conditionsFigees(agence, vehicule),
         optionsChoisies: entree.options,
+        livraison:
+          entree.livraison && entree.adresseLivraison
+            ? {
+                adresse: entree.adresseLivraison.adresse,
+                commune: entree.adresseLivraison.commune,
+                recuperation: entree.adresseLivraison.recuperation,
+                ...(entree.adresseLivraison.instructions
+                  ? { instructions: entree.adresseLivraison.instructions }
+                  : {}),
+              }
+            : null,
         expireLe: echeanceExpiration(statut, maintenant),
         confirmeeLe: statut === "confirmee" ? maintenant : null,
         creePar: clientId,

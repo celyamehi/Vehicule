@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseUUIDPipe } from "@nestjs/common";
+import { Controller, Get, NotFoundException, Param, ParseUUIDPipe } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { OPTIONS_RESERVABLES, schemas } from "@lvb/shared";
 import { z } from "zod";
@@ -31,6 +31,13 @@ export class RechercheController {
   @Get("recherche")
   rechercher(@Requete(schemas.rechercheParams) params: z.output<typeof schemas.rechercheParams>) {
     return this.recherche.rechercher(params);
+  }
+
+  @Public()
+  @Get("agences/page/:slug")
+  pageAgence(@Param("slug") slug: string) {
+    if (!/^[a-z0-9-]{3,80}$/.test(slug)) throw new NotFoundException();
+    return this.recherche.pageAgence(slug);
   }
 
   @Public()

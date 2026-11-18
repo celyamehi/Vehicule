@@ -240,8 +240,12 @@ export class DocumentsController {
           ? `${permis.numero ?? ""}${permis.dateDelivrance ? ` (${permis.dateDelivrance.split("-").reverse().join("/")})` : ""}`
           : null,
       },
-      lieuDepart: lieu(r.pointRetraitDepartId),
-      lieuRetour: lieu(r.pointRetraitRetourId),
+      lieuDepart: r.livraison
+        ? `${r.livraison.adresse}, ${r.livraison.commune}`
+        : lieu(r.pointRetraitDepartId),
+      lieuRetour: r.livraison?.recuperation
+        ? `${r.livraison.adresse}, ${r.livraison.commune}`
+        : lieu(r.pointRetraitRetourId),
     };
   }
 

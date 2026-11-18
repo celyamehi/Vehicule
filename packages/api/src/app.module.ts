@@ -3,6 +3,7 @@ import { APP_FILTER } from "@nestjs/core";
 import { AdminController } from "./admin/admin.controller.js";
 import { AgenceController } from "./agence/agence.controller.js";
 import { EntretiensController } from "./agence/entretiens.controller.js";
+import { FinancesController } from "./agence/finances.controller.js";
 import { FlotteController } from "./agence/flotte.controller.js";
 import { AuthModule } from "./auth/auth.module.js";
 import { BaseModule } from "./base.js";
@@ -17,6 +18,7 @@ import { NotificationsService } from "./notifications/notifications.service.js";
 import { RechercheController } from "./recherche/recherche.controller.js";
 import { RechercheService } from "./recherche/recherche.service.js";
 import { ReservationsAgenceController } from "./reservations/agence.controller.js";
+import { AvisMessagesController } from "./reservations/avis-messages.controller.js";
 import { ReservationsClientController } from "./reservations/client.controller.js";
 import { ExpirationReservations } from "./reservations/expiration.js";
 import { ReservationsService } from "./reservations/reservations.service.js";
@@ -34,7 +36,9 @@ import { PasserelleTempsReel } from "./temps-reel/passerelle.js";
     AgenceController,
     FlotteController,
     EntretiensController,
+    FinancesController,
     ReservationsAgenceController,
+    AvisMessagesController,
     DocumentsController,
     FichiersController,
     AdminController,

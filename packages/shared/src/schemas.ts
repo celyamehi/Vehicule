@@ -106,6 +106,7 @@ export const rechercheParams = z
     wilaya: z.coerce.number().int().min(1).max(58).optional(),
     commune: z.string().trim().max(100).optional(),
     pointRetraitId: uuid.optional(),
+    agenceId: uuid.optional(),
     debut: instant,
     fin: instant,
     categorie: z.enum(CATEGORIES_VEHICULE).optional(),
@@ -132,6 +133,14 @@ export const prixParams = periode;
 
 const optionsReservables = z.array(z.enum(OPTIONS_RESERVABLES)).max(10).default([]);
 
+/** Adresse de livraison du véhicule (hôtel, domicile, aéroport). */
+export const adresseLivraison = z.object({
+  adresse: z.string().trim().min(5, "validation.adresse_livraison").max(300),
+  commune: z.string().trim().min(2).max(100),
+  instructions: z.string().trim().max(500).optional(),
+  recuperation: z.boolean().default(false),
+});
+
 /** Réservation en ligne par un client (paiement sur place en Phase 1). */
 export const reservationClientCreer = periodeBase
   .extend({
@@ -140,8 +149,13 @@ export const reservationClientCreer = periodeBase
     livraison: z.boolean().default(false),
     pointRetraitDepartId: uuid.optional(),
     pointRetraitRetourId: uuid.optional(),
+    adresseLivraison: adresseLivraison.optional(),
   })
-  .refine(finApresDebut, { message: "validation.fin_avant_debut", path: ["fin"] });
+  .refine(finApresDebut, { message: "validation.fin_avant_debut", path: ["fin"] })
+  .refine((r) => !r.livraison || !!r.adresseLivraison, {
+    message: "validation.adresse_livraison",
+    path: ["adresseLivraison"],
+  });
 
 export const reservationDatesModifier = periode;
 
@@ -403,6 +417,35 @@ export const entretienCreer = z
     path: ["prochaineEcheanceDate"],
   });
 export const entretienModifier = entretienCreer;
+
+// ---------------------------------------------------------------------------
+// Avis, messagerie, amendes, export
+// ---------------------------------------------------------------------------
+
+export const avisCreer = z.object({
+  note: z.number().int().min(1).max(5),
+  commentaire: z.string().trim().max(1000).optional(),
+});
+export const avisReponse = z.object({ reponse: z.string().trim().min(2).max(1000) });
+export const avisDecision = z.object({ decision: z.enum(["publier", "masquer"]) });
+export const avisSignaler = z.object({ motif: z.string().trim().max(300).optional() });
+
+export const messageEnvoyer = z.object({ texte: z.string().trim().min(1).max(2000) });
+
+export const amendeCreer = z.object({
+  vehiculeId: uuid,
+  dateInfraction: instant,
+  montant: montant,
+  motif: z.string().trim().min(2).max(200),
+  lieu: z.string().trim().max(200).optional().nullable(),
+  reference: z.string().trim().max(100).optional().nullable(),
+});
+export const amendeModifier = z.object({
+  statut: z.enum(["a_traiter", "refacturee", "payee", "contestee"]).optional(),
+  notes: z.string().max(2000).optional().nullable(),
+});
+
+export const exportParams = periode;
 
 // ---------------------------------------------------------------------------
 // Fichiers
