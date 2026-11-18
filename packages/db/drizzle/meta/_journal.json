@@ -29,6 +29,20 @@
       "when": 1794946751963,
       "tag": "0003_frais_retour",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795025380582,
+      "tag": "0004_entretiens",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1795025385759,
+      "tag": "0005_entretiens_trigger",
+      "breakpoints": true
     }
   ]
 }

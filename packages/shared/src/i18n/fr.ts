@@ -80,6 +80,7 @@ export const fr = {
     CATEGORIE_DIFFERENTE: "Le véhicule de remplacement doit être de la même catégorie.",
   },
   validation: {
+    echeance_avant_date: "L'échéance doit suivre la date de l'intervention.",
     telephone: "Numéro de téléphone invalide.",
     entier: "Le montant doit être un nombre entier.",
     positif: "La valeur doit être positive.",

@@ -8,7 +8,10 @@ export default defineConfig({
       include: ["src/**"],
       exclude: ["src/i18n/fr.ts", "src/i18n/ar.ts", "src/i18n/kab.ts", "src/index.ts"],
       reporter: ["text-summary", "text"],
-      thresholds: { "src/regles.ts": { lines: 90, branches: 90, functions: 90 } },
+      thresholds: {
+        "src/regles.ts": { lines: 90, branches: 90, functions: 90 },
+        "src/entretien.ts": { lines: 90, branches: 90, functions: 90 },
+      },
     },
   },
 });

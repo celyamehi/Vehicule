@@ -372,6 +372,39 @@ export const paiementEnregistrer = z.object({
 export const planningParams = periode;
 
 // ---------------------------------------------------------------------------
+// Entretien (4.10)
+// ---------------------------------------------------------------------------
+
+export const entretienCreer = z
+  .object({
+    vehiculeId: uuid,
+    type: z.enum([
+      "vidange",
+      "assurance",
+      "controle_technique",
+      "vignette",
+      "pneus",
+      "freins",
+      "revision",
+      "reparation",
+      "autre",
+    ]),
+    date: dateCalendaire,
+    kilometrage: z.number().int().min(0).max(2_000_000).optional().nullable(),
+    cout: montant.default(0),
+    /** Laisser vide pour l'échéance proposée par défaut. */
+    prochaineEcheanceDate: dateCalendaire.optional().nullable(),
+    prochaineEcheanceKm: z.number().int().min(0).max(2_000_000).optional().nullable(),
+    prestataire: z.string().trim().max(150).optional().nullable(),
+    notes: z.string().max(2000).optional().nullable(),
+  })
+  .refine((e) => !e.prochaineEcheanceDate || e.prochaineEcheanceDate >= e.date, {
+    message: "validation.echeance_avant_date",
+    path: ["prochaineEcheanceDate"],
+  });
+export const entretienModifier = entretienCreer;
+
+// ---------------------------------------------------------------------------
 // Fichiers
 // ---------------------------------------------------------------------------
 

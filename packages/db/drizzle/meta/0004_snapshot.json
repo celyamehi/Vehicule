@@ -1,0 +1,3195 @@
+{
+  "id": "acb9d18a-2a0c-49f2-bf5a-236b639daa10",
+  "prevId": "3260df5b-a779-4028-9ae6-96508e4d8d05",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.agences": {
+      "name": "agences",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "raison_sociale": {
+          "name": "raison_sociale",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nif": {
+          "name": "nif",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "registre_commerce": {
+          "name": "registre_commerce",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "agrement": {
+          "name": "agrement",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "wilaya": {
+          "name": "wilaya",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "adresse": {
+          "name": "adresse",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "telephone": {
+          "name": "telephone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "logo_url": {
+          "name": "logo_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "photos": {
+          "name": "photos",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "justificatifs": {
+          "name": "justificatifs",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "statut": {
+          "name": "statut",
+          "type": "statut_agence",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'en_attente'"
+        },
+        "motif_statut": {
+          "name": "motif_statut",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "validee_le": {
+          "name": "validee_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "taux_commission_bp": {
+          "name": "taux_commission_bp",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1000
+        },
+        "score": {
+          "name": "score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 100
+        },
+        "battement_minutes": {
+          "name": "battement_minutes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 120
+        },
+        "confirmation_instantanee": {
+          "name": "confirmation_instantanee",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "politique_annulation": {
+          "name": "politique_annulation",
+          "type": "politique_annulation",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'moderee'"
+        },
+        "age_minimum": {
+          "name": "age_minimum",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 21
+        },
+        "anciennete_min_permis_annees": {
+          "name": "anciennete_min_permis_annees",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 2
+        },
+        "prix_km_supplementaire": {
+          "name": "prix_km_supplementaire",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 20
+        },
+        "prix_huitieme_carburant": {
+          "name": "prix_huitieme_carburant",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1000
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "agences_nif_uq": {
+          "name": "agences_nif_uq",
+          "columns": [
+            {
+              "expression": "nif",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "agences_statut_wilaya_idx": {
+          "name": "agences_statut_wilaya_idx",
+          "columns": [
+            {
+              "expression": "statut",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "wilaya",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "agences_wilaya_valide": {
+          "name": "agences_wilaya_valide",
+          "value": "\"agences\".\"wilaya\" BETWEEN 1 AND 58"
+        },
+        "agences_battement_positif": {
+          "name": "agences_battement_positif",
+          "value": "\"agences\".\"battement_minutes\" BETWEEN 0 AND 1440"
+        },
+        "agences_commission_valide": {
+          "name": "agences_commission_valide",
+          "value": "\"agences\".\"taux_commission_bp\" BETWEEN 0 AND 10000"
+        },
+        "agences_age_minimum": {
+          "name": "agences_age_minimum",
+          "value": "\"agences\".\"age_minimum\" BETWEEN 18 AND 99"
+        },
+        "agences_frais_positifs": {
+          "name": "agences_frais_positifs",
+          "value": "\"agences\".\"prix_km_supplementaire\" >= 0 AND \"agences\".\"prix_huitieme_carburant\" >= 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.categories_vehicule": {
+      "name": "categories_vehicule",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "libelles": {
+          "name": "libelles",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ordre": {
+          "name": "ordre",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "categories_vehicule_code_unique": {
+          "name": "categories_vehicule_code_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "code"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.clients_agence": {
+      "name": "clients_agence",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "agence_id": {
+          "name": "agence_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "utilisateur_id": {
+          "name": "utilisateur_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "notes_internes": {
+          "name": "notes_internes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "liste_noire": {
+          "name": "liste_noire",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "motif_liste_noire": {
+          "name": "motif_liste_noire",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "clients_agence_uq": {
+          "name": "clients_agence_uq",
+          "columns": [
+            {
+              "expression": "agence_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "utilisateur_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "clients_agence_agence_id_agences_id_fk": {
+          "name": "clients_agence_agence_id_agences_id_fk",
+          "tableFrom": "clients_agence",
+          "tableTo": "agences",
+          "columnsFrom": [
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "clients_agence_utilisateur_id_utilisateurs_id_fk": {
+          "name": "clients_agence_utilisateur_id_utilisateurs_id_fk",
+          "tableFrom": "clients_agence",
+          "tableTo": "utilisateurs",
+          "columnsFrom": [
+            "utilisateur_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.codes_otp": {
+      "name": "codes_otp",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "telephone": {
+          "name": "telephone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "code_hash": {
+          "name": "code_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expire_le": {
+          "name": "expire_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "essais": {
+          "name": "essais",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "utilise_le": {
+          "name": "utilise_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "codes_otp_telephone_idx": {
+          "name": "codes_otp_telephone_idx",
+          "columns": [
+            {
+              "expression": "telephone",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.contrats": {
+      "name": "contrats",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "agence_id": {
+          "name": "agence_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reservation_id": {
+          "name": "reservation_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "numero": {
+          "name": "numero",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pdf_url": {
+          "name": "pdf_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "empreinte_pdf": {
+          "name": "empreinte_pdf",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "signe_le": {
+          "name": "signe_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "signature_client": {
+          "name": "signature_client",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "signature_agence": {
+          "name": "signature_agence",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "contrats_reservation_uq": {
+          "name": "contrats_reservation_uq",
+          "columns": [
+            {
+              "expression": "reservation_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "contrats_numero_uq": {
+          "name": "contrats_numero_uq",
+          "columns": [
+            {
+              "expression": "agence_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "numero",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "contrats_agence_id_agences_id_fk": {
+          "name": "contrats_agence_id_agences_id_fk",
+          "tableFrom": "contrats",
+          "tableTo": "agences",
+          "columnsFrom": [
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "contrats_reservation_id_reservations_id_fk": {
+          "name": "contrats_reservation_id_reservations_id_fk",
+          "tableFrom": "contrats",
+          "tableTo": "reservations",
+          "columnsFrom": [
+            "reservation_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.documents_identite": {
+      "name": "documents_identite",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "utilisateur_id": {
+          "name": "utilisateur_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "type_document",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "numero": {
+          "name": "numero",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date_delivrance": {
+          "name": "date_delivrance",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date_expiration": {
+          "name": "date_expiration",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fichiers": {
+          "name": "fichiers",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "statut_verification": {
+          "name": "statut_verification",
+          "type": "statut_verification",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'en_attente'"
+        },
+        "verifie_par": {
+          "name": "verifie_par",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "verifie_le": {
+          "name": "verifie_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "documents_identite_utilisateur_idx": {
+          "name": "documents_identite_utilisateur_idx",
+          "columns": [
+            {
+              "expression": "utilisateur_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "documents_identite_utilisateur_id_utilisateurs_id_fk": {
+          "name": "documents_identite_utilisateur_id_utilisateurs_id_fk",
+          "tableFrom": "documents_identite",
+          "tableTo": "utilisateurs",
+          "columnsFrom": [
+            "utilisateur_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "documents_identite_verifie_par_utilisateurs_id_fk": {
+          "name": "documents_identite_verifie_par_utilisateurs_id_fk",
+          "tableFrom": "documents_identite",
+          "tableTo": "utilisateurs",
+          "columnsFrom": [
+            "verifie_par"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.entretiens": {
+      "name": "entretiens",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "agence_id": {
+          "name": "agence_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "vehicule_id": {
+          "name": "vehicule_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "type_entretien",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kilometrage": {
+          "name": "kilometrage",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cout": {
+          "name": "cout",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "prochaine_echeance_date": {
+          "name": "prochaine_echeance_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "prochaine_echeance_km": {
+          "name": "prochaine_echeance_km",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "prestataire": {
+          "name": "prestataire",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cree_par": {
+          "name": "cree_par",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "entretiens_vehicule_idx": {
+          "name": "entretiens_vehicule_idx",
+          "columns": [
+            {
+              "expression": "vehicule_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "type",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "date",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "entretiens_agence_idx": {
+          "name": "entretiens_agence_idx",
+          "columns": [
+            {
+              "expression": "agence_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "date",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "entretiens_agence_id_agences_id_fk": {
+          "name": "entretiens_agence_id_agences_id_fk",
+          "tableFrom": "entretiens",
+          "tableTo": "agences",
+          "columnsFrom": [
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "entretiens_cree_par_utilisateurs_id_fk": {
+          "name": "entretiens_cree_par_utilisateurs_id_fk",
+          "tableFrom": "entretiens",
+          "tableTo": "utilisateurs",
+          "columnsFrom": [
+            "cree_par"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "entretiens_vehicule_meme_agence_fk": {
+          "name": "entretiens_vehicule_meme_agence_fk",
+          "tableFrom": "entretiens",
+          "tableTo": "vehicules",
+          "columnsFrom": [
+            "vehicule_id",
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id",
+            "agence_id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "entretiens_cout_positif": {
+          "name": "entretiens_cout_positif",
+          "value": "\"entretiens\".\"cout\" >= 0"
+        },
+        "entretiens_km_positifs": {
+          "name": "entretiens_km_positifs",
+          "value": "coalesce(\"entretiens\".\"kilometrage\", 0) >= 0 AND coalesce(\"entretiens\".\"prochaine_echeance_km\", 0) >= 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.etats_des_lieux": {
+      "name": "etats_des_lieux",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "agence_id": {
+          "name": "agence_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reservation_id": {
+          "name": "reservation_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "moment": {
+          "name": "moment",
+          "type": "moment_etat_des_lieux",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kilometrage": {
+          "name": "kilometrage",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "carburant": {
+          "name": "carburant",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dommages": {
+          "name": "dommages",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "photos": {
+          "name": "photos",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "observations": {
+          "name": "observations",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "signe_par": {
+          "name": "signe_par",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "signature_client": {
+          "name": "signature_client",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "signe_le": {
+          "name": "signe_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "etats_des_lieux_uq": {
+          "name": "etats_des_lieux_uq",
+          "columns": [
+            {
+              "expression": "reservation_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "moment",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "etats_des_lieux_agence_id_agences_id_fk": {
+          "name": "etats_des_lieux_agence_id_agences_id_fk",
+          "tableFrom": "etats_des_lieux",
+          "tableTo": "agences",
+          "columnsFrom": [
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "etats_des_lieux_reservation_id_reservations_id_fk": {
+          "name": "etats_des_lieux_reservation_id_reservations_id_fk",
+          "tableFrom": "etats_des_lieux",
+          "tableTo": "reservations",
+          "columnsFrom": [
+            "reservation_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "etats_des_lieux_signe_par_utilisateurs_id_fk": {
+          "name": "etats_des_lieux_signe_par_utilisateurs_id_fk",
+          "tableFrom": "etats_des_lieux",
+          "tableTo": "utilisateurs",
+          "columnsFrom": [
+            "signe_par"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "etats_des_lieux_carburant": {
+          "name": "etats_des_lieux_carburant",
+          "value": "\"etats_des_lieux\".\"carburant\" BETWEEN 0 AND 8"
+        },
+        "etats_des_lieux_km": {
+          "name": "etats_des_lieux_km",
+          "value": "\"etats_des_lieux\".\"kilometrage\" >= 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.journal_actions": {
+      "name": "journal_actions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "agence_id": {
+          "name": "agence_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "utilisateur_id": {
+          "name": "utilisateur_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "action": {
+          "name": "action",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "entite": {
+          "name": "entite",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "entite_id": {
+          "name": "entite_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "details": {
+          "name": "details",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "ip": {
+          "name": "ip",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "journal_actions_agence_idx": {
+          "name": "journal_actions_agence_idx",
+          "columns": [
+            {
+              "expression": "agence_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "journal_actions_entite_idx": {
+          "name": "journal_actions_entite_idx",
+          "columns": [
+            {
+              "expression": "entite",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "entite_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "journal_actions_agence_id_agences_id_fk": {
+          "name": "journal_actions_agence_id_agences_id_fk",
+          "tableFrom": "journal_actions",
+          "tableTo": "agences",
+          "columnsFrom": [
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "journal_actions_utilisateur_id_utilisateurs_id_fk": {
+          "name": "journal_actions_utilisateur_id_utilisateurs_id_fk",
+          "tableFrom": "journal_actions",
+          "tableTo": "utilisateurs",
+          "columnsFrom": [
+            "utilisateur_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.membres_agence": {
+      "name": "membres_agence",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "agence_id": {
+          "name": "agence_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "utilisateur_id": {
+          "name": "utilisateur_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "role_membre",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "permissions": {
+          "name": "permissions",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "actif": {
+          "name": "actif",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "membres_agence_uq": {
+          "name": "membres_agence_uq",
+          "columns": [
+            {
+              "expression": "agence_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "utilisateur_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "membres_agence_agence_id_agences_id_fk": {
+          "name": "membres_agence_agence_id_agences_id_fk",
+          "tableFrom": "membres_agence",
+          "tableTo": "agences",
+          "columnsFrom": [
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "membres_agence_utilisateur_id_utilisateurs_id_fk": {
+          "name": "membres_agence_utilisateur_id_utilisateurs_id_fk",
+          "tableFrom": "membres_agence",
+          "tableTo": "utilisateurs",
+          "columnsFrom": [
+            "utilisateur_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.notifications": {
+      "name": "notifications",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "utilisateur_id": {
+          "name": "utilisateur_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "donnees": {
+          "name": "donnees",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "canal": {
+          "name": "canal",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'app'"
+        },
+        "lue_le": {
+          "name": "lue_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "envoyee_le": {
+          "name": "envoyee_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "notifications_utilisateur_idx": {
+          "name": "notifications_utilisateur_idx",
+          "columns": [
+            {
+              "expression": "utilisateur_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "notifications_utilisateur_id_utilisateurs_id_fk": {
+          "name": "notifications_utilisateur_id_utilisateurs_id_fk",
+          "tableFrom": "notifications",
+          "tableTo": "utilisateurs",
+          "columnsFrom": [
+            "utilisateur_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.paiements": {
+      "name": "paiements",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "agence_id": {
+          "name": "agence_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reservation_id": {
+          "name": "reservation_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "type_paiement",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "moyen": {
+          "name": "moyen",
+          "type": "moyen_paiement",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "montant": {
+          "name": "montant",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "statut": {
+          "name": "statut",
+          "type": "statut_paiement",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'en_attente'"
+        },
+        "reference_externe": {
+          "name": "reference_externe",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "enregistre_par": {
+          "name": "enregistre_par",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "paiements_reservation_idx": {
+          "name": "paiements_reservation_idx",
+          "columns": [
+            {
+              "expression": "reservation_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "paiements_reference_externe_uq": {
+          "name": "paiements_reference_externe_uq",
+          "columns": [
+            {
+              "expression": "reference_externe",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "paiements_agence_id_agences_id_fk": {
+          "name": "paiements_agence_id_agences_id_fk",
+          "tableFrom": "paiements",
+          "tableTo": "agences",
+          "columnsFrom": [
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "paiements_reservation_id_reservations_id_fk": {
+          "name": "paiements_reservation_id_reservations_id_fk",
+          "tableFrom": "paiements",
+          "tableTo": "reservations",
+          "columnsFrom": [
+            "reservation_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "paiements_enregistre_par_utilisateurs_id_fk": {
+          "name": "paiements_enregistre_par_utilisateurs_id_fk",
+          "tableFrom": "paiements",
+          "tableTo": "utilisateurs",
+          "columnsFrom": [
+            "enregistre_par"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "paiements_montant_positif": {
+          "name": "paiements_montant_positif",
+          "value": "\"paiements\".\"montant\" > 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.photos_vehicule": {
+      "name": "photos_vehicule",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "vehicule_id": {
+          "name": "vehicule_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "url": {
+          "name": "url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ordre": {
+          "name": "ordre",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "photos_vehicule_vehicule_idx": {
+          "name": "photos_vehicule_vehicule_idx",
+          "columns": [
+            {
+              "expression": "vehicule_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "ordre",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "photos_vehicule_vehicule_id_vehicules_id_fk": {
+          "name": "photos_vehicule_vehicule_id_vehicules_id_fk",
+          "tableFrom": "photos_vehicule",
+          "tableTo": "vehicules",
+          "columnsFrom": [
+            "vehicule_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.points_retrait": {
+      "name": "points_retrait",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "agence_id": {
+          "name": "agence_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nom": {
+          "name": "nom",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "adresse": {
+          "name": "adresse",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "wilaya": {
+          "name": "wilaya",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "commune": {
+          "name": "commune",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "position": {
+          "name": "position",
+          "type": "geography(Point, 4326)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "horaires": {
+          "name": "horaires",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "actif": {
+          "name": "actif",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "points_retrait_agence_idx": {
+          "name": "points_retrait_agence_idx",
+          "columns": [
+            {
+              "expression": "agence_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "points_retrait_wilaya_commune_idx": {
+          "name": "points_retrait_wilaya_commune_idx",
+          "columns": [
+            {
+              "expression": "wilaya",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "commune",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "points_retrait_position_gix": {
+          "name": "points_retrait_position_gix",
+          "columns": [
+            {
+              "expression": "position",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "gist",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "points_retrait_agence_id_agences_id_fk": {
+          "name": "points_retrait_agence_id_agences_id_fk",
+          "tableFrom": "points_retrait",
+          "tableTo": "agences",
+          "columnsFrom": [
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "points_retrait_id_agence_uq": {
+          "name": "points_retrait_id_agence_uq",
+          "nullsNotDistinct": false,
+          "columns": [
+            "id",
+            "agence_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "points_retrait_wilaya_valide": {
+          "name": "points_retrait_wilaya_valide",
+          "value": "\"points_retrait\".\"wilaya\" BETWEEN 1 AND 58"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.reservations": {
+      "name": "reservations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "agence_id": {
+          "name": "agence_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "vehicule_id": {
+          "name": "vehicule_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "client_id": {
+          "name": "client_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "point_retrait_depart_id": {
+          "name": "point_retrait_depart_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "point_retrait_retour_id": {
+          "name": "point_retrait_retour_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "debut": {
+          "name": "debut",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "fin": {
+          "name": "fin",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "battement_minutes": {
+          "name": "battement_minutes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 120
+        },
+        "periode": {
+          "name": "periode",
+          "type": "tstzrange",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'empty'::tstzrange"
+        },
+        "origine": {
+          "name": "origine",
+          "type": "origine_reservation",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "statut": {
+          "name": "statut",
+          "type": "statut_reservation",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "prix_total": {
+          "name": "prix_total",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "detail_prix": {
+          "name": "detail_prix",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "politique_annulation": {
+          "name": "politique_annulation",
+          "type": "politique_annulation",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "caution": {
+          "name": "caution",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "conditions": {
+          "name": "conditions",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "options_choisies": {
+          "name": "options_choisies",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "expire_le": {
+          "name": "expire_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "motif_refus": {
+          "name": "motif_refus",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "motif_blocage": {
+          "name": "motif_blocage",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "note_interne": {
+          "name": "note_interne",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cree_par": {
+          "name": "cree_par",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "confirmee_le": {
+          "name": "confirmee_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "depart_le": {
+          "name": "depart_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "retour_le": {
+          "name": "retour_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "annulee_le": {
+          "name": "annulee_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "frais_retour": {
+          "name": "frais_retour",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "reservations_code_uq": {
+          "name": "reservations_code_uq",
+          "columns": [
+            {
+              "expression": "code",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reservations_agence_debut_idx": {
+          "name": "reservations_agence_debut_idx",
+          "columns": [
+            {
+              "expression": "agence_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "debut",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reservations_client_idx": {
+          "name": "reservations_client_idx",
+          "columns": [
+            {
+              "expression": "client_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "debut",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reservations_expiration_idx": {
+          "name": "reservations_expiration_idx",
+          "columns": [
+            {
+              "expression": "expire_le",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "where": "\"reservations\".\"statut\" IN ('en_attente_paiement', 'en_attente_agence')",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "reservations_agence_id_agences_id_fk": {
+          "name": "reservations_agence_id_agences_id_fk",
+          "tableFrom": "reservations",
+          "tableTo": "agences",
+          "columnsFrom": [
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "reservations_client_id_utilisateurs_id_fk": {
+          "name": "reservations_client_id_utilisateurs_id_fk",
+          "tableFrom": "reservations",
+          "tableTo": "utilisateurs",
+          "columnsFrom": [
+            "client_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "reservations_cree_par_utilisateurs_id_fk": {
+          "name": "reservations_cree_par_utilisateurs_id_fk",
+          "tableFrom": "reservations",
+          "tableTo": "utilisateurs",
+          "columnsFrom": [
+            "cree_par"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "reservations_vehicule_meme_agence_fk": {
+          "name": "reservations_vehicule_meme_agence_fk",
+          "tableFrom": "reservations",
+          "tableTo": "vehicules",
+          "columnsFrom": [
+            "vehicule_id",
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id",
+            "agence_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "reservations_point_depart_meme_agence_fk": {
+          "name": "reservations_point_depart_meme_agence_fk",
+          "tableFrom": "reservations",
+          "tableTo": "points_retrait",
+          "columnsFrom": [
+            "point_retrait_depart_id",
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id",
+            "agence_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "reservations_point_retour_meme_agence_fk": {
+          "name": "reservations_point_retour_meme_agence_fk",
+          "tableFrom": "reservations",
+          "tableTo": "points_retrait",
+          "columnsFrom": [
+            "point_retrait_retour_id",
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id",
+            "agence_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "reservations_dates_coherentes": {
+          "name": "reservations_dates_coherentes",
+          "value": "\"reservations\".\"fin\" > \"reservations\".\"debut\""
+        },
+        "reservations_battement_valide": {
+          "name": "reservations_battement_valide",
+          "value": "\"reservations\".\"battement_minutes\" BETWEEN 0 AND 1440"
+        },
+        "reservations_montants_positifs": {
+          "name": "reservations_montants_positifs",
+          "value": "\"reservations\".\"prix_total\" >= 0 AND \"reservations\".\"caution\" >= 0"
+        },
+        "reservations_client_obligatoire": {
+          "name": "reservations_client_obligatoire",
+          "value": "(\"reservations\".\"origine\" = 'blocage') OR (\"reservations\".\"client_id\" IS NOT NULL)"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.sessions": {
+      "name": "sessions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "utilisateur_id": {
+          "name": "utilisateur_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jeton_hash": {
+          "name": "jeton_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expire_le": {
+          "name": "expire_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "revoque_le": {
+          "name": "revoque_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "appareil": {
+          "name": "appareil",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "sessions_jeton_uq": {
+          "name": "sessions_jeton_uq",
+          "columns": [
+            {
+              "expression": "jeton_hash",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sessions_utilisateur_id_utilisateurs_id_fk": {
+          "name": "sessions_utilisateur_id_utilisateurs_id_fk",
+          "tableFrom": "sessions",
+          "tableTo": "utilisateurs",
+          "columnsFrom": [
+            "utilisateur_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.tarifs": {
+      "name": "tarifs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "agence_id": {
+          "name": "agence_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "vehicule_id": {
+          "name": "vehicule_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "categorie_id": {
+          "name": "categorie_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "libelle": {
+          "name": "libelle",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "prix_jour": {
+          "name": "prix_jour",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "paliers": {
+          "name": "paliers",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "supplements": {
+          "name": "supplements",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "saison_debut": {
+          "name": "saison_debut",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "saison_fin": {
+          "name": "saison_fin",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "caution": {
+          "name": "caution",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "actif": {
+          "name": "actif",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "tarifs_agence_idx": {
+          "name": "tarifs_agence_idx",
+          "columns": [
+            {
+              "expression": "agence_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "tarifs_vehicule_idx": {
+          "name": "tarifs_vehicule_idx",
+          "columns": [
+            {
+              "expression": "vehicule_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "tarifs_agence_id_agences_id_fk": {
+          "name": "tarifs_agence_id_agences_id_fk",
+          "tableFrom": "tarifs",
+          "tableTo": "agences",
+          "columnsFrom": [
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "tarifs_vehicule_id_vehicules_id_fk": {
+          "name": "tarifs_vehicule_id_vehicules_id_fk",
+          "tableFrom": "tarifs",
+          "tableTo": "vehicules",
+          "columnsFrom": [
+            "vehicule_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "tarifs_categorie_id_categories_vehicule_id_fk": {
+          "name": "tarifs_categorie_id_categories_vehicule_id_fk",
+          "tableFrom": "tarifs",
+          "tableTo": "categories_vehicule",
+          "columnsFrom": [
+            "categorie_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "tarifs_cible_unique": {
+          "name": "tarifs_cible_unique",
+          "value": "(\"tarifs\".\"vehicule_id\" IS NULL) <> (\"tarifs\".\"categorie_id\" IS NULL)"
+        },
+        "tarifs_prix_positif": {
+          "name": "tarifs_prix_positif",
+          "value": "\"tarifs\".\"prix_jour\" > 0 AND \"tarifs\".\"caution\" >= 0"
+        },
+        "tarifs_saison_coherente": {
+          "name": "tarifs_saison_coherente",
+          "value": "(\"tarifs\".\"saison_debut\" IS NULL AND \"tarifs\".\"saison_fin\" IS NULL) OR (\"tarifs\".\"saison_debut\" IS NOT NULL AND \"tarifs\".\"saison_fin\" IS NOT NULL AND \"tarifs\".\"saison_fin\" >= \"tarifs\".\"saison_debut\")"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.utilisateurs": {
+      "name": "utilisateurs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "telephone": {
+          "name": "telephone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nom": {
+          "name": "nom",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "prenom": {
+          "name": "prenom",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date_naissance": {
+          "name": "date_naissance",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "langue": {
+          "name": "langue",
+          "type": "langue",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'fr'"
+        },
+        "statut": {
+          "name": "statut",
+          "type": "statut_utilisateur",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'actif'"
+        },
+        "role_plateforme": {
+          "name": "role_plateforme",
+          "type": "role_plateforme",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'utilisateur'"
+        },
+        "consentement_le": {
+          "name": "consentement_le",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "utilisateurs_telephone_uq": {
+          "name": "utilisateurs_telephone_uq",
+          "columns": [
+            {
+              "expression": "telephone",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "utilisateurs_email_uq": {
+          "name": "utilisateurs_email_uq",
+          "columns": [
+            {
+              "expression": "lower(\"email\")",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "utilisateurs_telephone_format": {
+          "name": "utilisateurs_telephone_format",
+          "value": "\"utilisateurs\".\"telephone\" ~ '^\\+[0-9]{8,15}$'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.vehicules": {
+      "name": "vehicules",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "agence_id": {
+          "name": "agence_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "point_retrait_id": {
+          "name": "point_retrait_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "categorie_id": {
+          "name": "categorie_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "marque": {
+          "name": "marque",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "modele": {
+          "name": "modele",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "annee": {
+          "name": "annee",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "immatriculation": {
+          "name": "immatriculation",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "boite": {
+          "name": "boite",
+          "type": "boite",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "carburant": {
+          "name": "carburant",
+          "type": "carburant",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "places": {
+          "name": "places",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "options": {
+          "name": "options",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "kilometrage": {
+          "name": "kilometrage",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "km_inclus_par_jour": {
+          "name": "km_inclus_par_jour",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "statut": {
+          "name": "statut",
+          "type": "statut_vehicule",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'disponible'"
+        },
+        "visible_plateforme": {
+          "name": "visible_plateforme",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "vehicules_immatriculation_uq": {
+          "name": "vehicules_immatriculation_uq",
+          "columns": [
+            {
+              "expression": "agence_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "immatriculation",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "vehicules_recherche_idx": {
+          "name": "vehicules_recherche_idx",
+          "columns": [
+            {
+              "expression": "categorie_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "statut",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "visible_plateforme",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "vehicules_agence_id_agences_id_fk": {
+          "name": "vehicules_agence_id_agences_id_fk",
+          "tableFrom": "vehicules",
+          "tableTo": "agences",
+          "columnsFrom": [
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "vehicules_categorie_id_categories_vehicule_id_fk": {
+          "name": "vehicules_categorie_id_categories_vehicule_id_fk",
+          "tableFrom": "vehicules",
+          "tableTo": "categories_vehicule",
+          "columnsFrom": [
+            "categorie_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "vehicules_point_retrait_meme_agence_fk": {
+          "name": "vehicules_point_retrait_meme_agence_fk",
+          "tableFrom": "vehicules",
+          "tableTo": "points_retrait",
+          "columnsFrom": [
+            "point_retrait_id",
+            "agence_id"
+          ],
+          "columnsTo": [
+            "id",
+            "agence_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "vehicules_id_agence_uq": {
+          "name": "vehicules_id_agence_uq",
+          "nullsNotDistinct": false,
+          "columns": [
+            "id",
+            "agence_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "vehicules_annee_valide": {
+          "name": "vehicules_annee_valide",
+          "value": "\"vehicules\".\"annee\" BETWEEN 1990 AND 2100"
+        },
+        "vehicules_places_valide": {
+          "name": "vehicules_places_valide",
+          "value": "\"vehicules\".\"places\" BETWEEN 1 AND 60"
+        },
+        "vehicules_kilometrage_positif": {
+          "name": "vehicules_kilometrage_positif",
+          "value": "\"vehicules\".\"kilometrage\" >= 0"
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.boite": {
+      "name": "boite",
+      "schema": "public",
+      "values": [
+        "manuelle",
+        "automatique"
+      ]
+    },
+    "public.carburant": {
+      "name": "carburant",
+      "schema": "public",
+      "values": [
+        "essence",
+        "diesel",
+        "gpl",
+        "hybride",
+        "electrique"
+      ]
+    },
+    "public.langue": {
+      "name": "langue",
+      "schema": "public",
+      "values": [
+        "fr",
+        "ar",
+        "kab",
+        "en"
+      ]
+    },
+    "public.moment_etat_des_lieux": {
+      "name": "moment_etat_des_lieux",
+      "schema": "public",
+      "values": [
+        "depart",
+        "retour"
+      ]
+    },
+    "public.moyen_paiement": {
+      "name": "moyen_paiement",
+      "schema": "public",
+      "values": [
+        "especes",
+        "cib",
+        "edahabia",
+        "virement",
+        "baridimob",
+        "cheque"
+      ]
+    },
+    "public.origine_reservation": {
+      "name": "origine_reservation",
+      "schema": "public",
+      "values": [
+        "plateforme",
+        "comptoir",
+        "telephone",
+        "blocage"
+      ]
+    },
+    "public.politique_annulation": {
+      "name": "politique_annulation",
+      "schema": "public",
+      "values": [
+        "souple",
+        "moderee",
+        "stricte"
+      ]
+    },
+    "public.role_membre": {
+      "name": "role_membre",
+      "schema": "public",
+      "values": [
+        "gerant",
+        "employe"
+      ]
+    },
+    "public.role_plateforme": {
+      "name": "role_plateforme",
+      "schema": "public",
+      "values": [
+        "utilisateur",
+        "admin"
+      ]
+    },
+    "public.statut_agence": {
+      "name": "statut_agence",
+      "schema": "public",
+      "values": [
+        "en_attente",
+        "validee",
+        "suspendue"
+      ]
+    },
+    "public.statut_paiement": {
+      "name": "statut_paiement",
+      "schema": "public",
+      "values": [
+        "en_attente",
+        "reussi",
+        "echoue",
+        "annule"
+      ]
+    },
+    "public.statut_reservation": {
+      "name": "statut_reservation",
+      "schema": "public",
+      "values": [
+        "en_attente_paiement",
+        "en_attente_agence",
+        "confirmee",
+        "en_cours",
+        "terminee",
+        "refusee",
+        "expiree",
+        "annulee_client",
+        "annulee_agence",
+        "non_presentation",
+        "litige"
+      ]
+    },
+    "public.statut_utilisateur": {
+      "name": "statut_utilisateur",
+      "schema": "public",
+      "values": [
+        "actif",
+        "bloque",
+        "supprime"
+      ]
+    },
+    "public.statut_vehicule": {
+      "name": "statut_vehicule",
+      "schema": "public",
+      "values": [
+        "disponible",
+        "loue",
+        "en_entretien",
+        "hors_service"
+      ]
+    },
+    "public.statut_verification": {
+      "name": "statut_verification",
+      "schema": "public",
+      "values": [
+        "en_attente",
+        "verifie",
+        "refuse"
+      ]
+    },
+    "public.type_document": {
+      "name": "type_document",
+      "schema": "public",
+      "values": [
+        "permis",
+        "cni",
+        "passeport"
+      ]
+    },
+    "public.type_entretien": {
+      "name": "type_entretien",
+      "schema": "public",
+      "values": [
+        "vidange",
+        "assurance",
+        "controle_technique",
+        "vignette",
+        "pneus",
+        "freins",
+        "revision",
+        "reparation",
+        "autre"
+      ]
+    },
+    "public.type_paiement": {
+      "name": "type_paiement",
+      "schema": "public",
+      "values": [
+        "acompte",
+        "solde",
+        "caution",
+        "restitution_caution",
+        "remboursement",
+        "frais"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

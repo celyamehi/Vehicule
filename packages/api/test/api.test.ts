@@ -505,3 +505,52 @@ describe("documentation", () => {
     expect(Object.keys(r.body.paths)).toContain("/api/v1/reservations");
   });
 });
+
+describe("entretien de la flotte (4.10)", () => {
+  it("enregistre une vidange, propose l'échéance, alerte et calcule la rentabilité", async () => {
+    const a = await creerAgenceValidee(ctx, admin);
+    const aujourdhui = new Date().toISOString().slice(0, 10);
+    const ilYa11Mois = new Date(Date.now() - 350 * 86_400_000).toISOString().slice(0, 10);
+    const vidange = await a.g
+      .post("/agence/entretiens", {
+        vehiculeId: a.vehicule.id,
+        type: "vidange",
+        date: aujourdhui,
+        kilometrage: 30_000,
+        cout: 6_500,
+        prestataire: "Garage Soummam",
+      })
+      .expect(201);
+    expect(vidange.body.prochaineEcheanceKm).toBe(40_000);
+    expect(vidange.body.prochaineEcheanceDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    // Assurance prise il y a 11 mois et demi : expire dans moins de 15 jours.
+    await a.g
+      .post("/agence/entretiens", {
+        vehiculeId: a.vehicule.id,
+        type: "assurance",
+        date: ilYa11Mois,
+        cout: 45_000,
+      })
+      .expect(201);
+
+    const rappels = await a.g.get("/agence/entretiens/rappels").expect(200);
+    expect(rappels.body[0]).toMatchObject({ type: "assurance", niveau: "bientot" });
+    expect(rappels.body.find((r: { type: string }) => r.type === "vidange")).toMatchObject({
+      niveau: "ok",
+      kmRestants: 10_000,
+    });
+
+    const detail = await a.g.get(`/agence/vehicules/${a.vehicule.id}`).expect(200);
+    expect(detail.body.kilometrage).toBe(30_000);
+    const r = await a.g.get(`/agence/vehicules/${a.vehicule.id}/rentabilite`).expect(200);
+    expect(r.body).toMatchObject({ revenus: 0, couts: 51_500, marge: -51_500 });
+
+    // Une autre agence ne voit ni ne crée rien sur ce véhicule.
+    const b = await creerAgenceValidee(ctx, admin);
+    await b.g
+      .post("/agence/entretiens", { vehiculeId: a.vehicule.id, type: "vidange", date: aujourdhui })
+      .expect(404);
+    expect((await b.g.get("/agence/entretiens").expect(200)).body).toEqual([]);
+    await b.g.delete(`/agence/entretiens/${vidange.body.id}`).expect(404);
+  });
+});

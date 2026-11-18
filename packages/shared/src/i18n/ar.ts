@@ -78,6 +78,7 @@ export const ar: Messages = {
     CATEGORIE_DIFFERENTE: "يجب أن تكون السيارة البديلة من نفس الفئة.",
   },
   validation: {
+    echeance_avant_date: "يجب أن يكون الموعد القادم بعد تاريخ التدخل.",
     telephone: "رقم الهاتف غير صحيح.",
     entier: "يجب أن يكون المبلغ عددًا صحيحًا.",
     positif: "يجب أن تكون القيمة موجبة.",

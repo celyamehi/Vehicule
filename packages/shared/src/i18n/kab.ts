@@ -80,6 +80,7 @@ export const kab: Messages = {
     CATEGORIE_DIFFERENTE: "Takeṛṛust n usnifel ilaq ad tili seg yiwet n taggayt.",
   },
   validation: {
+    echeance_avant_date: "Azemz i d-iteddun ilaq ad yili deffir uzemz n uxeddim.",
     telephone: "Uṭṭun n tiliɣri ur yeṣeḥḥa ara.",
     entier: "Azal ilaq ad yili d amḍan ummid.",
     positif: "Azal ilaq ad yili d amaruz.",

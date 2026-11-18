@@ -124,6 +124,17 @@ export const statutPaiementEnum = pgEnum("statut_paiement", [
   "echoue",
   "annule",
 ]);
+export const typeEntretienEnum = pgEnum("type_entretien", [
+  "vidange",
+  "assurance",
+  "controle_technique",
+  "vignette",
+  "pneus",
+  "freins",
+  "revision",
+  "reparation",
+  "autre",
+]);
 
 /** Statuts qui bloquent le véhicule (section 6.2) — identiques au WHERE de la contrainte d'exclusion. */
 export const STATUTS_BLOQUANTS = [
@@ -700,4 +711,45 @@ export const notifications = pgTable(
     ...horodatage,
   },
   (t) => [index("notifications_utilisateur_idx").on(t.utilisateurId, t.createdAt)],
+);
+
+// ---------------------------------------------------------------------------
+// Entretien (section 4.10)
+// ---------------------------------------------------------------------------
+
+/** Intervention ou échéance administrative d'un véhicule ; la prochaine échéance sert aux rappels. */
+export const entretiens = pgTable(
+  "entretiens",
+  {
+    ...cleId,
+    agenceId: uuid()
+      .notNull()
+      .references(() => agences.id, { onDelete: "cascade" }),
+    vehiculeId: uuid().notNull(),
+    type: typeEntretienEnum().notNull(),
+    date: date().notNull(),
+    kilometrage: integer(),
+    /** Coût en DZD (entier). */
+    cout: integer().notNull().default(0),
+    prochaineEcheanceDate: date(),
+    prochaineEcheanceKm: integer(),
+    prestataire: text(),
+    notes: text(),
+    creePar: uuid().references(() => utilisateurs.id),
+    ...horodatage,
+  },
+  (t) => [
+    index("entretiens_vehicule_idx").on(t.vehiculeId, t.type, t.date),
+    index("entretiens_agence_idx").on(t.agenceId, t.date),
+    foreignKey({
+      name: "entretiens_vehicule_meme_agence_fk",
+      columns: [t.vehiculeId, t.agenceId],
+      foreignColumns: [vehicules.id, vehicules.agenceId],
+    }).onDelete("cascade"),
+    check("entretiens_cout_positif", sql`${t.cout} >= 0`),
+    check(
+      "entretiens_km_positifs",
+      sql`coalesce(${t.kilometrage}, 0) >= 0 AND coalesce(${t.prochaineEcheanceKm}, 0) >= 0`,
+    ),
+  ],
 );
