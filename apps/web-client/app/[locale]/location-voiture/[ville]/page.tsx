@@ -65,7 +65,7 @@ export default async function PageVille({
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold">{t("client.seo.titreVille", { ville: v.commune })}</h1>
       <p className="text-attenue">{t("client.seo.descriptionVille", { ville: v.commune })}</p>
-      <div className="rounded-xl border border-trait bg-surface p-3">
+      <div>
         <FormulaireRecherche debut={dates.debut} fin={dates.fin} commune={v.commune} compact />
       </div>
       <Resultats

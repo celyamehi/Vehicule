@@ -176,7 +176,7 @@ export default function PagePlanning() {
       {!donnees ? (
         <Chargement />
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-trait bg-surface">
+        <div className="overflow-x-auto rounded-[var(--radius-carte)] bg-surface shadow-[var(--shadow-douce)]">
           <div style={{ minWidth: 180 + JOURS * LARGEUR_JOUR }}>
             <div className="sticky top-0 z-10 flex border-b border-trait bg-surface text-xs">
               <div className="sticky start-0 w-44 shrink-0 bg-surface p-2" />
@@ -240,7 +240,7 @@ export default function PagePlanning() {
                               ? setBlocageOuvert(r)
                               : routeur.push(`/reservations/${r.id}`)
                           }
-                          title={`${r.code} — ${formaterDate(r.debut, langue)} → ${formaterDate(r.fin, langue)}`}
+                          title={`${r.code} — ${formaterDate(r.debut, langue)} – ${formaterDate(r.fin, langue)}`}
                           className={cx(
                             "absolute top-2 h-10 overflow-hidden rounded-md px-1.5 text-start text-[11px] leading-tight shadow-sm",
                             couleur(r),

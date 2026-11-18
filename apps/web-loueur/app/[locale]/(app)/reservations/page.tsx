@@ -14,9 +14,10 @@ import {
   useSession,
   useTempsReel,
 } from "@lvb/ui";
+import { Plus } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-import { EnTete } from "@/components/coquille";
+import { EnTete, LienBouton } from "@/components/coquille";
 import { Link } from "@/i18n/navigation";
 import { URL_API } from "@/lib/config";
 import { useDonnees } from "@/lib/donnees";
@@ -48,12 +49,9 @@ export default function Reservations() {
       <EnTete
         titre={t("loueur.reservations.titre")}
         actions={
-          <Link
-            href="/reservations/nouvelle"
-            className="rounded-lg bg-marque-600 px-4 py-2 text-sm font-medium text-white"
-          >
+          <LienBouton href="/reservations/nouvelle" icone={Plus}>
             {t("loueur.nav.nouvelleReservation")}
-          </Link>
+          </LienBouton>
         }
       />
       <div className="flex flex-wrap gap-2">

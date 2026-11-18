@@ -11,6 +11,7 @@ import {
   Message,
   Modale,
   PadSignature,
+  Periode,
   Pastille,
   Saisie,
   Zone,
@@ -21,6 +22,7 @@ import {
   useTempsReel,
   versChampLocal,
 } from "@lvb/ui";
+import { CheckCircle2, ClipboardCheck, PenLine } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Fragment, use, useState } from "react";
 import { EnTete, usePeut } from "@/components/coquille";
@@ -215,7 +217,7 @@ export default function DetailReservation({ params }: { params: Promise<{ id: st
             </div>
             <div className="ltr text-attenue">{r.vehicule.immatriculation}</div>
             <div className="mt-2">
-              {formaterDate(r.debut, langue)} → {formaterDate(r.fin, langue)}
+              <Periode debut={formaterDate(r.debut, langue)} fin={formaterDate(r.fin, langue)} />
             </div>
             {r.pointDepart && <div className="text-attenue">{r.pointDepart.nom}</div>}
           </div>
@@ -274,19 +276,19 @@ export default function DetailReservation({ params }: { params: Promise<{ id: st
               {peut("etats_des_lieux") && (
                 <Bouton
                   variante={edlDepart ? "secondaire" : "principal"}
+                  icone={edlDepart ? CheckCircle2 : ClipboardCheck}
                   onClick={() => setFenetre("edl")}
                 >
-                  {edlDepart ? "✓ " : ""}
                   {t("loueur.reservations.edlDepart")}
                 </Bouton>
               )}
               {peut("etats_des_lieux") && (
                 <Bouton
                   variante={contrat ? "secondaire" : "principal"}
+                  icone={contrat ? CheckCircle2 : PenLine}
                   disabled={!edlDepart}
                   onClick={() => setFenetre("contrat")}
                 >
-                  {contrat ? "✓ " : ""}
                   {t("loueur.reservations.signerContrat")}
                 </Bouton>
               )}
@@ -311,9 +313,9 @@ export default function DetailReservation({ params }: { params: Promise<{ id: st
               {peut("etats_des_lieux") && (
                 <Bouton
                   variante={edlRetour ? "secondaire" : "principal"}
+                  icone={edlRetour ? CheckCircle2 : ClipboardCheck}
                   onClick={() => setFenetre("edl")}
                 >
-                  {edlRetour ? "✓ " : ""}
                   {t("loueur.reservations.edlRetour")}
                 </Bouton>
               )}

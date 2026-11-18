@@ -1,38 +1,108 @@
-/* Jetons de design partagés (Tailwind v4). Chaque app : @import "tailwindcss"; @import "@lvb/ui/styles.css"; */
+/*
+ * Système de design partagé (Tailwind v4) — tons pastel, formes douces, esprit « Apple ».
+ * Chaque app : @import "tailwindcss"; @import "@lvb/ui/styles.css";
+ */
+@import "@fontsource-variable/inter/index.css";
 @import "@fontsource/noto-naskh-arabic/arabic-400.css";
 @import "@fontsource/noto-naskh-arabic/arabic-700.css";
 
 @theme {
-  --color-marque-50: #eef6ff;
-  --color-marque-100: #d9eaff;
-  --color-marque-600: #0b63ce;
-  --color-marque-700: #0a4fa6;
-  --color-marque-900: #0a2c5c;
-  --color-accent-500: #f59e0b;
-  --color-danger-600: #dc2626;
-  --color-danger-700: #b91c1c;
-  --color-encre: #111827;
-  --color-attenue: #5b6472;
-  --color-trait: #d5d9e0;
-  --color-fond: #f5f7fa;
+  /* Couleur principale : bleu pervenche */
+  --color-marque-50: #f2f4ff;
+  --color-marque-100: #e4e8ff;
+  --color-marque-200: #cbd3ff;
+  --color-marque-300: #a9b5ff;
+  --color-marque-500: #6b7cf6;
+  --color-marque-600: #4c5de4;
+  --color-marque-700: #3a49c4;
+  --color-marque-900: #1f2766;
+
+  /* Pastels (fond / texte lisible) */
+  --color-menthe-50: #eefaf3;
+  --color-menthe-100: #dcf4e6;
+  --color-menthe-800: #1e6b44;
+  --color-peche-50: #fff5ee;
+  --color-peche-100: #ffe8d8;
+  --color-peche-800: #8a4718;
+  --color-lavande-50: #f5f2ff;
+  --color-lavande-100: #ebe5ff;
+  --color-lavande-800: #4d3a9c;
+  --color-ciel-50: #eff7fe;
+  --color-ciel-100: #ddeefd;
+  --color-ciel-800: #1d5a8c;
+  --color-rose-50: #fff1f4;
+  --color-rose-100: #fde2e9;
+  --color-rose-800: #9b2c47;
+  --color-citron-50: #fffbea;
+  --color-citron-100: #fff3c4;
+  --color-citron-800: #7a5800;
+
+  --color-danger-600: #e5484d;
+  --color-danger-700: #c9262c;
+
+  /* Neutres */
+  --color-encre: #1d1d1f;
+  --color-attenue: #6e6e73;
+  --color-trait: #e5e5ea;
+  --color-fond: #f5f5f7;
+  --color-champ: #f2f2f7;
   --color-surface: #ffffff;
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif;
-  --font-arabe: "Noto Naskh Arabic", system-ui, sans-serif;
+
+  --font-sans:
+    "Inter Variable", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto,
+    sans-serif;
+  --font-arabe: "Noto Naskh Arabic", "Inter Variable", system-ui, sans-serif;
+
+  --radius-carte: 1.5rem;
+  --shadow-douce: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 28px rgb(31 39 102 / 0.07);
+  --shadow-relief: 0 2px 6px rgb(0 0 0 / 0.05), 0 18px 48px rgb(31 39 102 / 0.12);
 }
 
 html {
   -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 body {
   background: var(--color-fond);
   color: var(--color-encre);
   font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
+  letter-spacing: -0.006em;
 }
 html[lang="ar"] body {
   font-family: var(--font-arabe);
+  letter-spacing: 0;
+}
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+}
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3 {
+  letter-spacing: 0;
 }
 /* Les chiffres, téléphones et immatriculations restent lisibles de gauche à droite. */
 .ltr {
   direction: ltr;
   unicode-bidi: isolate;
+}
+/* Fond « verre dépoli » des barres de navigation. */
+.verre {
+  background: rgb(255 255 255 / 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+::selection {
+  background: var(--color-marque-200);
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

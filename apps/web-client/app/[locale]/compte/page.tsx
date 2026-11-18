@@ -11,6 +11,7 @@ import {
   formaterMontant,
   useSession,
   useTempsReel,
+  Periode,
 } from "@lvb/ui";
 import { useLocale, useTranslations } from "next-intl";
 import { GardeClient } from "@/components/garde-client";
@@ -66,7 +67,10 @@ function Liste() {
       <div className="flex items-center justify-between gap-2">
         <h1 className="text-xl font-bold">{t("client.mesReservations.titre")}</h1>
         <div className="flex gap-2">
-          <Link href="/profil" className="rounded-lg border border-trait px-3 py-1.5 text-sm">
+          <Link
+            href="/profil"
+            className="inline-flex h-9 items-center rounded-full bg-champ px-4 text-sm font-medium"
+          >
             {t("ui.profil")}
           </Link>
           <Bouton variante="fantome" taille="petite" onClick={() => void deconnecter()}>
@@ -88,7 +92,7 @@ function Liste() {
                 <Link
                   key={r.id}
                   href={`/compte/${r.id}`}
-                  className="flex items-center justify-between gap-2 rounded-xl border border-trait bg-surface p-3 hover:border-marque-600"
+                  className="flex items-center justify-between gap-2 rounded-[var(--radius-carte)] bg-surface shadow-[var(--shadow-douce)] p-3 transition hover:shadow-[var(--shadow-relief)]"
                 >
                   <div className="min-w-0 text-sm">
                     <div className="font-semibold">
@@ -96,7 +100,10 @@ function Liste() {
                     </div>
                     <div className="text-attenue">{r.agence.raisonSociale}</div>
                     <div className="text-xs">
-                      {formaterDate(r.debut, langue)} → {formaterDate(r.fin, langue)}
+                      <Periode
+                        debut={formaterDate(r.debut, langue)}
+                        fin={formaterDate(r.fin, langue)}
+                      />
                     </div>
                   </div>
                   <div className="flex shrink-0 flex-col items-end gap-1">

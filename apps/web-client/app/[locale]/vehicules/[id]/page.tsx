@@ -48,7 +48,7 @@ export default async function Fiche({ params, searchParams }: Props) {
               key={p}
               src={p}
               alt={`${v.marque} ${v.modele} ${i + 1}`}
-              className="aspect-[16/10] w-full shrink-0 snap-center rounded-xl object-cover sm:w-[85%]"
+              className="aspect-[16/10] w-full shrink-0 snap-center rounded-[1.75rem] object-cover sm:w-[85%]"
               loading={i === 0 ? "eager" : "lazy"}
             />
           ))}
@@ -69,7 +69,10 @@ export default async function Fiche({ params, searchParams }: Props) {
               t("client.fiche.places", { n: v.places }),
               ...equipements.map((o) => t(`options.${o}`)),
             ].map((x) => (
-              <li key={x} className="rounded-full bg-fond px-3 py-1">
+              <li
+                key={x}
+                className="rounded-full bg-surface px-3.5 py-1.5 font-medium shadow-[var(--shadow-douce)]"
+              >
                 {x}
               </li>
             ))}
@@ -94,7 +97,7 @@ export default async function Fiche({ params, searchParams }: Props) {
             <li>{t("client.fiche.paiementSurPlace")}</li>
           </ul>
         </section>
-        <section className="rounded-xl border border-trait bg-surface p-4 text-sm">
+        <section className="rounded-[var(--radius-carte)] bg-surface shadow-[var(--shadow-douce)] p-4 text-sm">
           <h2 className="mb-2 font-semibold">{t("client.fiche.agence")}</h2>
           <p className="font-medium">{v.agence.raisonSociale}</p>
           <p className="text-attenue">

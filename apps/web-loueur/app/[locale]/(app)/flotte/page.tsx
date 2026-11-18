@@ -1,8 +1,9 @@
 "use client";
 
 import { Carte, Chargement, Message, Pastille } from "@lvb/ui";
+import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { EnTete, usePeut } from "@/components/coquille";
+import { EnTete, LienBouton, usePeut } from "@/components/coquille";
 import { Link } from "@/i18n/navigation";
 import { useDonnees } from "@/lib/donnees";
 import type { Vehicule } from "@/lib/types";
@@ -18,12 +19,9 @@ export default function Flotte() {
         titre={`${t("loueur.flotte.titre")}${donnees ? ` (${donnees.length})` : ""}`}
         actions={
           peut("flotte.modifier") && (
-            <Link
-              href="/flotte/nouveau"
-              className="rounded-lg bg-marque-600 px-4 py-2 text-sm font-medium text-white"
-            >
+            <LienBouton href="/flotte/nouveau" icone={Plus}>
               {t("loueur.flotte.ajouter")}
-            </Link>
+            </LienBouton>
           )
         }
       />
@@ -40,7 +38,7 @@ export default function Flotte() {
             <Link
               key={v.id}
               href={`/flotte/${v.id}`}
-              className="flex gap-3 rounded-xl border border-trait bg-surface p-3 hover:border-marque-600"
+              className="flex gap-3 rounded-[var(--radius-carte)] bg-surface shadow-[var(--shadow-douce)] p-3 transition hover:shadow-[var(--shadow-relief)]"
             >
               <div className="size-20 shrink-0 overflow-hidden rounded-lg bg-fond">
                 {v.photo && (

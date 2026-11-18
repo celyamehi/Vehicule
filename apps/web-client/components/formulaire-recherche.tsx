@@ -1,13 +1,36 @@
 "use client";
 
-import { COMMUNES_BEJAIA } from "@lvb/shared";
-import { Bouton, Champ, Liste, Saisie, depuisChampLocal, versChampLocal } from "@lvb/ui";
-import { useTranslations } from "next-intl";
-import { useState, type FormEvent } from "react";
+import { COMMUNES_BEJAIA, type Langue, WILAYA_BEJAIA, nomWilaya } from "@lvb/shared";
+import { cx, depuisChampLocal, versChampLocal } from "@lvb/ui";
+import { CalendarArrowDown, CalendarArrowUp, MapPin, Search } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useState, type FormEvent, type ReactNode } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { versRequete } from "@/lib/recherche";
 
-/** Formulaire principal : lieu (communes de Béjaïa), départ, retour. */
+function Segment({
+  icone: Icone,
+  libelle,
+  children,
+}: {
+  icone: typeof MapPin;
+  libelle: string;
+  children: ReactNode;
+}) {
+  return (
+    <label className="group flex min-w-0 flex-1 cursor-pointer items-center gap-3 rounded-[1.4rem] px-4 py-2.5 transition hover:bg-champ">
+      <Icone className="size-5 shrink-0 text-marque-500" strokeWidth={1.9} aria-hidden />
+      <span className="flex min-w-0 flex-1 flex-col">
+        <span className="text-xs font-medium text-attenue">{libelle}</span>
+        {children}
+      </span>
+    </label>
+  );
+}
+
+const champ = "w-full min-w-0 bg-transparent text-[15px] font-medium text-encre outline-none";
+
+/** Barre de recherche « en pilule » : lieu (communes de Béjaïa), départ, retour. */
 export function FormulaireRecherche({
   debut,
   fin,
@@ -20,6 +43,7 @@ export function FormulaireRecherche({
   compact?: boolean;
 }) {
   const t = useTranslations();
+  const langue = useLocale() as Langue;
   const routeur = useRouter();
   const [lieu, setLieu] = useState(commune ?? "");
   const [d, setD] = useState(versChampLocal(debut));
@@ -33,35 +57,55 @@ export function FormulaireRecherche({
   return (
     <form
       onSubmit={soumettre}
-      className={
-        compact
-          ? "grid gap-2 sm:grid-cols-[1fr_1fr_1fr_auto] sm:items-end"
-          : "grid gap-3 rounded-2xl bg-surface p-4 shadow-lg sm:grid-cols-[1.2fr_1fr_1fr_auto] sm:items-end"
-      }
+      className={cx(
+        "flex flex-col gap-1 rounded-[1.75rem] bg-surface p-2 sm:flex-row sm:items-center",
+        compact ? "shadow-[var(--shadow-douce)]" : "shadow-[var(--shadow-relief)]",
+      )}
     >
-      <Champ libelle={t("client.accueil.ou")}>
-        <Liste value={lieu} onChange={(e) => setLieu(e.target.value)}>
-          <option value="">{t("ui.tous")} — Béjaïa</option>
+      <Segment icone={MapPin} libelle={t("client.accueil.ou")}>
+        <select
+          className={cx(champ, "cursor-pointer appearance-none")}
+          value={lieu}
+          onChange={(e) => setLieu(e.target.value)}
+        >
+          <option value="">
+            {t("ui.tous")} — {nomWilaya(WILAYA_BEJAIA, langue)}
+          </option>
           {COMMUNES_BEJAIA.map((c) => (
             <option key={c} value={c}>
               {c}
             </option>
           ))}
-        </Liste>
-      </Champ>
-      <Champ libelle={t("client.accueil.depart")}>
-        <Saisie type="datetime-local" required value={d} onChange={(e) => setD(e.target.value)} />
-      </Champ>
-      <Champ libelle={t("client.accueil.retour")}>
-        <Saisie
+        </select>
+      </Segment>
+      <span className="hidden h-8 w-px bg-trait sm:block" aria-hidden />
+      <Segment icone={CalendarArrowUp} libelle={t("client.accueil.depart")}>
+        <input
+          type="datetime-local"
+          required
+          className={champ}
+          value={d}
+          onChange={(e) => setD(e.target.value)}
+        />
+      </Segment>
+      <span className="hidden h-8 w-px bg-trait sm:block" aria-hidden />
+      <Segment icone={CalendarArrowDown} libelle={t("client.accueil.retour")}>
+        <input
           type="datetime-local"
           required
           min={d}
+          className={champ}
           value={f}
           onChange={(e) => setF(e.target.value)}
         />
-      </Champ>
-      <Bouton type="submit">{t("commun.rechercher")}</Bouton>
+      </Segment>
+      <button
+        type="submit"
+        className="inline-flex h-14 shrink-0 items-center justify-center gap-2 rounded-[1.4rem] bg-marque-600 px-6 text-[15px] font-semibold text-white shadow-[0_8px_20px_-8px_rgb(76_93_228/0.8)] transition hover:bg-marque-700 active:scale-[0.97]"
+      >
+        <Search className="size-5" strokeWidth={2.2} />
+        {t("commun.rechercher")}
+      </button>
     </form>
   );
 }

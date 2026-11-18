@@ -17,6 +17,7 @@ import {
   useSession,
   useTempsReel,
   versChampLocal,
+  Periode,
 } from "@lvb/ui";
 import { useLocale, useTranslations } from "next-intl";
 import { use, useState } from "react";
@@ -97,7 +98,7 @@ function Fiche({ id }: { id: string }) {
             {r.vehicule.marque} {r.vehicule.modele}
           </div>
           <div>
-            {formaterDate(r.debut, langue)} → {formaterDate(r.fin, langue)}
+            <Periode debut={formaterDate(r.debut, langue)} fin={formaterDate(r.fin, langue)} />
           </div>
           {r.pointDepart && (
             <div className="text-attenue">

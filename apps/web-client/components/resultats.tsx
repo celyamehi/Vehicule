@@ -20,7 +20,7 @@ export async function Resultats({
     <div className="flex flex-col gap-3">
       <p className="font-semibold">{t("client.recherche.resultats", { n: reponse.total })}</p>
       {reponse.total === 0 ? (
-        <p className="rounded-xl border border-trait bg-surface p-4 text-sm text-attenue">
+        <p className="rounded-[var(--radius-carte)] bg-surface shadow-[var(--shadow-douce)] p-4 text-sm text-attenue">
           {t("client.recherche.aucun")}
         </p>
       ) : (

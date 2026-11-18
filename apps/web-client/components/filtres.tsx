@@ -21,7 +21,7 @@ export function Filtres({ params }: { params: Params }) {
     setF({ ...f, [k]: e.target.value || undefined });
 
   return (
-    <div className="rounded-xl border border-trait bg-surface p-3">
+    <div className="rounded-[var(--radius-carte)] bg-surface shadow-[var(--shadow-douce)] p-3">
       <div className="flex items-center justify-between gap-2">
         <Bouton
           taille="petite"

@@ -1,7 +1,8 @@
 "use client";
 
 import type { Langue } from "@lvb/shared";
-import { Bouton, formaterDate, useSession, useTempsReel } from "@lvb/ui";
+import { Bouton, PuceIcone, formaterDate, useSession, useTempsReel } from "@lvb/ui";
+import { Bell, BellRing, ChevronRight, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import {
   createContext,
@@ -144,21 +145,20 @@ export function FournisseurAlertes({ children }: { children: ReactNode }) {
     >
       {alertes.length > 0 && (
         <div
-          className="fixed inset-x-2 top-2 z-50 flex flex-col gap-2 sm:inset-x-auto sm:end-4 sm:w-96"
+          className="fixed inset-x-3 top-3 z-50 flex flex-col gap-2 sm:inset-x-auto sm:end-5 sm:top-5 sm:w-[23rem]"
           role="alert"
           aria-live="assertive"
         >
           {alertes.map((a) => (
             <div
               key={a.id}
-              className="rounded-xl border-2 border-amber-400 bg-amber-50 p-3 shadow-lg"
+              className="verre rounded-3xl p-4 shadow-[var(--shadow-relief)] ring-1 ring-black/5"
             >
-              <div className="flex items-start justify-between gap-2">
-                <div>
-                  <div className="font-semibold text-amber-950">
-                    🔔 {t("loueur.alertes.nouvelle")}
-                  </div>
-                  <div className="text-sm text-amber-900">
+              <div className="flex items-start gap-3">
+                <PuceIcone icone={BellRing} ton="peche" />
+                <div className="min-w-0 flex-1">
+                  <div className="font-semibold">{t("loueur.alertes.nouvelle")}</div>
+                  <div className="text-sm text-attenue">
                     {t("loueur.alertes.detail", {
                       code: a.code,
                       vehicule: vehicules.current.get(a.vehiculeId) ?? "",
@@ -169,15 +169,15 @@ export function FournisseurAlertes({ children }: { children: ReactNode }) {
                 <button
                   type="button"
                   aria-label={t("commun.fermer")}
-                  className="text-amber-900"
+                  className="rounded-full bg-champ p-1.5 text-attenue hover:text-encre"
                   onClick={() => setAlertes((x) => x.filter((y) => y.id !== a.id))}
                 >
-                  ✕
+                  <X className="size-3.5" strokeWidth={2.4} />
                 </button>
               </div>
               <Bouton
                 taille="petite"
-                className="mt-2 w-full"
+                className="mt-3 w-full"
                 onClick={() => {
                   setAlertes((x) => x.filter((y) => y.id !== a.id));
                   routeur.push(`/reservations/${a.id}`);
@@ -202,8 +202,11 @@ export function BandeauxAlertes() {
   return (
     <>
       {permission === "default" && (
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-sky-200 bg-sky-50 px-3 py-2 text-sm text-sky-900">
-          <span>{t("loueur.alertes.activerBureau")}</span>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-ciel-50 px-4 py-3 text-sm text-ciel-800">
+          <span className="flex items-center gap-2">
+            <Bell className="size-[18px]" strokeWidth={1.9} />
+            {t("loueur.alertes.activerBureau")}
+          </span>
           <Bouton taille="petite" variante="secondaire" onClick={demanderPermission}>
             {t("commun.confirmer")}
           </Bouton>
@@ -213,9 +216,11 @@ export function BandeauxAlertes() {
         <button
           type="button"
           onClick={() => routeur.push("/reservations")}
-          className="mb-3 w-full rounded-lg bg-amber-400 px-3 py-2 text-start text-sm font-semibold text-amber-950"
+          className="mb-5 flex w-full items-center gap-3 rounded-2xl bg-peche-100 px-4 py-3 text-start text-sm font-semibold text-peche-800 transition hover:bg-peche-50"
         >
-          {t("loueur.alertes.enAttente", { n: enAttente })}
+          <BellRing className="size-[18px]" strokeWidth={2} />
+          <span className="flex-1">{t("loueur.alertes.enAttente", { n: enAttente })}</span>
+          <ChevronRight className="size-4 rtl:rotate-180" strokeWidth={2} />
         </button>
       )}
     </>

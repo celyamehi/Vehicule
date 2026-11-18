@@ -10,16 +10,25 @@ import {
   cx,
   useSession,
 } from "@lvb/ui";
+import {
+  ChartNoAxesColumn,
+  ClipboardList,
+  FileCheck2,
+  LogOut,
+  ShieldCheck,
+  Store,
+  Users,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 
 const LIENS = [
-  ["/indicateurs", "tableau"],
-  ["/agences", "agences"],
-  ["/reservations", "reservations"],
-  ["/documents", "documents"],
-  ["/utilisateurs", "utilisateurs"],
+  ["/indicateurs", "tableau", ChartNoAxesColumn],
+  ["/agences", "agences", Store],
+  ["/reservations", "reservations", ClipboardList],
+  ["/documents", "documents", FileCheck2],
+  ["/utilisateurs", "utilisateurs", Users],
 ] as const;
 
 /** Back-office : réservé aux administrateurs de la plateforme. */
@@ -48,32 +57,43 @@ export function Coquille({ children }: { children: ReactNode }) {
     );
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="border-b border-trait bg-marque-900 text-white">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-3 py-2">
-          <span className="font-semibold">{t("commun.nomPlateforme")} — Admin</span>
+      <header className="verre sticky top-0 z-30 border-b border-black/5">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-3">
+          <span className="flex items-center gap-2.5 font-semibold">
+            <span className="flex size-9 items-center justify-center rounded-[0.9rem] bg-lavande-100 text-lavande-800">
+              <ShieldCheck className="size-5" strokeWidth={1.9} />
+            </span>
+            {t("commun.nomPlateforme")}
+          </span>
           <nav className="flex flex-1 gap-1 overflow-x-auto">
-            {LIENS.map(([href, cle]) => (
+            {LIENS.map(([href, cle, Icone]) => (
               <Link
                 key={href}
                 href={href}
                 className={cx(
-                  "whitespace-nowrap rounded-md px-3 py-1.5 text-sm",
-                  chemin.startsWith(href) ? "bg-white/15 font-semibold" : "hover:bg-white/10",
+                  "flex items-center gap-2 whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm font-medium transition",
+                  chemin.startsWith(href)
+                    ? "bg-marque-600 text-white"
+                    : "text-encre/75 hover:bg-black/[0.04]",
                 )}
               >
+                <Icone className="size-4" strokeWidth={1.9} />
                 {t(`admin.nav.${cle}`)}
               </Link>
             ))}
           </nav>
-          <div className="text-encre">
-            <SelecteurLangue onChanger={(l) => routeur.replace(chemin, { locale: l })} />
-          </div>
-          <button type="button" className="text-sm underline" onClick={() => void deconnecter()}>
-            {t("commun.deconnexion")}
+          <SelecteurLangue onChanger={(l) => routeur.replace(chemin, { locale: l })} />
+          <button
+            type="button"
+            className="rounded-full bg-champ p-2 text-attenue hover:text-encre"
+            aria-label={t("commun.deconnexion")}
+            onClick={() => void deconnecter()}
+          >
+            <LogOut className="size-4" strokeWidth={2} />
           </button>
         </div>
       </header>
-      <main className="mx-auto w-full max-w-7xl flex-1 p-3 sm:p-5">{children}</main>
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 sm:py-8">{children}</main>
     </div>
   );
 }

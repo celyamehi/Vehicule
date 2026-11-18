@@ -13,7 +13,10 @@ import {
   formaterMontant,
   useMessageErreur,
   useSession,
+  Periode,
+  PuceIcone,
 } from "@lvb/ui";
+import { CheckCircle2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Suspense, use, useEffect, useState, type FormEvent } from "react";
@@ -105,7 +108,9 @@ function Tunnel({ id }: { id: string }) {
   if (resultat)
     return (
       <Carte className="mx-auto max-w-lg text-center">
-        <div className="mb-2 text-4xl">✓</div>
+        <div className="mb-4 flex justify-center">
+          <PuceIcone icone={CheckCircle2} ton="menthe" taille="grande" />
+        </div>
         <h1 className="mb-2 text-xl font-bold">{t("client.reservation.succesTitre")}</h1>
         <p className="mb-4 text-sm">
           {resultat.statut === "confirmee"
@@ -229,7 +234,7 @@ function Tunnel({ id }: { id: string }) {
               {vehicule.agence.raisonSociale} — {vehicule.pointRetrait.nom}
             </div>
             <div>
-              {formaterDate(debut, langue)} → {formaterDate(fin, langue)}
+              <Periode debut={formaterDate(debut, langue)} fin={formaterDate(fin, langue)} />
             </div>
             {prix.options.map((o) => (
               <div key={o.code} className="flex justify-between">

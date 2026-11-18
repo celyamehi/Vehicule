@@ -37,17 +37,17 @@ export default function Indicateurs() {
         <Indicateur
           libelle={t("admin.stats.agencesActives")}
           valeur={s.agencesActives}
-          aide="→ 20"
+          aide={t("admin.stats.objectif", { v: "20" })}
         />
         <Indicateur
           libelle={t("admin.stats.vehiculesVisibles")}
           valeur={s.vehiculesVisibles}
-          aide="→ 150"
+          aide={t("admin.stats.objectif", { v: "150" })}
         />
         <Indicateur
           libelle={t("admin.stats.reservationsMois")}
           valeur={s.reservationsPlateformeMois}
-          aide="→ 100"
+          aide={t("admin.stats.objectif", { v: "100" })}
         />
         <Indicateur
           libelle={t("admin.stats.caMois")}
@@ -56,7 +56,7 @@ export default function Indicateurs() {
         <Indicateur
           libelle={t("admin.stats.tauxAcceptation")}
           valeur={s.tauxAcceptation === null ? "—" : `${s.tauxAcceptation} %`}
-          aide="→ 90 %"
+          aide={t("admin.stats.objectif", { v: "90 %" })}
         />
         <Indicateur
           libelle={t("admin.stats.delaiMedian")}
@@ -65,7 +65,7 @@ export default function Indicateurs() {
               ? "—"
               : t("admin.stats.minutes", { n: s.delaiMedianConfirmationMinutes })
           }
-          aide="→ < 30 min"
+          aide={t("admin.stats.objectif", { v: "< 30 min" })}
         />
         <Indicateur libelle={t("admin.stats.agencesValidees")} valeur={s.agencesValidees} />
         <Indicateur libelle={t("admin.stats.agencesEnAttente")} valeur={s.agencesEnAttente} />

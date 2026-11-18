@@ -1,7 +1,7 @@
 "use client";
 
 import type { Langue } from "@lvb/shared";
-import { Bouton, Carte, Chargement, Message, formaterDate, useSession } from "@lvb/ui";
+import { Bouton, Carte, Chargement, Message, Periode, formaterDate, useSession } from "@lvb/ui";
 import { useLocale, useTranslations } from "next-intl";
 import { useDonnees } from "@/lib/donnees";
 
@@ -44,8 +44,8 @@ export default function Documents() {
               <div className="flex flex-col gap-2 text-sm">
                 <div className="ltr text-attenue">{d.utilisateur.telephone}</div>
                 <div>
-                  N° <span className="ltr">{d.numero}</span> · {d.dateDelivrance} →{" "}
-                  {d.dateExpiration ?? "—"}
+                  {t("pdf.numero")} <span className="ltr">{d.numero}</span> ·{" "}
+                  <Periode debut={d.dateDelivrance} fin={d.dateExpiration ?? "—"} />
                 </div>
                 <div className="text-xs text-attenue">{formaterDate(d.createdAt, langue)}</div>
                 <div className="flex gap-2">
@@ -55,7 +55,7 @@ export default function Documents() {
                         key={c}
                         src={d.urls[c]!}
                         alt={t(`client.profil.${c}`)}
-                        className="h-28 rounded-lg border border-trait object-cover"
+                        className="h-28 rounded-2xl object-cover shadow-[var(--shadow-douce)]"
                       />
                     ) : null,
                   )}

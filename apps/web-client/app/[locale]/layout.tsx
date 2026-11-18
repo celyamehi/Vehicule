@@ -50,7 +50,9 @@ export default async function Layout({
         <NextIntlClientProvider messages={messages} timeZone="Africa/Algiers">
           <FournisseurSession urlApi={URL_API} espace="client">
             <EnTeteSite />
-            <main className="mx-auto w-full max-w-6xl flex-1 px-3 py-4 sm:px-5">{children}</main>
+            <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 sm:py-8">
+              {children}
+            </main>
             <PiedSite />
           </FournisseurSession>
         </NextIntlClientProvider>

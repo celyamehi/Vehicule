@@ -63,7 +63,7 @@ export function BlocReservation({
   }, [api, vehicule.id, debut, fin, options]);
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-trait bg-surface p-4 shadow-sm">
+    <div className="flex flex-col gap-3 rounded-[var(--radius-carte)] bg-surface shadow-[var(--shadow-douce)] p-4 shadow-sm">
       <div className="grid grid-cols-2 gap-2">
         <Champ libelle={t("client.accueil.depart")}>
           <Saisie type="datetime-local" value={debut} onChange={(e) => setDebut(e.target.value)} />

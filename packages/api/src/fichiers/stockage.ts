@@ -48,12 +48,20 @@ export class StockageS3 extends Stockage implements OnModuleInit {
     });
   }
 
-  async onModuleInit() {
+  /** Vérifie le bucket en arrière-plan : un stockage lent ne doit jamais bloquer le démarrage de l'API. */
+  onModuleInit() {
+    void this.preparerBucket();
+  }
+
+  private async preparerBucket() {
+    const delai = { abortSignal: AbortSignal.timeout(10_000) };
     try {
-      await this.client.send(new HeadBucketCommand({ Bucket: this.config.S3_BUCKET }));
+      await this.client.send(new HeadBucketCommand({ Bucket: this.config.S3_BUCKET }), delai);
     } catch {
       try {
-        await this.client.send(new CreateBucketCommand({ Bucket: this.config.S3_BUCKET }));
+        await this.client.send(new CreateBucketCommand({ Bucket: this.config.S3_BUCKET }), {
+          abortSignal: AbortSignal.timeout(10_000),
+        });
         this.log.log(`Bucket ${this.config.S3_BUCKET} créé`);
       } catch (e) {
         this.log.warn(`Stockage S3 indisponible : ${(e as Error).message}`);

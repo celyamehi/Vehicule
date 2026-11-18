@@ -35,7 +35,7 @@ export default async function Recherche({
   const requete = versRequete({ debut: p.debut, fin: p.fin });
   return (
     <div className="flex flex-col gap-4">
-      <div className="rounded-xl border border-trait bg-surface p-3">
+      <div>
         <FormulaireRecherche debut={p.debut} fin={p.fin} commune={p.commune} compact />
       </div>
       <Filtres params={p} />

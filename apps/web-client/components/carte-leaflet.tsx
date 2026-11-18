@@ -24,7 +24,10 @@ export function CarteLeaflet({ points, requete }: { points: PointCarte[]; requet
     lon: p.lon + Math.floor(i / 5) * 0.0004,
   }));
   return (
-    <div dir="ltr" className="h-[70vh] overflow-hidden rounded-xl border border-trait">
+    <div
+      dir="ltr"
+      className="h-[70vh] overflow-hidden rounded-[var(--radius-carte)] shadow-[var(--shadow-douce)]"
+    >
       <MapContainer
         center={decales[0] ? [decales[0].lat, decales[0].lon] : BEJAIA}
         zoom={12}

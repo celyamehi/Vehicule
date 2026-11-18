@@ -10,10 +10,12 @@ import {
   Liste,
   Message,
   Modale,
+  Periode,
   Saisie,
   formaterMontant,
   useSession,
 } from "@lvb/ui";
+import { X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { EnTete, usePeut } from "@/components/coquille";
@@ -119,7 +121,11 @@ export default function Tarifs() {
                   </span>
                 </div>
                 <div className="text-attenue">
-                  {x.saisonDebut ? `${x.saisonDebut} → ${x.saisonFin}` : t("loueur.tarifs.base")}
+                  {x.saisonDebut ? (
+                    <Periode debut={x.saisonDebut} fin={x.saisonFin} />
+                  ) : (
+                    t("loueur.tarifs.base")
+                  )}
                 </div>
                 {x.paliers.map((p) => (
                   <div key={p.aPartirDeJours}>
@@ -234,7 +240,7 @@ export default function Tarifs() {
                       setEdition({ ...edition, paliers: edition.paliers.filter((_, j) => j !== i) })
                     }
                   >
-                    ✕
+                    <X className="size-4" />
                   </Bouton>
                 </div>
               ))}

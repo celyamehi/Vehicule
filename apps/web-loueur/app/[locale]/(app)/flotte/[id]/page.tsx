@@ -19,9 +19,11 @@ import {
   televerser,
   useSession,
 } from "@lvb/ui";
+import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { use, useEffect, useState, type FormEvent } from "react";
 import { EnTete } from "@/components/coquille";
+import { RentabiliteVehicule } from "@/components/entretien";
 import { useRouter } from "@/i18n/navigation";
 import { useAction, useDonnees } from "@/lib/donnees";
 import type { PointRetrait, Vehicule } from "@/lib/types";
@@ -327,7 +329,7 @@ export default function FicheVehicule({ params }: { params: Promise<{ id: string
                       })
                     }
                   >
-                    ✕
+                    <X className="size-3.5" />
                   </button>
                 </div>
               ))}
@@ -341,6 +343,8 @@ export default function FicheVehicule({ params }: { params: Promise<{ id: string
             onChange={(e) => setPhotos([...(e.target.files ?? [])])}
           />
         </Carte>
+
+        {!creation && <RentabiliteVehicule vehiculeId={id} />}
 
         {succes && <Message ton="succes">{succes}</Message>}
         {action.erreur && <Message ton="erreur">{action.erreur}</Message>}

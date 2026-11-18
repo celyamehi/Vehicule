@@ -15,6 +15,7 @@ import {
   formaterDate,
   useSession,
 } from "@lvb/ui";
+import { Pause, Play } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { EnTete } from "@/components/coquille";
@@ -122,7 +123,8 @@ export default function Equipe() {
                     })
                   }
                 >
-                  {m.actif ? "⏸" : "▶"} {t("loueur.equipe.actif")}
+                  {m.actif ? <Pause className="size-4" /> : <Play className="size-4" />}{" "}
+                  {t("loueur.equipe.actif")}
                 </Bouton>
               )}
             </Carte>
