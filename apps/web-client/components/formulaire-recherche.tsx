@@ -36,11 +36,14 @@ export function FormulaireRecherche({
   fin,
   commune,
   compact = false,
+  cible,
 }: {
   debut: string;
   fin: string;
   commune?: string;
   compact?: boolean;
+  /** Page de résultats (par défaut la recherche générale ; page d'une agence sinon). */
+  cible?: string;
 }) {
   const t = useTranslations();
   const langue = useLocale() as Langue;
@@ -51,7 +54,9 @@ export function FormulaireRecherche({
   const soumettre = (e: FormEvent) => {
     e.preventDefault();
     routeur.push(
-      `/recherche?${versRequete({ wilaya: "6", commune: lieu || undefined, debut: depuisChampLocal(d), fin: depuisChampLocal(f) })}`,
+      cible
+        ? `${cible}?${versRequete({ debut: depuisChampLocal(d), fin: depuisChampLocal(f) })}`
+        : `/recherche?${versRequete({ wilaya: "6", commune: lieu || undefined, debut: depuisChampLocal(d), fin: depuisChampLocal(f) })}`,
     );
   };
   return (
@@ -62,23 +67,25 @@ export function FormulaireRecherche({
         compact ? "shadow-[var(--shadow-douce)]" : "shadow-[var(--shadow-relief)]",
       )}
     >
-      <Segment icone={MapPin} libelle={t("client.accueil.ou")}>
-        <select
-          className={cx(champ, "cursor-pointer appearance-none")}
-          value={lieu}
-          onChange={(e) => setLieu(e.target.value)}
-        >
-          <option value="">
-            {t("ui.tous")} — {nomWilaya(WILAYA_BEJAIA, langue)}
-          </option>
-          {COMMUNES_BEJAIA.map((c) => (
-            <option key={c} value={c}>
-              {c}
+      {!cible && (
+        <Segment icone={MapPin} libelle={t("client.accueil.ou")}>
+          <select
+            className={cx(champ, "cursor-pointer appearance-none")}
+            value={lieu}
+            onChange={(e) => setLieu(e.target.value)}
+          >
+            <option value="">
+              {t("ui.tous")} — {nomWilaya(WILAYA_BEJAIA, langue)}
             </option>
-          ))}
-        </select>
-      </Segment>
-      <span className="hidden h-8 w-px bg-trait sm:block" aria-hidden />
+            {COMMUNES_BEJAIA.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </Segment>
+      )}
+      {!cible && <span className="hidden h-8 w-px bg-trait sm:block" aria-hidden />}
       <Segment icone={CalendarArrowUp} libelle={t("client.accueil.depart")}>
         <input
           type="datetime-local"

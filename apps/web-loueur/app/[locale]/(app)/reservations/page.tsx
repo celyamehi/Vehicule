@@ -1,6 +1,6 @@
 "use client";
 
-import { STATUTS_RESERVATION, type Langue } from "@lvb/shared";
+import { STATUTS_RESERVATION, dateAlger, depuisHeureAlger, type Langue } from "@lvb/shared";
 import {
   Bouton,
   Carte,
@@ -13,20 +13,25 @@ import {
   formaterMontant,
   useSession,
   useTempsReel,
+  Champ,
+  Modale,
 } from "@lvb/ui";
-import { Plus } from "lucide-react";
+import { FileSpreadsheet, Plus } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-import { EnTete, LienBouton } from "@/components/coquille";
+import { EnTete, LienBouton, usePeut } from "@/components/coquille";
 import { Link } from "@/i18n/navigation";
 import { URL_API } from "@/lib/config";
-import { useDonnees } from "@/lib/donnees";
+import { useAction, useDonnees } from "@/lib/donnees";
 import type { LigneReservation } from "@/lib/types";
 
 export default function Reservations() {
   const t = useTranslations();
   const langue = useLocale() as Langue;
-  const { jetonAcces } = useSession();
+  const { api, jetonAcces } = useSession();
+  const peut = usePeut();
+  const action = useAction();
+  const [exp, setExport] = useState<{ debut: string; fin: string } | null>(null);
   const [statut, setStatut] = useState("");
   const [recherche, setRecherche] = useState("");
   const [page, setPage] = useState(1);
@@ -49,9 +54,25 @@ export default function Reservations() {
       <EnTete
         titre={t("loueur.reservations.titre")}
         actions={
-          <LienBouton href="/reservations/nouvelle" icone={Plus}>
-            {t("loueur.nav.nouvelleReservation")}
-          </LienBouton>
+          <>
+            {peut("encaissements") && (
+              <Bouton
+                variante="secondaire"
+                icone={FileSpreadsheet}
+                onClick={() =>
+                  setExport({
+                    debut: dateAlger(new Date(Date.now() - 30 * 86_400_000)),
+                    fin: dateAlger(new Date()),
+                  })
+                }
+              >
+                {t("factures.exporter")}
+              </Bouton>
+            )}
+            <LienBouton href="/reservations/nouvelle" icone={Plus}>
+              {t("loueur.nav.nouvelleReservation")}
+            </LienBouton>
+          </>
         }
       />
       <div className="flex flex-wrap gap-2">
@@ -155,6 +176,49 @@ export default function Reservations() {
           </Bouton>
         </div>
       )}
+      <Modale ouverte={!!exp} titre={t("factures.export")} onFermer={() => setExport(null)}>
+        {exp && (
+          <div className="flex flex-col gap-3">
+            <p className="text-sm text-attenue">{t("factures.exportAide")}</p>
+            <div className="grid grid-cols-2 gap-3">
+              <Champ libelle={t("commun.du")}>
+                <Saisie
+                  type="date"
+                  value={exp.debut}
+                  onChange={(e) => setExport({ ...exp, debut: e.target.value })}
+                />
+              </Champ>
+              <Champ libelle={t("commun.au")}>
+                <Saisie
+                  type="date"
+                  value={exp.fin}
+                  onChange={(e) => setExport({ ...exp, fin: e.target.value })}
+                />
+              </Champ>
+            </div>
+            {action.erreur && <Message ton="erreur">{action.erreur}</Message>}
+            <Bouton
+              icone={FileSpreadsheet}
+              chargement={action.enCours}
+              onClick={() =>
+                void action.executer(async () => {
+                  const debut = depuisHeureAlger(exp.debut).toISOString();
+                  const fin = new Date(
+                    depuisHeureAlger(exp.fin).getTime() + 86_400_000,
+                  ).toISOString();
+                  await api.telecharger(
+                    `/agence/export.xlsx?debut=${encodeURIComponent(debut)}&fin=${encodeURIComponent(fin)}`,
+                    `export-${exp.debut}-${exp.fin}.xlsx`,
+                  );
+                  setExport(null);
+                })
+              }
+            >
+              {t("commun.telecharger")}
+            </Bouton>
+          </div>
+        )}
+      </Modale>
     </div>
   );
 }

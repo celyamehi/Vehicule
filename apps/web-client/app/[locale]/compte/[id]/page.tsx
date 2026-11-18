@@ -18,7 +18,12 @@ import {
   useTempsReel,
   versChampLocal,
   Periode,
+  ChoixNote,
+  Etoiles,
+  FilMessages,
+  Zone,
 } from "@lvb/ui";
+import { MessagesSquare, Star } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { use, useState } from "react";
 import { GardeClient } from "@/components/garde-client";
@@ -44,6 +49,12 @@ type Detail = {
   agence: { raisonSociale: string; telephone: string; adresse: string };
   pointDepart: { nom: string; adresse: string } | null;
   etatsDesLieux: { moment: "depart" | "retour" }[];
+  livraison: { adresse: string; commune: string; recuperation: boolean } | null;
+};
+
+type EtatAvis = {
+  possible: boolean;
+  avis: { note: number; commentaire: string | null; reponseAgence: string | null } | null;
 };
 
 function Fiche({ id }: { id: string }) {
@@ -52,6 +63,11 @@ function Fiche({ id }: { id: string }) {
   const { api, jetonAcces } = useSession();
   const messageErreur = useMessageErreur();
   const { donnees: r, erreur, recharger } = useDonneesClient<Detail>(`/moi/reservations/${id}`);
+  const { donnees: etatAvis, recharger: rechargerAvis } = useDonneesClient<EtatAvis>(
+    `/moi/reservations/${id}/avis`,
+  );
+  const [note, setNote] = useState(0);
+  const [commentaire, setCommentaire] = useState("");
   const [fenetre, setFenetre] = useState<null | "annuler" | "dates">(null);
   const [dates, setDates] = useState({ debut: "", fin: "" });
   const [message, setMessage] = useState<{ ton: "succes" | "erreur"; texte: string } | null>(null);
@@ -118,6 +134,63 @@ function Fiche({ id }: { id: string }) {
             {t(`politiques.${r.politiqueAnnulation}_detail`)}
           </div>
         </div>
+      </Carte>
+      {r.livraison && (
+        <Message ton="info">
+          {t("livraison.livreA", { adresse: r.livraison.adresse, commune: r.livraison.commune })}
+          {r.livraison.recuperation && <> · {t("livraison.recupere")}</>}
+        </Message>
+      )}
+      {etatAvis?.possible && (
+        <Carte titre={t("avis.laisser")} icone={Star} ton="citron">
+          <div className="flex flex-col gap-3">
+            <ChoixNote valeur={note} onChange={setNote} />
+            <Zone
+              placeholder={t("avis.commentaire")}
+              value={commentaire}
+              onChange={(e) => setCommentaire(e.target.value)}
+              maxLength={1000}
+            />
+            <p className="text-xs text-attenue">{t("avis.delai")}</p>
+            <Bouton
+              disabled={!note}
+              chargement={enCours}
+              onClick={() =>
+                void action(async () => {
+                  await api.post(`/moi/reservations/${id}/avis`, {
+                    note,
+                    commentaire: commentaire || undefined,
+                  });
+                  await rechargerAvis();
+                }, t("avis.merci"))
+              }
+            >
+              {t("avis.envoyer")}
+            </Bouton>
+          </div>
+        </Carte>
+      )}
+      {etatAvis?.avis && (
+        <Carte titre={t("avis.titre")} icone={Star} ton="citron">
+          <div className="flex flex-col gap-1 text-sm">
+            <Etoiles note={etatAvis.avis.note} />
+            {etatAvis.avis.commentaire && <p>{etatAvis.avis.commentaire}</p>}
+            {etatAvis.avis.reponseAgence && (
+              <div className="mt-2 rounded-xl bg-fond p-3">
+                <div className="font-medium text-marque-700">{t("avis.reponseAgence")}</div>
+                {etatAvis.avis.reponseAgence}
+              </div>
+            )}
+          </div>
+        </Carte>
+      )}
+      <Carte titre={t("messagerie.titre")} icone={MessagesSquare} ton="ciel">
+        <FilMessages
+          chemin={`/moi/reservations/${id}/messages`}
+          reservationId={id}
+          moi="client"
+          urlApi={URL_API}
+        />
       </Carte>
       <Carte titre={t("client.mesReservations.contacter")}>
         <div className="flex flex-wrap gap-2 text-sm">

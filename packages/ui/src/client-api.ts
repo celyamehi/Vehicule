@@ -119,6 +119,22 @@ export class ClientApi {
     return this.requete<T>("DELETE", chemin);
   }
 
+  /** Télécharge un fichier protégé et l'enregistre sous `nom` (export Excel…). */
+  async telecharger(chemin: string, nom: string) {
+    let r = await fetch(`${this.options.urlApi}${chemin}`, { headers: this.entetes(false) });
+    if (r.status === 401 && (await this.rafraichir()))
+      r = await fetch(`${this.options.urlApi}${chemin}`, { headers: this.entetes(false) });
+    if (!r.ok) throw new ErreurApi("INTROUVABLE", r.statusText, r.status);
+    const url = URL.createObjectURL(await r.blob());
+    const lien = document.createElement("a");
+    lien.href = url;
+    lien.download = nom;
+    document.body.appendChild(lien);
+    lien.click();
+    lien.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 10_000);
+  }
+
   /** Télécharge un fichier protégé (PDF) et l'ouvre dans un nouvel onglet. */
   async ouvrirFichier(chemin: string) {
     const fenetre = window.open("", "_blank");

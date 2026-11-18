@@ -5,6 +5,7 @@ export * from "./erreurs.js";
 export * from "./fichiers.js";
 export * from "./format.js";
 export * from "./i18n.js";
+export * from "./interaction.js";
 export * from "./langue.js";
 export * from "./session.js";
 export * from "./signature.js";

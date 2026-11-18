@@ -29,6 +29,9 @@ export type FicheVehicule = {
     wilaya: number;
     telephone: string;
     score: number;
+    slug: string | null;
+    noteMoyenne: number | null;
+    nombreAvis: number;
   };
   pointRetrait: {
     id: string;

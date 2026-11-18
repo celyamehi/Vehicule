@@ -2,7 +2,10 @@ import { type Langue, nomWilaya } from "@lvb/shared";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { AvisAgence, EtoilesServeur } from "@/components/avis-agence";
 import { BlocReservation } from "@/components/bloc-reservation";
+import { Link } from "@/i18n/navigation";
+import { ChevronRight } from "lucide-react";
 import { datesParDefaut } from "@/lib/recherche";
 import { apiServeur } from "@/lib/serveur";
 import type { FicheVehicule } from "@/lib/types";
@@ -99,7 +102,18 @@ export default async function Fiche({ params, searchParams }: Props) {
         </section>
         <section className="rounded-[var(--radius-carte)] bg-surface shadow-[var(--shadow-douce)] p-4 text-sm">
           <h2 className="mb-2 font-semibold">{t("client.fiche.agence")}</h2>
-          <p className="font-medium">{v.agence.raisonSociale}</p>
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="font-medium">{v.agence.raisonSociale}</p>
+            {v.agence.noteMoyenne !== null && (
+              <span className="inline-flex items-center gap-1.5 text-xs text-attenue">
+                <EtoilesServeur
+                  note={v.agence.noteMoyenne}
+                  label={t("avis.etoiles", { n: v.agence.noteMoyenne })}
+                />
+                {t("avis.nombre", { n: v.agence.nombreAvis })}
+              </span>
+            )}
+          </div>
           <p className="text-attenue">
             {v.agence.adresse}, {nomWilaya(v.agence.wilaya, langue)}
           </p>
@@ -125,7 +139,16 @@ export default async function Fiche({ params, searchParams }: Props) {
               </li>
             ))}
           </ul>
+          {v.agence.slug && (
+            <Link
+              href={`/agences/${v.agence.slug}`}
+              className="mt-3 inline-flex items-center gap-1 font-medium text-marque-700"
+            >
+              {t("pageAgence.vehicules")} <ChevronRight className="size-4 rtl:rotate-180" />
+            </Link>
+          )}
         </section>
+        <AvisAgence agenceId={v.agence.id} langue={langue} />
       </div>
       <aside className="lg:sticky lg:top-20 lg:self-start">
         <BlocReservation

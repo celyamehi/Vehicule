@@ -13,7 +13,15 @@ export type ResultatRecherche = {
   kmInclusParJour: number | null;
   photo: string | null;
   prix: { total: number; parJour: number; jours: number; caution: number };
-  agence: { id: string; raisonSociale: string; score: number; politiqueAnnulation: string };
+  agence: {
+    id: string;
+    raisonSociale: string;
+    score: number;
+    politiqueAnnulation: string;
+    slug: string | null;
+    noteMoyenne: number | null;
+    nombreAvis: number;
+  };
   pointRetrait: {
     id: string;
     nom: string;

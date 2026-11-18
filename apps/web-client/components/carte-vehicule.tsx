@@ -1,6 +1,6 @@
 import type { Langue } from "@lvb/shared";
 import { formaterMontant } from "@lvb/ui";
-import { BadgeCheck, CarFront, Fuel, Gauge, MapPin, Settings2, Users } from "lucide-react";
+import { BadgeCheck, CarFront, Fuel, Gauge, MapPin, Settings2, Star, Users } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import type { ResultatRecherche } from "@/lib/recherche";
@@ -59,6 +59,12 @@ export async function CarteVehicule({
           <p className="mt-0.5 flex items-center gap-1.5 text-sm text-attenue">
             <BadgeCheck className="size-4 text-menthe-800" strokeWidth={2} />
             {v.agence.raisonSociale}
+            {v.agence.noteMoyenne !== null && (
+              <span className="inline-flex items-center gap-0.5 font-medium text-citron-800">
+                <Star className="size-3.5 fill-current" strokeWidth={1.5} />
+                {v.agence.noteMoyenne}
+              </span>
+            )}
             <span aria-hidden>·</span>
             <MapPin className="size-3.5" strokeWidth={2} />
             {v.pointRetrait.nom}

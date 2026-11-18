@@ -15,6 +15,7 @@ import {
   ClipboardList,
   FileCheck2,
   LogOut,
+  MessageSquareQuote,
   ShieldCheck,
   Store,
   Users,
@@ -28,6 +29,7 @@ const LIENS = [
   ["/agences", "agences", Store],
   ["/reservations", "reservations", ClipboardList],
   ["/documents", "documents", FileCheck2],
+  ["/avis", "avis", MessageSquareQuote],
   ["/utilisateurs", "utilisateurs", Users],
 ] as const;
 

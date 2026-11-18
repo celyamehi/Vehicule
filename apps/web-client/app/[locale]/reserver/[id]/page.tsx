@@ -1,6 +1,6 @@
 "use client";
 
-import type { Langue } from "@lvb/shared";
+import { COMMUNES_BEJAIA, type Langue } from "@lvb/shared";
 import {
   Bouton,
   Carte,
@@ -15,8 +15,10 @@ import {
   useSession,
   Periode,
   PuceIcone,
+  Case,
+  Liste,
 } from "@lvb/ui";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Truck } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Suspense, use, useEffect, useState, type FormEvent } from "react";
@@ -35,6 +37,13 @@ function Tunnel({ id }: { id: string }) {
   const debut = sp.get("debut") ?? "";
   const fin = sp.get("fin") ?? "";
   const options = (sp.get("options") ?? "").split(",").filter(Boolean);
+  const livraison = sp.get("livraison") === "true";
+  const [adresse, setAdresse] = useState({
+    adresse: "",
+    commune: "Béjaïa",
+    instructions: "",
+    recuperation: true,
+  });
   const [vehicule, setVehicule] = useState<FicheVehicule | null>(null);
   const [prix, setPrix] = useState<Prix | null>(null);
   const [permis, setPermis] = useState<Document | null | undefined>(undefined);
@@ -56,7 +65,12 @@ function Tunnel({ id }: { id: string }) {
       .then(setVehicule)
       .catch((e) => setErreur(messageErreur(e)));
     void api
-      .get<Prix>(`/vehicules/${id}/prix`, { debut, fin, options: options.join(",") })
+      .get<Prix>(`/vehicules/${id}/prix`, {
+        debut,
+        fin,
+        options: options.join(","),
+        livraison: livraison ? "true" : undefined,
+      })
       .then(setPrix)
       .catch((e) => setErreur(messageErreur(e)));
   }, [api, id, debut, fin]);
@@ -94,6 +108,12 @@ function Tunnel({ id }: { id: string }) {
         debut,
         fin,
         options,
+        ...(livraison
+          ? {
+              livraison: true,
+              adresseLivraison: { ...adresse, instructions: adresse.instructions || undefined },
+            }
+          : {}),
       });
       await recharger();
       setResultat(r);
@@ -189,6 +209,48 @@ function Tunnel({ id }: { id: string }) {
                   </Champ>
                 </>
               )}
+              {livraison && (
+                <fieldset className="grid gap-3 rounded-2xl bg-lavande-50 p-4 sm:col-span-2 sm:grid-cols-2">
+                  <legend className="sr-only">{t("livraison.titre")}</legend>
+                  <div className="flex items-center gap-2 font-medium text-lavande-800 sm:col-span-2">
+                    <Truck className="size-[18px]" strokeWidth={1.9} />
+                    {t("livraison.titre")}
+                  </div>
+                  <Champ libelle={t("livraison.adresse")} className="sm:col-span-2">
+                    <Saisie
+                      required
+                      minLength={5}
+                      value={adresse.adresse}
+                      onChange={(e) => setAdresse({ ...adresse, adresse: e.target.value })}
+                    />
+                  </Champ>
+                  <Champ libelle={t("livraison.commune")}>
+                    <Liste
+                      value={adresse.commune}
+                      onChange={(e) => setAdresse({ ...adresse, commune: e.target.value })}
+                    >
+                      {COMMUNES_BEJAIA.map((c) => (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      ))}
+                    </Liste>
+                  </Champ>
+                  <Champ libelle={t("livraison.instructions")}>
+                    <Saisie
+                      value={adresse.instructions}
+                      onChange={(e) => setAdresse({ ...adresse, instructions: e.target.value })}
+                    />
+                  </Champ>
+                  <div className="sm:col-span-2">
+                    <Case
+                      libelle={t("livraison.recuperation")}
+                      checked={adresse.recuperation}
+                      onChange={(e) => setAdresse({ ...adresse, recuperation: e.target.checked })}
+                    />
+                  </div>
+                </fieldset>
+              )}
               {permis && (
                 <p className="text-sm text-attenue sm:col-span-2">
                   {t("pdf.permis")} : <span className="ltr">{permis.numero}</span>
@@ -236,6 +298,12 @@ function Tunnel({ id }: { id: string }) {
             <div>
               <Periode debut={formaterDate(debut, langue)} fin={formaterDate(fin, langue)} />
             </div>
+            {prix.fraisLivraison > 0 && (
+              <div className="flex justify-between">
+                <span>{t("options.livraison")}</span>
+                <span>{formaterMontant(prix.fraisLivraison, langue)}</span>
+              </div>
+            )}
             {prix.options.map((o) => (
               <div key={o.code} className="flex justify-between">
                 <span>{t(`options.${o.code}`)}</span>

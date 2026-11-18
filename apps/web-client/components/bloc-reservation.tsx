@@ -37,6 +37,7 @@ export function BlocReservation({
   const [debut, setDebut] = useState(versChampLocal(debutInitial));
   const [fin, setFin] = useState(versChampLocal(finInitiale));
   const [options, setOptions] = useState<string[]>([]);
+  const [livraison, setLivraison] = useState(false);
   const [prix, setPrix] = useState<Prix | null>(null);
   const [erreur, setErreur] = useState<string | null>(null);
   const proposees = OPTIONS_RESERVABLES.filter((o) => vehicule.tarif?.supplements[o]);
@@ -49,6 +50,7 @@ export function BlocReservation({
         debut: depuisChampLocal(debut),
         fin: depuisChampLocal(fin),
         options: options.join(","),
+        livraison: livraison ? "true" : undefined,
       })
       .then((p) => !annule && setPrix(p))
       .catch((e) => {
@@ -60,7 +62,7 @@ export function BlocReservation({
       annule = true;
     };
     // messageErreur change à chaque rendu : volontairement absent des dépendances.
-  }, [api, vehicule.id, debut, fin, options]);
+  }, [api, vehicule.id, debut, fin, options, livraison]);
 
   return (
     <div className="flex flex-col gap-3 rounded-[var(--radius-carte)] bg-surface shadow-[var(--shadow-douce)] p-4 shadow-sm">
@@ -95,6 +97,16 @@ export function BlocReservation({
           })}
         </fieldset>
       )}
+      {vehicule.tarif?.supplements.livraison && (
+        <div className="rounded-2xl bg-lavande-50 p-3">
+          <Case
+            libelle={`${t("livraison.titre")} (${formaterMontant(vehicule.tarif.supplements.livraison.forfait ?? 0, langue)})`}
+            aide={t("livraison.aide")}
+            checked={livraison}
+            onChange={(e) => setLivraison(e.target.checked)}
+          />
+        </div>
+      )}
       {erreur && <Message ton="erreur">{erreur}</Message>}
       {prix && (
         <dl className="grid grid-cols-[1fr_auto] gap-1 border-t border-trait pt-3 text-sm">
@@ -113,6 +125,14 @@ export function BlocReservation({
               <dd className="text-end tabular-nums">{formaterMontant(o.montant, langue)}</dd>
             </div>
           ))}
+          {prix.fraisLivraison > 0 && (
+            <>
+              <dt>{t("options.livraison")}</dt>
+              <dd className="text-end tabular-nums">
+                {formaterMontant(prix.fraisLivraison, langue)}
+              </dd>
+            </>
+          )}
           <dt className="text-base font-bold">{t("commun.total")}</dt>
           <dd className="text-end text-base font-bold tabular-nums text-marque-700">
             {formaterMontant(prix.total, langue)}
@@ -134,7 +154,7 @@ export function BlocReservation({
         disabled={!prix?.disponible}
         onClick={() =>
           routeur.push(
-            `/reserver/${vehicule.id}?${versRequete({ debut: depuisChampLocal(debut), fin: depuisChampLocal(fin), options: options.join(",") || undefined })}`,
+            `/reserver/${vehicule.id}?${versRequete({ debut: depuisChampLocal(debut), fin: depuisChampLocal(fin), options: options.join(",") || undefined, livraison: livraison ? "true" : undefined })}`,
           )
         }
       >

@@ -21,8 +21,9 @@ import {
   useSession,
   useTempsReel,
   versChampLocal,
+  FilMessages,
 } from "@lvb/ui";
-import { CheckCircle2, ClipboardCheck, PenLine } from "lucide-react";
+import { CheckCircle2, ClipboardCheck, MessagesSquare, PenLine } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Fragment, use, useState } from "react";
 import { EnTete, usePeut } from "@/components/coquille";
@@ -51,6 +52,12 @@ type Detail = Reservation & {
   pointDepart: { nom: string } | null;
   etatsDesLieux: EtatDesLieux[];
   paiements: { id: string; type: string; moyen: string; montant: number; createdAt: string }[];
+  livraison: {
+    adresse: string;
+    commune: string;
+    instructions?: string;
+    recuperation: boolean;
+  } | null;
 };
 type Contrat = { numero: string; signeLe: string } | null;
 type Document = {
@@ -363,6 +370,16 @@ export default function DetailReservation({ params }: { params: Promise<{ id: st
               {t("loueur.reservations.contrat")} — {t("loueur.reservations.voirPdf")}
             </button>
           )}
+          {["confirmee", "en_cours", "terminee", "litige"].includes(r.statut) &&
+            r.origine !== "blocage" && (
+              <button
+                type="button"
+                className="text-marque-700 underline"
+                onClick={() => void api.ouvrirFichier(`/agence/reservations/${id}/facture/pdf`)}
+              >
+                {t("factures.telecharger")}
+              </button>
+            )}
           {edlDepart && (
             <button
               type="button"
@@ -389,6 +406,23 @@ export default function DetailReservation({ params }: { params: Promise<{ id: st
         {r.motifRefus && <p className="mt-2 text-sm text-attenue">{r.motifRefus}</p>}
       </Carte>
 
+      {r.livraison && (
+        <Message ton="info">
+          {t("livraison.livreA", { adresse: r.livraison.adresse, commune: r.livraison.commune })}
+          {r.livraison.instructions && <> — {r.livraison.instructions}</>}
+          {r.livraison.recuperation && <> · {t("livraison.recupere")}</>}
+        </Message>
+      )}
+      {r.clientId && (
+        <Carte titre={t("messagerie.titre")} icone={MessagesSquare} ton="ciel">
+          <FilMessages
+            chemin={`/agence/reservations/${id}/messages`}
+            reservationId={id}
+            moi="agence"
+            urlApi={URL_API}
+          />
+        </Carte>
+      )}
       {r.fraisRetour && (
         <Carte titre={t("loueur.reservations.fraisRetour")}>
           <dl className="grid grid-cols-2 gap-1 text-sm sm:max-w-md">

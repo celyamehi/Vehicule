@@ -2,7 +2,7 @@
 
 import type { Langue } from "@lvb/shared";
 import { Bouton, PuceIcone, formaterDate, useSession, useTempsReel } from "@lvb/ui";
-import { Bell, BellRing, ChevronRight, X } from "lucide-react";
+import { Bell, BellRing, ChevronRight, MessagesSquare, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import {
   createContext,
@@ -68,6 +68,9 @@ export function FournisseurAlertes({ children }: { children: ReactNode }) {
   const routeur = useRouter();
   const { api, jetonAcces, agenceId } = useSession();
   const [alertes, setAlertes] = useState<Alerte[]>([]);
+  const [messagesRecus, setMessagesRecus] = useState<
+    { id: string; reservationId: string; code: string; texte: string }[]
+  >([]);
   const [enAttente, setEnAttente] = useState(0);
   const [permission, setPermission] = useState<NotificationPermission | "indisponible">(
     "indisponible",
@@ -128,6 +131,31 @@ export function FournisseurAlertes({ children }: { children: ReactNode }) {
         };
       }
     },
+    "message.nouveau": (d) => {
+      const m = d as {
+        id: string;
+        reservationId: string;
+        code: string;
+        texte: string;
+        auteur: string;
+      };
+      if (m.auteur !== "client") return;
+      setMessagesRecus((x) =>
+        [m, ...x.filter((y) => y.reservationId !== m.reservationId)].slice(0, 3),
+      );
+      bip();
+      if (permission === "granted" && document.hidden) {
+        const n = new Notification(`${t("messagerie.nouveau")} — ${m.code}`, {
+          body: m.texte.slice(0, 140),
+          tag: m.id,
+        });
+        n.onclick = () => {
+          window.focus();
+          routeur.push(`/reservations/${m.reservationId}`);
+          n.close();
+        };
+      }
+    },
     "reservation.statut_change": (d) => {
       const r = d as Evenement;
       void compter();
@@ -143,6 +171,33 @@ export function FournisseurAlertes({ children }: { children: ReactNode }) {
         demanderPermission: () => void Notification.requestPermission().then(setPermission),
       }}
     >
+      {messagesRecus.length > 0 && (
+        <div
+          className="fixed inset-x-3 bottom-3 z-50 flex flex-col gap-2 sm:inset-x-auto sm:bottom-5 sm:end-5 sm:w-[23rem]"
+          role="status"
+          aria-live="polite"
+        >
+          {messagesRecus.map((m) => (
+            <button
+              key={m.id}
+              type="button"
+              onClick={() => {
+                setMessagesRecus((x) => x.filter((y) => y.id !== m.id));
+                routeur.push(`/reservations/${m.reservationId}`);
+              }}
+              className="verre flex items-start gap-3 rounded-3xl p-4 text-start shadow-[var(--shadow-relief)] ring-1 ring-black/5"
+            >
+              <PuceIcone icone={MessagesSquare} ton="ciel" />
+              <span className="min-w-0 flex-1">
+                <span className="block font-semibold">
+                  {t("messagerie.nouveau")} · <span className="ltr">{m.code}</span>
+                </span>
+                <span className="line-clamp-2 text-sm text-attenue">{m.texte}</span>
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
       {alertes.length > 0 && (
         <div
           className="fixed inset-x-3 top-3 z-50 flex flex-col gap-2 sm:inset-x-auto sm:end-5 sm:top-5 sm:w-[23rem]"
