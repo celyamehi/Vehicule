@@ -61,6 +61,13 @@ export const interfacesFr = {
       aucuneAgence: "Vous n'êtes membre d'aucune agence.",
       choisirAgence: "Choisir une agence",
     },
+    alertes: {
+      nouvelle: "Nouvelle réservation en ligne",
+      detail: "{code} — {vehicule}, départ le {date}",
+      voir: "Voir et confirmer",
+      activerBureau: "Activer les notifications Windows",
+      enAttente: "{n, plural, one {# demande à confirmer} other {# demandes à confirmer}}",
+    },
     tdb: {
       titre: "Aujourd'hui",
       departs: "Départs du jour",

@@ -199,6 +199,8 @@ export const fr = {
       "Réservation {code} confirmée : {vehicule}, le {date}. Agence : {agence}, {telephone}.",
     reservationRefusee: "Votre demande {code} n'a pas pu être acceptée par l'agence.",
     reservationExpiree: "Votre demande {code} a expiré sans réponse de l'agence.",
+    nouvelleDemandeAgence:
+      "Nouvelle réservation en ligne {code} : {vehicule}, départ le {date}. À confirmer sous 2 h dans le logiciel.",
   },
   notifications: {
     reservation_creee: "Nouvelle demande de réservation {code}",

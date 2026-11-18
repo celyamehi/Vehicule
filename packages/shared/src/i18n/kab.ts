@@ -195,6 +195,8 @@ export const kab: Messages = {
       "Asekri {code} yettwasentem: {vehicule}, ass n {date}. Tanixt: {agence}, {telephone}.",
     reservationRefusee: "Tanixt ur tezmir ara ad tqbel asuter-ik·im {code}.",
     reservationExpiree: "Asuter-ik·im {code} yemmut war tiririt n tnixt.",
+    nouvelleDemandeAgence:
+      "Asekri amaynut s internet {code}: {vehicule}, tuffɣa ass n {date}. Sentem-it deg 2 n yisragen deg uhil.",
   },
   notifications: {
     reservation_creee: "Asuter amaynut n usekri {code}",

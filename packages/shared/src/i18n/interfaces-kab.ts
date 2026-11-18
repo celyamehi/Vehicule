@@ -62,6 +62,14 @@ export const interfacesKab: Pick<Messages, "ui" | "loueur" | "client" | "admin">
       aucuneAgence: "Ur telliḍ ara d aεeggal n kra n tnixt.",
       choisirAgence: "Fren tanixt",
     },
+    alertes: {
+      nouvelle: "Asekri amaynut s internet",
+      detail: "{code} — {vehicule}, tuffɣa ass n {date}",
+      voir: "Wali u sentem",
+      activerBureau: "Rmed ilɣa n Windows",
+      enAttente:
+        "{n, plural, one {# n usuter ara yettwasentmen} other {# n isuturen ara yettwasentmen}}",
+    },
     tdb: {
       titre: "Ass-a",
       departs: "Tuffɣiwin n wass-a",

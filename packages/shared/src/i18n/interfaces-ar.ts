@@ -61,6 +61,14 @@ export const interfacesAr: Pick<Messages, "ui" | "loueur" | "client" | "admin"> 
       aucuneAgence: "أنت لست عضوًا في أي وكالة.",
       choisirAgence: "اختر وكالة",
     },
+    alertes: {
+      nouvelle: "حجز جديد عبر الإنترنت",
+      detail: "{code} — {vehicule}، الانطلاق يوم {date}",
+      voir: "عرض وتأكيد",
+      activerBureau: "تفعيل إشعارات ويندوز",
+      enAttente:
+        "{n, plural, zero {لا طلبات للتأكيد} one {طلب واحد للتأكيد} two {طلبان للتأكيد} few {# طلبات للتأكيد} many {# طلبًا للتأكيد} other {# طلب للتأكيد}}",
+    },
     tdb: {
       titre: "اليوم",
       departs: "انطلاقات اليوم",

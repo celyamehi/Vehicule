@@ -378,6 +378,11 @@ export class ReservationsService {
           }
         : { cle: "reservationRecue", valeurs: { code: r.code } },
     );
+    await this.notifications.notifierAgence(agence.id, {
+      code: r.code,
+      vehicule: `${vehicule.marque} ${vehicule.modele}`,
+      date: r.debut.toISOString().slice(0, 10),
+    });
     return versDto(r);
   }
 

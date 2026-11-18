@@ -191,6 +191,8 @@ export const ar: Messages = {
       "تم تأكيد الحجز {code}: {vehicule}، يوم {date}. الوكالة: {agence}، {telephone}.",
     reservationRefusee: "لم تتمكن الوكالة من قبول طلبك {code}.",
     reservationExpiree: "انتهت صلاحية طلبك {code} دون رد من الوكالة.",
+    nouvelleDemandeAgence:
+      "حجز جديد عبر الإنترنت {code}: {vehicule}، الانطلاق يوم {date}. يجب التأكيد خلال ساعتين في البرنامج.",
   },
   notifications: {
     reservation_creee: "طلب حجز جديد {code}",

@@ -145,6 +145,10 @@ describe("parcours de réservation en ligne", () => {
     expect(r.body.code).toMatch(/^BEJ-[2-9A-HJKMNP-Z]{6}$/);
     expect(r.body.prixTotal).toBe(10000);
     expect(ctx.sms.dernierPour(client.telephone)).toContain(r.body.code);
+    // L'agence est prévenue par SMS, même si son logiciel est fermé (D35).
+    expect(ctx.sms.dernierPour("+213550000000")).toMatch(
+      new RegExp(`Nouvelle réservation en ligne ${r.body.code}`),
+    );
 
     const planning = await agence.g
       .get(`/agence/planning?debut=${encodeURIComponent(p.debut)}&fin=${encodeURIComponent(p.fin)}`)
