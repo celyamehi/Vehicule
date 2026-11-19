@@ -130,13 +130,18 @@ export function Champ({
 }
 
 const styleSaisie =
-  "w-full rounded-xl border border-transparent bg-champ px-3.5 py-2.5 text-[15px] text-encre outline-none transition placeholder:text-attenue/70 hover:bg-[#ececf1] focus:border-marque-300 focus:bg-surface focus:ring-4 focus:ring-marque-100 disabled:opacity-60";
+  "rounded-xl border border-transparent bg-champ px-3.5 py-2.5 text-[15px] text-encre outline-none transition placeholder:text-attenue/70 hover:bg-[#ececf1] focus:border-marque-300 focus:bg-surface focus:ring-4 focus:ring-marque-100 disabled:opacity-60";
+
+/** Pleine largeur par défaut, sauf si une largeur est donnée (w-auto, w-48…). */
+const largeur = (className?: string) =>
+  className && /(^|\s)(\w+:)?w-/.test(className) ? "" : "w-full";
 
 export const Saisie = ({ className, ...p }: InputHTMLAttributes<HTMLInputElement>) => (
   <input
     {...p}
     className={cx(
       styleSaisie,
+      largeur(className),
       p.type === "file" &&
         "file:me-3 file:rounded-full file:border-0 file:bg-marque-100 file:px-3 file:py-1 file:text-sm file:font-medium file:text-marque-700",
       className,
@@ -144,10 +149,10 @@ export const Saisie = ({ className, ...p }: InputHTMLAttributes<HTMLInputElement
   />
 );
 export const Zone = ({ className, ...p }: TextareaHTMLAttributes<HTMLTextAreaElement>) => (
-  <textarea {...p} className={cx(styleSaisie, "min-h-24", className)} />
+  <textarea {...p} className={cx(styleSaisie, largeur(className), "min-h-24", className)} />
 );
 export const Liste = ({ className, ...p }: SelectHTMLAttributes<HTMLSelectElement>) => (
-  <select {...p} className={cx(styleSaisie, "cursor-pointer", className)} />
+  <select {...p} className={cx(styleSaisie, largeur(className), "cursor-pointer", className)} />
 );
 
 /** Case à cocher douce. */

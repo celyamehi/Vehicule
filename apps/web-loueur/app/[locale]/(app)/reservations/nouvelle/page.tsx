@@ -13,7 +13,10 @@ import {
   formaterMontant,
   useSession,
   versChampLocal,
+  Pastille,
+  cx,
 } from "@lvb/ui";
+import { CheckCircle2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState, type FormEvent } from "react";
 import { EnTete } from "@/components/coquille";
@@ -225,28 +228,51 @@ export default function NouvelleReservation() {
                 value={recherche}
                 onChange={(e) => setRecherche(e.target.value)}
               />
-              <ul className="divide-y divide-trait">
-                {trouves.map((c) => (
-                  <li key={c.utilisateurId}>
-                    <label className="flex cursor-pointer items-center gap-2 py-2 text-sm">
-                      <input
-                        type="radio"
-                        name="client"
-                        checked={clientId === c.utilisateurId}
-                        onChange={() => setClientId(c.utilisateurId)}
-                        disabled={c.listeNoire}
-                      />
-                      {[c.prenom, c.nom].filter(Boolean).join(" ")}{" "}
-                      <span className="ltr text-attenue">{c.telephone}</span>
-                      {c.listeNoire && (
-                        <span className="text-xs text-danger-700">
-                          {t("loueur.clients.listeNoire")}
-                        </span>
-                      )}
-                    </label>
-                  </li>
-                ))}
-              </ul>
+              {recherche.trim().length < 2 ? (
+                <p className="ps-1 text-xs text-attenue">{t("loueur.comptoir.rechercheAide")}</p>
+              ) : trouves.length === 0 ? (
+                <Message ton="info">{t("loueur.comptoir.aucunClient")}</Message>
+              ) : (
+                <ul className="flex flex-col gap-2">
+                  {trouves.map((c) => {
+                    const choisi = clientId === c.utilisateurId;
+                    const nom = [c.prenom, c.nom].filter(Boolean).join(" ") || "—";
+                    return (
+                      <li key={c.utilisateurId}>
+                        <button
+                          type="button"
+                          disabled={c.listeNoire}
+                          onClick={() => setClientId(c.utilisateurId)}
+                          aria-pressed={choisi}
+                          className={cx(
+                            "flex w-full items-center gap-3 rounded-2xl p-3 text-start transition disabled:cursor-not-allowed disabled:opacity-60",
+                            choisi
+                              ? "bg-marque-50 ring-2 ring-marque-500"
+                              : "bg-champ hover:bg-[#ececf1]",
+                          )}
+                        >
+                          <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-lavande-100 text-sm font-semibold uppercase text-lavande-800">
+                            {(c.prenom?.[0] ?? "") + (c.nom?.[0] ?? "") || "?"}
+                          </span>
+                          <span className="min-w-0 flex-1">
+                            <span className="block truncate font-medium">{nom}</span>
+                            <span className="ltr block text-sm text-attenue">{c.telephone}</span>
+                          </span>
+                          {c.listeNoire ? (
+                            <Pastille statut="liste_noire">
+                              {t("loueur.clients.listeNoire")}
+                            </Pastille>
+                          ) : (
+                            choisi && (
+                              <CheckCircle2 className="size-5 text-marque-600" strokeWidth={2} />
+                            )
+                          )}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
           ) : (
             <div className="grid gap-3 sm:grid-cols-2">

@@ -196,6 +196,8 @@ export const interfacesAr: Pick<
       ok: "تم تنفيذ الإجراء",
     },
     comptoir: {
+      rechercheAide: "اكتب حرفين على الأقل من الاسم أو رقم الهاتف.",
+      aucunClient: "لم يتم العثور على أي زبون في ملفك. استعمل « زبون جديد ».",
       titre: "حجز جديد (في الوكالة / بالهاتف)",
       clientExistant: "زبون مسجل",
       nouveauClient: "زبون جديد",

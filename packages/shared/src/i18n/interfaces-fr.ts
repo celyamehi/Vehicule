@@ -182,6 +182,8 @@ export const interfacesFr = {
       ok: "Action effectuée",
     },
     comptoir: {
+      rechercheAide: "Tapez au moins 2 lettres du nom ou du numéro de téléphone.",
+      aucunClient: "Aucun client trouvé dans votre fichier. Utilisez « Nouveau client ».",
       titre: "Nouvelle réservation (comptoir / téléphone)",
       clientExistant: "Client existant",
       nouveauClient: "Nouveau client",

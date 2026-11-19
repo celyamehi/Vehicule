@@ -163,7 +163,7 @@ export default function PageAmendes() {
                 </div>
                 {peut("encaissements") ? (
                   <Liste
-                    className="w-auto"
+                    className="w-full shrink-0 sm:w-48"
                     aria-label={t("commun.statut")}
                     value={m.statut}
                     onChange={(e) =>

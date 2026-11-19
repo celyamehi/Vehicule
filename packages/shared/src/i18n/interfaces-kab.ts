@@ -195,6 +195,8 @@ export const interfacesKab: Pick<
       ok: "Tigawt tedda",
     },
     comptoir: {
+      rechercheAide: "Aru ma drus 2 n yisekkilen seg yisem neɣ seg wuṭṭun n tiliɣri.",
+      aucunClient: "Ulac amsaɣ i yettwafen deg ufaylu-ik. Seqdec « Amsaɣ amaynut ».",
       titre: "Asekri amaynut (deg tnixt / s tiliɣri)",
       clientExistant: "Amsaɣ yellan",
       nouveauClient: "Amsaɣ amaynut",
