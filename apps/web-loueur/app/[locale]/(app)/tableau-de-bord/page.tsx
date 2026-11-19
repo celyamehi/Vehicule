@@ -246,7 +246,7 @@ export default function TableauDeBord() {
             {urgents.map((r) => (
               <li
                 key={`${r.vehiculeId}-${r.type}`}
-                className="flex items-center gap-3 rounded-2xl bg-fond/70 p-3"
+                className="flex min-w-0 items-center gap-3 rounded-2xl bg-fond/70 p-3"
               >
                 <PuceIcone
                   icone={VISUELS[r.type].icone}

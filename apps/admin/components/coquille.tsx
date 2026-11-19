@@ -61,13 +61,13 @@ export function Coquille({ children }: { children: ReactNode }) {
     <div className="flex min-h-dvh flex-col">
       <header className="verre sticky top-0 z-30 border-b border-black/5">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-3">
-          <span className="flex items-center gap-2.5 font-semibold">
+          <span className="me-auto flex items-center gap-2.5 font-semibold lg:me-0">
             <span className="flex size-9 items-center justify-center rounded-[0.9rem] bg-lavande-100 text-lavande-800">
               <ShieldCheck className="size-5" strokeWidth={1.9} />
             </span>
             {t("commun.nomPlateforme")}
           </span>
-          <nav className="flex flex-1 gap-1 overflow-x-auto">
+          <nav className="order-last flex w-full gap-1 overflow-x-auto lg:order-none lg:w-auto lg:flex-1">
             {LIENS.map(([href, cle, Icone]) => (
               <Link
                 key={href}

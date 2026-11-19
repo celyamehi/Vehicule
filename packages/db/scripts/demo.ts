@@ -152,7 +152,14 @@ try {
   ) => {
     const [r] = await db
       .insert(s.reservations)
-      .values({ ...base, ...valeurs })
+      .values({
+        ...base,
+        // Une demande est confirmée après sa création : on la date 25 min avant la confirmation.
+        ...(valeurs.confirmeeLe
+          ? { createdAt: new Date(new Date(valeurs.confirmeeLe).getTime() - 25 * 60_000) }
+          : {}),
+        ...valeurs,
+      })
       .returning();
     return r!;
   };

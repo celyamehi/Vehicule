@@ -195,7 +195,7 @@ export function Carte({
   return (
     <section
       className={cx(
-        "rounded-[var(--radius-carte)] bg-surface p-5 shadow-[var(--shadow-douce)]",
+        "min-w-0 rounded-[var(--radius-carte)] bg-surface p-5 shadow-[var(--shadow-douce)]",
         className,
       )}
     >
@@ -341,7 +341,7 @@ export function Indicateur({
   ton?: Ton;
 }) {
   return (
-    <div className="rounded-[var(--radius-carte)] bg-surface p-5 shadow-[var(--shadow-douce)]">
+    <div className="min-w-0 rounded-[var(--radius-carte)] bg-surface p-5 shadow-[var(--shadow-douce)]">
       <div className="flex items-center justify-between gap-2">
         <div className="text-sm text-attenue">{libelle}</div>
         {icone && <PuceIcone icone={icone} ton={ton} taille="petite" />}
