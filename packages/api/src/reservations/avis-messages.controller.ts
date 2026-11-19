@@ -324,6 +324,33 @@ export class AvisMessagesController {
     );
   }
 
+  /**
+   * Boîte de réception de l'agence : une conversation par réservation, triées par dernier message,
+   * avec le client, la réservation et le nombre de messages non lus.
+   */
+  @RouteAgence()
+  @Get("agence/conversations")
+  async conversations(@MonAgence() ag: ContexteAgence) {
+    const lignes = (await this.db.execute(sql`
+      SELECT r.id AS "reservationId", r.code, r.statut, r.debut, r.fin,
+             v.marque || ' ' || v.modele AS vehicule,
+             u.id AS "clientId", u.prenom, u.nom, u.telephone,
+             dernier.texte AS "dernierTexte", dernier.auteur AS "dernierAuteur", dernier.created_at AS "dernierLe",
+             (SELECT count(*)::int FROM messages m2
+               WHERE m2.reservation_id = r.id AND m2.auteur = 'client' AND m2.lu_le IS NULL) AS "nonLus"
+      FROM reservations r
+      JOIN vehicules v ON v.id = r.vehicule_id
+      JOIN utilisateurs u ON u.id = r.client_id
+      JOIN LATERAL (
+        SELECT texte, auteur, created_at FROM messages m
+        WHERE m.reservation_id = r.id ORDER BY created_at DESC LIMIT 1
+      ) dernier ON true
+      WHERE r.agence_id = ${ag.agenceId}
+      ORDER BY dernier.created_at DESC
+      LIMIT 200`)) as unknown as Record<string, unknown>[];
+    return lignes;
+  }
+
   /** Nombre de messages clients non lus, par réservation (badge du logiciel). */
   @RouteAgence()
   @Get("agence/messages/non-lus")

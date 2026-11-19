@@ -15,6 +15,11 @@ export const interfacesKab: Pick<
   | "factures"
 > = {
   ui: {
+    espaceAgence: "Tallunt n tnixt",
+    espaceAdmin: "Agbur n usefrek",
+    vousGerez: "Kečč·kemm d {role} n « {agence} ».",
+    ouvrirLogiciel: "Ldi ahil n tnixt",
+    aideEspaceAgence: "Sefrek isekriyen, tikeṛṛusin, aɣawas d yiznan-ik seg tallunt n tnixt, ɣef tiliɣri am akken ɣef uselkim.",
     connexionTitre: "Tuqqna",
     connexionSousTitre: "Ad d-tremseḍ tangalt s SMS akken ad teqqneḍ.",
     telephoneAide: "Amedya: 0550 12 34 56",
@@ -48,6 +53,7 @@ export const interfacesKab: Pick<
   },
   loueur: {
     nav: {
+      messages: "Iznan",
       amendes: "Tixeṭṭiyin",
       avis: "Tiktiwin",
       pageAgence: "Asebter-iw",
@@ -502,6 +508,13 @@ export const interfacesKab: Pick<
     etoiles: "{n} seg 5",
   },
   messagerie: {
+    conversations: "Imeslayen",
+    aucuneConversation: "Ulac ameslay akka tura. Iznan n yimsaɣen-ik ad d-banen dagi.",
+    choisir: "Fren ameslay akken ad t-twaliḍ.",
+    profil: "Amaɣnu n umsaɣ",
+    voirReservation: "Wali asekri",
+    toutesReservations: "Akk isekriyen-is",
+    retour: "Imeslayen",
     titre: "Iznan",
     placeholder: "Aru izen…",
     envoyer: "Azen",

@@ -28,15 +28,18 @@ type Alerte = Evenement & { recueLe: number };
 
 type ValeurAlertes = {
   enAttente: number;
+  messagesNonLus: number;
   permission: NotificationPermission | "indisponible";
   demanderPermission: () => void;
 };
 const Contexte = createContext<ValeurAlertes>({
   enAttente: 0,
+  messagesNonLus: 0,
   permission: "indisponible",
   demanderPermission: () => {},
 });
 export const useDemandesEnAttente = () => useContext(Contexte).enAttente;
+export const useMessagesNonLus = () => useContext(Contexte).messagesNonLus;
 
 /** Deux bips courts, générés sans fichier audio (aucun téléchargement en 3G). */
 function bip() {
@@ -72,6 +75,7 @@ export function FournisseurAlertes({ children }: { children: ReactNode }) {
     { id: string; reservationId: string; code: string; texte: string }[]
   >([]);
   const [enAttente, setEnAttente] = useState(0);
+  const [messagesNonLus, setMessagesNonLus] = useState(0);
   const [permission, setPermission] = useState<NotificationPermission | "indisponible">(
     "indisponible",
   );
@@ -86,6 +90,8 @@ export function FournisseurAlertes({ children }: { children: ReactNode }) {
         parPage: 1,
       });
       setEnAttente(r.total);
+      const nonLus = await api.get<{ n: number }[]>("/agence/messages/non-lus");
+      setMessagesNonLus(nonLus.reduce((t, x) => t + x.n, 0));
     } catch {
       /* compteur indicatif */
     }
@@ -139,6 +145,7 @@ export function FournisseurAlertes({ children }: { children: ReactNode }) {
         texte: string;
         auteur: string;
       };
+      void compter();
       if (m.auteur !== "client") return;
       setMessagesRecus((x) =>
         [m, ...x.filter((y) => y.reservationId !== m.reservationId)].slice(0, 3),
@@ -151,7 +158,7 @@ export function FournisseurAlertes({ children }: { children: ReactNode }) {
         });
         n.onclick = () => {
           window.focus();
-          routeur.push(`/reservations/${m.reservationId}`);
+          routeur.push(`/messages?r=${m.reservationId}`);
           n.close();
         };
       }
@@ -167,6 +174,7 @@ export function FournisseurAlertes({ children }: { children: ReactNode }) {
     <Contexte.Provider
       value={{
         enAttente,
+        messagesNonLus,
         permission,
         demanderPermission: () => void Notification.requestPermission().then(setPermission),
       }}
@@ -183,7 +191,7 @@ export function FournisseurAlertes({ children }: { children: ReactNode }) {
               type="button"
               onClick={() => {
                 setMessagesRecus((x) => x.filter((y) => y.id !== m.id));
-                routeur.push(`/reservations/${m.reservationId}`);
+                routeur.push(`/messages?r=${m.reservationId}`);
               }}
               className="verre flex items-start gap-3 rounded-3xl p-4 text-start shadow-[var(--shadow-relief)] ring-1 ring-black/5"
             >

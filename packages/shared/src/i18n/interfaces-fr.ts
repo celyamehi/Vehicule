@@ -1,6 +1,11 @@
 /** Textes des interfaces (site client, logiciel loueur, back-office) — français, référence. */
 export const interfacesFr = {
   ui: {
+    espaceAgence: "Espace agence",
+    espaceAdmin: "Back-office",
+    vousGerez: "Vous êtes {role} de « {agence} ».",
+    ouvrirLogiciel: "Ouvrir le logiciel de l'agence",
+    aideEspaceAgence: "Gérez vos réservations, votre flotte, votre planning et vos messages depuis votre espace agence, sur téléphone comme sur ordinateur.",
     connexionTitre: "Connexion",
     connexionSousTitre: "Recevez un code par SMS pour vous connecter.",
     telephoneAide: "Exemple : 0550 12 34 56",
@@ -35,6 +40,7 @@ export const interfacesFr = {
   },
   loueur: {
     nav: {
+      messages: "Messages",
       amendes: "Amendes",
       avis: "Avis",
       pageAgence: "Ma page",
@@ -494,6 +500,13 @@ export const interfacesFr = {
     etoiles: "{n} sur 5",
   },
   messagerie: {
+    conversations: "Conversations",
+    aucuneConversation: "Aucune conversation pour le moment. Les messages de vos clients apparaîtront ici.",
+    choisir: "Choisissez une conversation pour l'afficher.",
+    profil: "Profil du client",
+    voirReservation: "Voir la réservation",
+    toutesReservations: "Toutes ses réservations",
+    retour: "Conversations",
     titre: "Messages",
     placeholder: "Écrire un message…",
     envoyer: "Envoyer",

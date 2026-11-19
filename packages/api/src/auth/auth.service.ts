@@ -49,7 +49,9 @@ export class AuthService {
 
     // En développement, les numéros de test reçoivent un code fixe (jamais en production).
     const codeTest =
-      this.config.NODE_ENV !== "production" && this.config.OTP_CODE_TEST && this.config.OTP_NUMEROS_TEST.includes(telephone)
+      this.config.NODE_ENV !== "production" &&
+      this.config.OTP_CODE_TEST &&
+      this.config.OTP_NUMEROS_TEST.includes(telephone)
         ? this.config.OTP_CODE_TEST
         : null;
     const code = codeTest ?? String(randomInt(0, 1_000_000)).padStart(6, "0");

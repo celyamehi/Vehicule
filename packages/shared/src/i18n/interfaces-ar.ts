@@ -15,6 +15,11 @@ export const interfacesAr: Pick<
   | "factures"
 > = {
   ui: {
+    espaceAgence: "فضاء الوكالة",
+    espaceAdmin: "لوحة الإدارة",
+    vousGerez: "أنت {role} في « {agence} ».",
+    ouvrirLogiciel: "فتح برنامج الوكالة",
+    aideEspaceAgence: "أدر حجوزاتك وأسطولك وجدولك ورسائلك من فضاء الوكالة، على الهاتف كما على الحاسوب.",
     connexionTitre: "تسجيل الدخول",
     connexionSousTitre: "ستتلقى رمزًا عبر رسالة قصيرة لتسجيل الدخول.",
     telephoneAide: "مثال: 0550 12 34 56",
@@ -48,6 +53,7 @@ export const interfacesAr: Pick<
   },
   loueur: {
     nav: {
+      messages: "الرسائل",
       amendes: "المخالفات",
       avis: "الآراء",
       pageAgence: "صفحتي",
@@ -504,6 +510,13 @@ export const interfacesAr: Pick<
     etoiles: "{n} من 5",
   },
   messagerie: {
+    conversations: "المحادثات",
+    aucuneConversation: "لا توجد محادثات حاليًا. ستظهر هنا رسائل زبائنك.",
+    choisir: "اختر محادثة لعرضها.",
+    profil: "ملف الزبون",
+    voirReservation: "عرض الحجز",
+    toutesReservations: "كل حجوزاته",
+    retour: "المحادثات",
     titre: "الرسائل",
     placeholder: "اكتب رسالة…",
     envoyer: "إرسال",

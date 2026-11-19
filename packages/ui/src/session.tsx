@@ -80,7 +80,8 @@ export function FournisseurSession({
   children: ReactNode;
 }) {
   const langue = useLocale();
-  const cleJetons = `${espace}.jetons`;
+  // Jetons communs au site et au logiciel (même adresse) : une seule connexion pour les deux.
+  const cleJetons = espace === "admin" ? "admin.jetons" : "lvb.jetons";
   const cleAgence = `${espace}.agence`;
   const jetonsRef = useRef<Jetons | null>(null);
   const agenceRef = useRef<string | null>(null);

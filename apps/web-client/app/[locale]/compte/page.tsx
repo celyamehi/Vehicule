@@ -13,11 +13,12 @@ import {
   useTempsReel,
   Periode,
 } from "@lvb/ui";
+import { Store } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { GardeClient } from "@/components/garde-client";
 import { Link } from "@/i18n/navigation";
 import { useDonneesClient } from "@/lib/client";
-import { URL_API } from "@/lib/config";
+import { URL_API, URL_LOUEUR } from "@/lib/config";
 
 type Ligne = {
   id: string;
@@ -33,7 +34,7 @@ type Ligne = {
 function Liste() {
   const t = useTranslations();
   const langue = useLocale() as Langue;
-  const { jetonAcces, deconnecter } = useSession();
+  const { jetonAcces, deconnecter, profil } = useSession();
   const { donnees, erreur, recharger } = useDonneesClient<Ligne[]>("/moi/reservations");
   useTempsReel(URL_API, jetonAcces, {
     "reservation.statut_change": () => void recharger(),
@@ -78,6 +79,30 @@ function Liste() {
           </Bouton>
         </div>
       </div>
+      {profil && profil.agences.length > 0 && (
+        <div className="flex flex-col gap-3 rounded-[var(--radius-carte)] bg-gradient-to-br from-lavande-50 to-marque-50 p-5 sm:flex-row sm:items-center">
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-surface text-lavande-800 shadow-sm">
+            <Store className="size-6" strokeWidth={1.8} />
+          </span>
+          <div className="min-w-0 flex-1">
+            {profil.agences.map((a) => (
+              <p key={a.id} className="font-semibold">
+                {t("ui.vousGerez", {
+                  role: t(`roles.${a.role}`).toLowerCase(),
+                  agence: a.raisonSociale,
+                })}
+              </p>
+            ))}
+            <p className="text-sm text-attenue">{t("ui.aideEspaceAgence")}</p>
+          </div>
+          <a
+            href={`${URL_LOUEUR}/${langue}`}
+            className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-marque-600 px-5 font-medium text-white"
+          >
+            {t("ui.ouvrirLogiciel")}
+          </a>
+        </div>
+      )}
       {donnees.length === 0 && (
         <Carte>
           <p className="text-sm text-attenue">{t("client.mesReservations.aucune")}</p>

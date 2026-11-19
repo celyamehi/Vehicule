@@ -147,8 +147,15 @@ describe("messagerie client ↔ agence", () => {
     await api(ctx, client.jeton)
       .post(`/moi/reservations/${r.body.id}/messages`, { texte: "   " })
       .expect(400);
+    const boite = await agence.g.get("/agence/conversations").expect(200);
+    expect(boite.body[0]).toMatchObject({
+      reservationId: r.body.id,
+      dernierAuteur: "agence",
+      nonLus: 0,
+    });
     const autre = await creerAgenceValidee(ctx, admin);
     await autre.g.get(`/agence/reservations/${r.body.id}/messages`).expect(404);
+    expect((await autre.g.get("/agence/conversations").expect(200)).body).toEqual([]);
   });
 });
 

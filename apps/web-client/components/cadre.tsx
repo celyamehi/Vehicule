@@ -1,11 +1,12 @@
 "use client";
 
 import { SelecteurLangue, useSession } from "@lvb/ui";
-import { CarFront, CircleUserRound, Store } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { CarFront, CircleUserRound, ShieldCheck, Store } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { URL_ADMIN, URL_LOUEUR } from "@/lib/config";
 import { VILLES } from "@/lib/recherche";
 
 function Langue() {
@@ -33,6 +34,7 @@ export function Logo() {
 
 export function EnTeteSite() {
   const t = useTranslations();
+  const langue = useLocale();
   const { profil } = useSession();
   return (
     <header className="verre sticky top-0 z-40 border-b border-black/5">
@@ -44,6 +46,24 @@ export function EnTeteSite() {
           <Suspense>
             <Langue />
           </Suspense>
+          {profil?.admin && (
+            <a
+              href={URL_ADMIN}
+              className="hidden h-9 items-center gap-2 rounded-full bg-champ px-3 font-medium sm:inline-flex"
+            >
+              <ShieldCheck className="size-4" strokeWidth={2} />
+              {t("ui.espaceAdmin")}
+            </a>
+          )}
+          {profil && profil.agences.length > 0 && (
+            <a
+              href={`${URL_LOUEUR}/${langue}`}
+              className="inline-flex h-9 items-center gap-2 rounded-full bg-lavande-100 px-3 font-medium text-lavande-800 transition hover:bg-lavande-50"
+            >
+              <Store className="size-4" strokeWidth={2} />
+              <span className="hidden sm:inline">{t("ui.espaceAgence")}</span>
+            </a>
+          )}
           <Link
             href={profil ? "/compte" : "/connexion"}
             className="inline-flex h-9 items-center gap-2 rounded-full bg-encre px-4 font-medium text-white transition hover:bg-black active:scale-[0.97]"
@@ -61,6 +81,7 @@ export function EnTeteSite() {
 
 export function PiedSite() {
   const t = useTranslations();
+  const langue = useLocale();
   return (
     <footer className="mt-16 border-t border-black/5 bg-surface">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm sm:grid-cols-[1.4fr_1fr] sm:px-6">
@@ -82,7 +103,7 @@ export function PiedSite() {
         <div className="flex flex-col gap-3 sm:items-end">
           <Logo />
           <a
-            href={process.env.NEXT_PUBLIC_URL_LOUEUR ?? "http://localhost:3001"}
+            href={`${URL_LOUEUR}/${langue}/inscription`}
             className="inline-flex items-center gap-2 rounded-full bg-lavande-100 px-4 py-2 font-medium text-lavande-800 transition hover:bg-lavande-50"
           >
             <Store className="size-4" strokeWidth={2} />

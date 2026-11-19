@@ -16,6 +16,7 @@ import {
   ClipboardList,
   LayoutDashboard,
   LogOut,
+  MessagesSquare,
   PlusCircle,
   Settings,
   ShieldAlert,
@@ -29,13 +30,19 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
-import { BandeauxAlertes, FournisseurAlertes, useDemandesEnAttente } from "@/components/alertes";
+import {
+  BandeauxAlertes,
+  FournisseurAlertes,
+  useDemandesEnAttente,
+  useMessagesNonLus,
+} from "@/components/alertes";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 
 const LIENS: readonly (readonly [string, string, LucideIcon])[] = [
   ["/tableau-de-bord", "tableauDeBord", LayoutDashboard],
   ["/planning", "planning", CalendarRange],
   ["/reservations", "reservations", ClipboardList],
+  ["/messages", "messages", MessagesSquare],
   ["/reservations/nouvelle", "nouvelleReservation", PlusCircle],
   ["/flotte", "flotte", CarFront],
   ["/entretien", "entretien", Wrench],
@@ -200,6 +207,7 @@ export function Coquille({ children }: { children: ReactNode }) {
                   />
                   <span>{t(`loueur.nav.${cle}`)}</span>
                   {href === "/reservations" && <CompteurDemandes actif={actif} />}
+                  {href === "/messages" && <CompteurMessages actif={actif} />}
                 </Link>
               );
             })}
@@ -214,7 +222,7 @@ export function Coquille({ children }: { children: ReactNode }) {
           </nav>
         </aside>
         <main className="min-w-0 flex-1 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
-          <div className="mx-auto max-w-6xl">
+          <div className={chemin.startsWith("/messages") ? "" : "mx-auto max-w-6xl"}>
             {agence?.statut === "en_attente" && (
               <div className="mb-4">
                 <Message ton="alerte">{t("loueur.inscription.enAttente")}</Message>
@@ -225,7 +233,7 @@ export function Coquille({ children }: { children: ReactNode }) {
                 <Message ton="erreur">{t("loueur.inscription.suspendue")}</Message>
               </div>
             )}
-            <BandeauxAlertes />
+            {!chemin.startsWith("/messages") && <BandeauxAlertes />}
             {children}
           </div>
         </main>
@@ -243,6 +251,22 @@ function CompteurDemandes({ actif }: { actif: boolean }) {
       className={cx(
         "ms-auto inline-flex min-w-5 justify-center rounded-full px-1.5 text-xs font-semibold",
         actif ? "bg-white/25 text-white" : "bg-peche-100 text-peche-800",
+      )}
+    >
+      {n}
+    </span>
+  );
+}
+
+/** Pastille du nombre de messages clients non lus. */
+function CompteurMessages({ actif }: { actif: boolean }) {
+  const n = useMessagesNonLus();
+  if (!n) return null;
+  return (
+    <span
+      className={cx(
+        "ms-auto inline-flex min-w-5 justify-center rounded-full px-1.5 text-xs font-semibold",
+        actif ? "bg-white/25 text-white" : "bg-marque-600 text-white",
       )}
     >
       {n}

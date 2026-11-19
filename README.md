@@ -32,7 +32,7 @@ En développement, remplacer `start` par `dev`.
 
 ### Comptes de démonstration
 
-Connexion par code SMS : en développement, **le code s'affiche dans les journaux de l'API**.
+Connexion par code SMS : en développement, les numéros de test ci-dessous utilisent le code **123456** (`OTP_CODE_TEST`). Données de démonstration : `pnpm --filter @lvb/db db:demo` (clients Amel 0550 00 00 10 et Yanis 0550 00 00 11).
 
 | Rôle                     | Téléphone     |
 | ------------------------ | ------------- |
