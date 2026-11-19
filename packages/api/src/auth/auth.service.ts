@@ -47,7 +47,12 @@ export class AuthService {
       )) as [{ n: number }];
     if (n >= this.config.OTP_MAX_ENVOIS_PAR_HEURE) throw new ErreurApi("TROP_DE_TENTATIVES");
 
-    const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
+    // En développement, les numéros de test reçoivent un code fixe (jamais en production).
+    const codeTest =
+      this.config.NODE_ENV !== "production" && this.config.OTP_CODE_TEST && this.config.OTP_NUMEROS_TEST.includes(telephone)
+        ? this.config.OTP_CODE_TEST
+        : null;
+    const code = codeTest ?? String(randomInt(0, 1_000_000)).padStart(6, "0");
     await this.db.insert(codesOtp).values({
       telephone,
       codeHash: this.hacherCode(telephone, code),

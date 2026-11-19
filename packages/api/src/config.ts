@@ -35,6 +35,20 @@ const schema = z.object({
   JOBS_ACTIFS: booleen.default(true),
   OTP_MAX_ENVOIS_PAR_HEURE: z.coerce.number().int().default(5),
   OTP_MAX_ESSAIS: z.coerce.number().int().default(5),
+  /** Développement uniquement : code SMS fixe pour les numéros de test (interdit en production). */
+  OTP_CODE_TEST: z
+    .string()
+    .regex(/^\d{6}$/)
+    .optional(),
+  OTP_NUMEROS_TEST: z
+    .string()
+    .default("")
+    .transform((v) =>
+      v
+        .split(",")
+        .map((x) => x.trim())
+        .filter(Boolean),
+    ),
 });
 
 export type Config = z.infer<typeof schema>;
@@ -45,6 +59,8 @@ export function lireConfig(env: NodeJS.ProcessEnv = process.env): Config {
     const champs = r.error.issues.map((i) => i.path.join(".")).join(", ");
     throw new Error(`Configuration invalide (.env) : ${champs}`);
   }
+  if (r.data.NODE_ENV === "production" && r.data.OTP_CODE_TEST)
+    throw new Error("OTP_CODE_TEST est interdit en production");
   if (r.data.NODE_ENV === "production" && r.data.JWT_ACCESS_SECRET.startsWith("a_changer"))
     throw new Error("JWT_ACCESS_SECRET doit être changé en production");
   return r.data;

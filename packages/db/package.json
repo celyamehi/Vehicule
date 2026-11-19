@@ -18,7 +18,8 @@
     "test": "vitest run",
     "db:generer": "drizzle-kit generate",
     "db:migrer": "tsx scripts/migrer.ts",
-    "db:seed": "tsx scripts/seed.ts"
+    "db:seed": "tsx scripts/seed.ts",
+    "db:demo": "tsx scripts/demo.ts"
   },
   "dependencies": {
     "@lvb/shared": "workspace:*",
