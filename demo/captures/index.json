@@ -1,0 +1,341 @@
+[
+  {
+    "partie": "site",
+    "session": null,
+    "titre": "Accueil du site",
+    "texte": "Recherche par ville et par dates, en français, arabe ou tamazight.",
+    "fichier": "01-site.png",
+    "chemin": "/fr"
+  },
+  {
+    "partie": "site",
+    "session": null,
+    "titre": "Résultats de recherche",
+    "texte": "Seules les voitures libres sur toute la période s'affichent, avec le prix total.",
+    "fichier": "02-site.png",
+    "chemin": "/fr/recherche"
+  },
+  {
+    "partie": "site",
+    "session": null,
+    "titre": "Fiche d'une voiture",
+    "texte": "Photos, caractéristiques, prix détaillé, caution, conditions et avis de l'agence.",
+    "fichier": "03-site.png",
+    "chemin": "/fr/vehicules/38280727-ad56-492a-90dc-16fda3345236"
+  },
+  {
+    "partie": "site",
+    "session": null,
+    "titre": "Page publique d'une agence",
+    "texte": "Chaque agence a sa page à partager (lien et QR code), avec ses voitures et ses avis.",
+    "fichier": "04-site.png",
+    "chemin": "/fr/agences/yemma-gouraya-location-901d"
+  },
+  {
+    "partie": "site",
+    "session": null,
+    "titre": "Page par ville (référencement Google)",
+    "texte": "« Location voiture Béjaïa » : pages rendues côté serveur pour Google.",
+    "fichier": "05-site.png",
+    "chemin": "/fr/location-voiture/bejaia"
+  },
+  {
+    "partie": "site",
+    "session": null,
+    "titre": "Connexion par SMS",
+    "texte": "Un numéro de téléphone et un code reçu par SMS : pas de mot de passe.",
+    "fichier": "06-site.png",
+    "chemin": "/fr/connexion"
+  },
+  {
+    "partie": "site",
+    "session": "client",
+    "titre": "Réserver",
+    "texte": "Options, livraison à une adresse, paiement sur place. L'agence confirme sous 2 heures.",
+    "fichier": "07-site.png",
+    "chemin": "/fr/reserver/38280727-ad56-492a-90dc-16fda3345236"
+  },
+  {
+    "partie": "site",
+    "session": "client",
+    "titre": "Mes réservations",
+    "texte": "À venir, en cours, passées. Annulation selon la politique de l'agence.",
+    "fichier": "08-site.png",
+    "chemin": "/fr/compte"
+  },
+  {
+    "partie": "site",
+    "session": "client",
+    "titre": "Suivi d'une réservation",
+    "texte": "Statut, contrat PDF, messagerie avec l'agence, appel et WhatsApp, avis après le retour.",
+    "fichier": "09-site.png",
+    "chemin": "/fr/compte/e8944d5a-6944-4486-9fa6-2650c29cea0b"
+  },
+  {
+    "partie": "site",
+    "session": "client",
+    "titre": "Mon profil et mes documents",
+    "texte": "Permis et pièce d'identité, vérifiés par l'agence ou l'administrateur.",
+    "fichier": "10-site.png",
+    "chemin": "/fr/profil"
+  },
+  {
+    "partie": "site",
+    "session": null,
+    "titre": "Version arabe (de droite à gauche)",
+    "texte": "Toute l'interface existe en arabe, avec la mise en page inversée.",
+    "fichier": "11-site.png",
+    "chemin": "/ar"
+  },
+  {
+    "partie": "site",
+    "session": null,
+    "mobile": true,
+    "titre": "Sur téléphone",
+    "texte": "Le site est conçu d'abord pour le téléphone.",
+    "fichier": "12-site.png",
+    "chemin": "/fr"
+  },
+  {
+    "partie": "site",
+    "session": null,
+    "mobile": true,
+    "titre": "Fiche voiture sur téléphone",
+    "texte": "",
+    "fichier": "13-site.png",
+    "chemin": "/fr/vehicules/38280727-ad56-492a-90dc-16fda3345236"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Tableau de bord",
+    "texte": "Départs, retours, demandes à confirmer, retards, chiffre d'affaires, entretien à surveiller, voitures les plus rentables.",
+    "fichier": "14-loueur.png",
+    "chemin": "/agence/fr/tableau-de-bord"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Planning",
+    "texte": "Une ligne par voiture ; glisser-déposer pour changer de véhicule ; blocage de périodes.",
+    "fichier": "15-loueur.png",
+    "chemin": "/agence/fr/planning"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Réservations",
+    "texte": "Toutes les réservations du site et du comptoir, filtres et export Excel.",
+    "fichier": "16-loueur.png",
+    "chemin": "/agence/fr/reservations"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Fiche d'une réservation",
+    "texte": "Contrat signé sur tablette, états des lieux, encaissements, facture, messagerie, entreprise facturée.",
+    "fichier": "17-loueur.png",
+    "chemin": "/agence/fr/reservations/89eb2f38-b090-4db0-ab17-388c42b5ac5e"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Réservation au comptoir",
+    "texte": "Client existant ou nouveau, prix calculé automatiquement, location pour une entreprise.",
+    "fichier": "18-loueur.png",
+    "chemin": "/agence/fr/reservations/nouvelle"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Messages",
+    "texte": "Toutes les conversations avec les clients ; un clic sur le nom ouvre son profil.",
+    "fichier": "19-loueur.png",
+    "chemin": "/agence/fr/messages"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Flotte",
+    "texte": "Les voitures de l'agence, leur statut et leur visibilité sur le site.",
+    "fichier": "20-loueur.png",
+    "chemin": "/agence/fr/flotte"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Fiche d'une voiture",
+    "texte": "Caractéristiques, photos, point de retrait, rentabilité.",
+    "fichier": "21-loueur.png",
+    "chemin": "/agence/fr/flotte/38280727-ad56-492a-90dc-16fda3345236"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Entretien",
+    "texte": "Rappels vidange, assurance, contrôle technique, vignette, pneus — par date et kilométrage.",
+    "fichier": "22-loueur.png",
+    "chemin": "/agence/fr/entretien"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Caisse",
+    "texte": "Les paiements entrent automatiquement ; dépenses et remboursements sortent ; cautions à part.",
+    "fichier": "23-loueur.png",
+    "chemin": "/agence/fr/caisse"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Dépenses",
+    "texte": "Pneus, réparations, carburant, loyer, salaires… par voiture ou générales.",
+    "fichier": "24-loueur.png",
+    "chemin": "/agence/fr/depenses"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Amendes",
+    "texte": "Le logiciel retrouve qui conduisait à la date de l'infraction.",
+    "fichier": "25-loueur.png",
+    "chemin": "/agence/fr/amendes"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Clients particuliers",
+    "texte": "Historique, notes internes, liste noire propre à l'agence.",
+    "fichier": "26-loueur.png",
+    "chemin": "/agence/fr/clients"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Clients entreprises",
+    "texte": "Sociétés facturées à leur nom (NIF, NIS, RC, article d'imposition).",
+    "fichier": "27-loueur.png",
+    "chemin": "/agence/fr/clients"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Fiche d'une entreprise",
+    "texte": "Conducteurs, locations, chiffre d'affaires et reste à payer.",
+    "fichier": "28-loueur.png",
+    "chemin": "/agence/fr/clients/entreprises/3193456e-0b30-49ab-9830-988988345a15"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Tarifs",
+    "texte": "Prix par jour, dégressifs, saisons, suppléments, caution.",
+    "fichier": "29-loueur.png",
+    "chemin": "/agence/fr/tarifs"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Avis des clients",
+    "texte": "Réponse publique de l'agence, signalement à l'administrateur.",
+    "fichier": "30-loueur.png",
+    "chemin": "/agence/fr/avis"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Ma page",
+    "texte": "La page publique de l'agence, son lien et son QR code.",
+    "fichier": "31-loueur.png",
+    "chemin": "/agence/fr/ma-page"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Équipe",
+    "texte": "Employés, droits par rôle, journal des actions.",
+    "fichier": "32-loueur.png",
+    "chemin": "/agence/fr/equipe"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Paramètres",
+    "texte": "Informations de l'agence, points de retrait, règles de location.",
+    "fichier": "33-loueur.png",
+    "chemin": "/agence/fr/parametres"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "titre": "Logiciel en arabe",
+    "texte": "",
+    "fichier": "34-loueur.png",
+    "chemin": "/agence/ar/tableau-de-bord"
+  },
+  {
+    "partie": "loueur",
+    "session": "gerant",
+    "mobile": true,
+    "titre": "Logiciel sur téléphone",
+    "texte": "Le gérant suit son agence depuis son téléphone, sans se reconnecter.",
+    "fichier": "35-loueur.png",
+    "chemin": "/agence/fr/tableau-de-bord"
+  },
+  {
+    "partie": "admin",
+    "session": "admin",
+    "titre": "Indicateurs de la plateforme",
+    "texte": "Agences actives, réservations, chiffre d'affaires, délai de confirmation.",
+    "fichier": "36-admin.png",
+    "chemin": "/fr/indicateurs"
+  },
+  {
+    "partie": "admin",
+    "session": "admin",
+    "titre": "Validation des agences",
+    "texte": "Une agence n'apparaît sur le site qu'après validation de son dossier.",
+    "fichier": "37-admin.png",
+    "chemin": "/fr/agences"
+  },
+  {
+    "partie": "admin",
+    "session": "admin",
+    "titre": "Dossier d'une agence",
+    "texte": "Justificatifs, suspension, taux de commission.",
+    "fichier": "38-admin.png",
+    "chemin": "/fr/agences/901d0601-a366-4d24-9b7d-8cebb872fc5a"
+  },
+  {
+    "partie": "admin",
+    "session": "admin",
+    "titre": "Toutes les réservations",
+    "texte": "",
+    "fichier": "39-admin.png",
+    "chemin": "/fr/reservations"
+  },
+  {
+    "partie": "admin",
+    "session": "admin",
+    "titre": "Vérification des documents",
+    "texte": "Permis et pièces d'identité des clients.",
+    "fichier": "40-admin.png",
+    "chemin": "/fr/documents"
+  },
+  {
+    "partie": "admin",
+    "session": "admin",
+    "titre": "Modération des avis",
+    "texte": "",
+    "fichier": "41-admin.png",
+    "chemin": "/fr/avis"
+  },
+  {
+    "partie": "admin",
+    "session": "admin",
+    "titre": "Utilisateurs",
+    "texte": "Blocage des comptes frauduleux.",
+    "fichier": "42-admin.png",
+    "chemin": "/fr/utilisateurs"
+  }
+]

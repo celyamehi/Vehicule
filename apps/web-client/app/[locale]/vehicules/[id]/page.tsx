@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { AvisAgence, EtoilesServeur } from "@/components/avis-agence";
 import { BlocReservation } from "@/components/bloc-reservation";
 import { Link } from "@/i18n/navigation";
-import { ChevronRight } from "lucide-react";
+import { CarFront, ChevronRight } from "lucide-react";
 import { datesParDefaut } from "@/lib/recherche";
 import { apiServeur } from "@/lib/serveur";
 import type { FicheVehicule } from "@/lib/types";
@@ -45,7 +45,11 @@ export default async function Fiche({ params, searchParams }: Props) {
     <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
       <div className="flex min-w-0 flex-col gap-5">
         <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto rounded-xl">
-          {v.photos.length === 0 && <div className="aspect-[16/10] w-full rounded-xl bg-fond" />}
+          {v.photos.length === 0 && (
+            <div className="flex aspect-[16/10] w-full items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-marque-50 to-lavande-50 text-marque-500/60">
+              <CarFront className="size-24" strokeWidth={1.1} aria-hidden />
+            </div>
+          )}
           {v.photos.map((p, i) => (
             <img
               key={p}

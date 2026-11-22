@@ -60,10 +60,10 @@ export class AdminController {
     return this.db
       .select({
         a: agences,
-        vehicules: sql<number>`(SELECT count(*)::int FROM vehicules v WHERE v.agence_id = ${agences.id})`,
+        vehicules: sql<number>`(SELECT count(*)::int FROM vehicules v WHERE v.agence_id = "agences"."id")`,
         gerant: sql<
           string | null
-        >`(SELECT u.telephone FROM membres_agence m JOIN utilisateurs u ON u.id = m.utilisateur_id WHERE m.agence_id = ${agences.id} AND m.role = 'gerant' ORDER BY m.created_at LIMIT 1)`,
+        >`(SELECT u.telephone FROM membres_agence m JOIN utilisateurs u ON u.id = m.utilisateur_id WHERE m.agence_id = "agences"."id" AND m.role = 'gerant' ORDER BY m.created_at LIMIT 1)`,
       })
       .from(agences)
       .where(

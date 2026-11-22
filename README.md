@@ -3,6 +3,8 @@
 Marketplace de location de véhicules + logiciel de gestion pour agences (Algérie).
 
 - Cahier des charges : [`CAHIER_DES_CHARGES.md`](CAHIER_DES_CHARGES.md)
+- **État d'avancement (fait / reste à faire)** : [`CAHIER_DES_CHARGES_SUIVI.md`](CAHIER_DES_CHARGES_SUIVI.md)
+- **Démo** (PDF de 42 écrans et vidéo) : [`demo/`](demo)
 - Conventions : [`CLAUDE.md`](CLAUDE.md)
 - Décisions : [`DECISIONS.md`](DECISIONS.md)
 

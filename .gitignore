@@ -11,3 +11,7 @@ coverage/
 Thumbs.db
 next-env.d.ts
 *.tsbuildinfo
+
+# Démo : fichiers intermédiaires (images de la vidéo, page HTML du PDF)
+demo/video/
+demo/captures/demo.html

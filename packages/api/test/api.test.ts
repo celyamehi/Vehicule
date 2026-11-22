@@ -108,6 +108,19 @@ describe("parcours de réservation en ligne", () => {
     // Le logiciel de gestion reste utilisable avant validation.
     await nouvelle.g.get("/agence/vehicules").expect(200);
 
+    // File de validation du back-office : nombre de véhicules et téléphone du gérant.
+    const file = await api(ctx, admin.jeton).get("/admin/agences?statut=en_attente").expect(200);
+    expect(file.body).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: nouvelle.agenceId,
+          nbVehicules: 1,
+          telephoneGerant: expect.stringMatching(/^\+213/),
+        }),
+      ]),
+    );
+    await api(ctx, admin.jeton).get("/admin/agences").expect(200);
+
     await api(ctx, admin.jeton)
       .post(`/admin/agences/${nouvelle.agenceId}/decision`, { decision: "valider" })
       .expect(200);
