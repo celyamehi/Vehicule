@@ -120,6 +120,9 @@ try {
   await db
     .delete(s.entretiens)
     .where(and(eq(s.entretiens.agenceId, agence.id), like(s.entretiens.notes, "[démo]%")));
+  await db
+    .delete(s.depenses)
+    .where(and(eq(s.depenses.agenceId, agence.id), like(s.depenses.notes, "[démo]%")));
 
   const detail = (prixJour: number, jours: number, caution: number) => ({
     jours,
@@ -385,6 +388,74 @@ try {
       cout: 48_000,
       prochaineEcheanceKm: 55_000,
       notes,
+    },
+  ]);
+
+  // Caisse : caution encaissée puis restituée sur la location terminée, et quelques dépenses.
+  await db.insert(s.paiements).values([
+    {
+      agenceId: agence.id,
+      reservationId: terminee.id,
+      type: "caution",
+      moyen: "especes",
+      montant: 30_000,
+      statut: "reussi",
+      enregistrePar: gerant?.id ?? null,
+    },
+    {
+      agenceId: agence.id,
+      reservationId: terminee.id,
+      type: "restitution_caution",
+      moyen: "especes",
+      montant: 30_000,
+      statut: "reussi",
+      enregistrePar: gerant?.id ?? null,
+    },
+  ]);
+  await db.insert(s.depenses).values([
+    {
+      agenceId: agence.id,
+      vehiculeId: clio.id,
+      categorie: "pneus",
+      libelle: "Pneu avant droit",
+      montant: 9_500,
+      date: jourCalendaire(-1),
+      moyen: "especes",
+      notes,
+      creePar: gerant?.id ?? null,
+    },
+    {
+      agenceId: agence.id,
+      vehiculeId: tucson.id,
+      categorie: "carburant",
+      libelle: "Plein avant départ",
+      montant: 6_000,
+      date: jourCalendaire(0),
+      moyen: "especes",
+      notes,
+      creePar: gerant?.id ?? null,
+    },
+    {
+      agenceId: agence.id,
+      vehiculeId: null,
+      categorie: "lavage",
+      libelle: "Lavage de trois véhicules",
+      montant: 2_400,
+      date: jourCalendaire(0),
+      moyen: "especes",
+      notes,
+      creePar: gerant?.id ?? null,
+    },
+    {
+      agenceId: agence.id,
+      vehiculeId: null,
+      categorie: "loyer",
+      libelle: "Loyer du local",
+      montant: 45_000,
+      date: jourCalendaire(-2),
+      moyen: "virement",
+      notes,
+      creePar: gerant?.id ?? null,
     },
   ]);
 

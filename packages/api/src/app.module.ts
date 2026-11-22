@@ -3,6 +3,7 @@ import { APP_FILTER } from "@nestjs/core";
 import { AdminController } from "./admin/admin.controller.js";
 import { AgenceController } from "./agence/agence.controller.js";
 import { EntretiensController } from "./agence/entretiens.controller.js";
+import { CaisseController } from "./agence/caisse.controller.js";
 import { FinancesController } from "./agence/finances.controller.js";
 import { FlotteController } from "./agence/flotte.controller.js";
 import { AuthModule } from "./auth/auth.module.js";
@@ -37,6 +38,7 @@ import { PasserelleTempsReel } from "./temps-reel/passerelle.js";
     FlotteController,
     EntretiensController,
     FinancesController,
+    CaisseController,
     ReservationsAgenceController,
     AvisMessagesController,
     DocumentsController,

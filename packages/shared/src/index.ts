@@ -3,6 +3,7 @@ export * from "./dates.js";
 export * from "./regles.js";
 export * from "./entretien.js";
 export * from "./fonctionnalites.js";
+export * from "./caisse.js";
 export * from "./erreurs.js";
 export * from "./code-reservation.js";
 export * from "./montants.js";

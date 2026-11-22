@@ -6,6 +6,7 @@
 import { z } from "zod";
 import {
   BOITES,
+  CATEGORIES_DEPENSE,
   CARBURANTS,
   CATEGORIES_VEHICULE,
   LANGUES,
@@ -446,6 +447,26 @@ export const amendeModifier = z.object({
 });
 
 export const exportParams = periode;
+
+// ---------------------------------------------------------------------------
+// Dépenses, caisse et statistiques
+// ---------------------------------------------------------------------------
+
+export const depenseCreer = z.object({
+  categorie: z.enum(CATEGORIES_DEPENSE),
+  libelle: z.string().trim().min(2).max(200),
+  montant: montantStrict,
+  date: dateCalendaire,
+  vehiculeId: uuid.optional().nullable(),
+  moyen: z.enum(MOYENS_PAIEMENT).optional().nullable(),
+  notes: z.string().max(2000).optional().nullable(),
+});
+export const depenseModifier = depenseCreer;
+
+/** Période en dates calendaires d'Alger, bornes incluses. */
+export const periodeJours = z
+  .object({ du: dateCalendaire, au: dateCalendaire })
+  .refine((p) => p.au >= p.du, { message: "validation.fin_avant_debut", path: ["au"] });
 
 // ---------------------------------------------------------------------------
 // Fichiers

@@ -57,6 +57,13 @@
       "when": 1795029127284,
       "tag": "0007_avis_triggers",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1795373923626,
+      "tag": "0008_depenses",
+      "breakpoints": true
     }
   ]
 }

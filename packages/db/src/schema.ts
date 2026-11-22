@@ -132,6 +132,19 @@ export const statutAmendeEnum = pgEnum("statut_amende", [
   "payee",
   "contestee",
 ]);
+export const categorieDepenseEnum = pgEnum("categorie_depense", [
+  "carburant",
+  "pneus",
+  "reparation",
+  "entretien",
+  "assurance",
+  "lavage",
+  "loyer",
+  "salaires",
+  "taxes",
+  "publicite",
+  "autre",
+]);
 export const typeEntretienEnum = pgEnum("type_entretien", [
   "vidange",
   "assurance",
@@ -885,5 +898,40 @@ export const factures = pgTable(
   (t) => [
     uniqueIndex("factures_reservation_uq").on(t.reservationId),
     uniqueIndex("factures_numero_uq").on(t.agenceId, t.numero),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// Dépenses de l'agence (sorties de caisse saisies à la main)
+// ---------------------------------------------------------------------------
+
+export const depenses = pgTable(
+  "depenses",
+  {
+    ...cleId,
+    agenceId: uuid()
+      .notNull()
+      .references(() => agences.id, { onDelete: "cascade" }),
+    /** Véhicule concerné (pneu, réparation…) ; vide pour une dépense générale (loyer, salaires). */
+    vehiculeId: uuid(),
+    categorie: categorieDepenseEnum().notNull(),
+    libelle: text().notNull(),
+    /** Montant en DZD (entier). */
+    montant: integer().notNull(),
+    date: date().notNull(),
+    moyen: moyenPaiementEnum(),
+    notes: text(),
+    creePar: uuid().references(() => utilisateurs.id),
+    ...horodatage,
+  },
+  (t) => [
+    index("depenses_agence_idx").on(t.agenceId, t.date),
+    index("depenses_vehicule_idx").on(t.vehiculeId),
+    foreignKey({
+      name: "depenses_vehicule_meme_agence_fk",
+      columns: [t.vehiculeId, t.agenceId],
+      foreignColumns: [vehicules.id, vehicules.agenceId],
+    }),
+    check("depenses_montant_positif", sql`${t.montant} > 0`),
   ],
 );

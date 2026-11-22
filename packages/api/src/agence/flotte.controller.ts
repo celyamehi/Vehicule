@@ -11,6 +11,7 @@ import {
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import {
   categoriesVehicule,
+  depenses,
   photosVehicule,
   pointsRetrait,
   reservations,
@@ -176,6 +177,11 @@ export class FlotteController {
       .from(reservations)
       .where(eq(reservations.vehiculeId, id))) as [{ n: number }];
     if (n > 0) throw new ErreurApi("CONFLIT", { raison: "historique" });
+    const [{ d }] = (await this.db
+      .select({ d: sql<number>`count(*)::int` })
+      .from(depenses)
+      .where(eq(depenses.vehiculeId, id))) as [{ d: number }];
+    if (d > 0) throw new ErreurApi("CONFLIT", { raison: "historique" });
     await this.db
       .delete(vehicules)
       .where(and(eq(vehicules.id, id), eq(vehicules.agenceId, a.agenceId)));

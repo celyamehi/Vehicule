@@ -31,7 +31,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { EnTete } from "@/components/coquille";
+import { EnTete, usePeut } from "@/components/coquille";
+import { StatsVehicules } from "@/components/stats-vehicules";
 import { TexteEcheance, VISUELS } from "@/components/entretien";
 import { Link } from "@/i18n/navigation";
 import { URL_API } from "@/lib/config";
@@ -146,6 +147,7 @@ export default function TableauDeBord() {
   const t = useTranslations();
   const langue = useLocale() as Langue;
   const { jetonAcces } = useSession();
+  const peut = usePeut();
   const { donnees, erreur, recharger } = useDonnees<Tdb>("/agence/tableau-de-bord");
   const { donnees: rappels } = useDonnees<Rappel[]>("/agence/entretiens/rappels");
   const direct = useTempsReel(URL_API, jetonAcces, {
@@ -269,6 +271,7 @@ export default function TableauDeBord() {
           </ul>
         )}
       </Carte>
+      {peut("encaissements") && <StatsVehicules />}
     </div>
   );
 }

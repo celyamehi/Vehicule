@@ -99,6 +99,22 @@ export const TYPES_PAIEMENT = [
 ] as const;
 export type TypePaiement = (typeof TYPES_PAIEMENT)[number];
 
+/** Catégories de dépenses de l'agence (page Dépenses). */
+export const CATEGORIES_DEPENSE = [
+  "carburant",
+  "pneus",
+  "reparation",
+  "entretien",
+  "assurance",
+  "lavage",
+  "loyer",
+  "salaires",
+  "taxes",
+  "publicite",
+  "autre",
+] as const;
+export type CategorieDepense = (typeof CATEGORIES_DEPENSE)[number];
+
 /** Délais de la section 6.2, en minutes. */
 export const DELAIS = {
   paiementMinutes: 15,

@@ -14,6 +14,7 @@ import {
   CalendarRange,
   CarFront,
   ClipboardList,
+  HandCoins,
   LayoutDashboard,
   LogOut,
   MessagesSquare,
@@ -25,6 +26,7 @@ import {
   Tags,
   UserCog,
   Users,
+  Wallet,
   Wrench,
   type LucideIcon,
 } from "lucide-react";
@@ -38,7 +40,7 @@ import {
 } from "@/components/alertes";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 
-const LIENS: readonly (readonly [string, string, LucideIcon])[] = [
+const LIENS: readonly (readonly [string, string, LucideIcon, string?])[] = [
   ["/tableau-de-bord", "tableauDeBord", LayoutDashboard],
   ["/planning", "planning", CalendarRange],
   ["/reservations", "reservations", ClipboardList],
@@ -46,6 +48,8 @@ const LIENS: readonly (readonly [string, string, LucideIcon])[] = [
   ["/reservations/nouvelle", "nouvelleReservation", PlusCircle],
   ["/flotte", "flotte", CarFront],
   ["/entretien", "entretien", Wrench],
+  ["/caisse", "caisse", Wallet, "encaissements"],
+  ["/depenses", "depenses", HandCoins, "encaissements"],
   ["/amendes", "amendes", ShieldAlert],
   ["/avis", "avis", Star],
   ["/ma-page", "pageAgence", Store],
@@ -93,6 +97,7 @@ export function Coquille({ children }: { children: ReactNode }) {
   const chemin = usePathname();
   const routeur = useRouter();
   const surInscription = chemin.startsWith("/inscription");
+  const peut = usePeut();
 
   if (!pret) return <Chargement />;
   if (!profil)
@@ -181,36 +186,38 @@ export function Coquille({ children }: { children: ReactNode }) {
             </div>
           </div>
           <nav className="flex gap-1 overflow-x-auto px-3 pb-3 lg:flex-col lg:overflow-visible lg:px-3 lg:pt-4">
-            {LIENS.map(([href, cle, Icone]) => {
-              const actif =
-                href === "/reservations"
-                  ? chemin === href || /^\/reservations\/(?!nouvelle)/.test(chemin)
-                  : chemin.startsWith(href);
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  aria-current={actif ? "page" : undefined}
-                  className={cx(
-                    "group flex shrink-0 items-center gap-3 whitespace-nowrap rounded-xl px-3 py-2 text-sm font-medium transition",
-                    actif
-                      ? "bg-marque-600 text-white shadow-[0_6px_16px_-8px_rgb(76_93_228/0.9)]"
-                      : "text-encre/80 hover:bg-black/[0.04] hover:text-encre",
-                  )}
-                >
-                  <Icone
+            {LIENS.filter(([, , , permission]) => !permission || peut(permission)).map(
+              ([href, cle, Icone]) => {
+                const actif =
+                  href === "/reservations"
+                    ? chemin === href || /^\/reservations\/(?!nouvelle)/.test(chemin)
+                    : chemin.startsWith(href);
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    aria-current={actif ? "page" : undefined}
                     className={cx(
-                      "size-[18px]",
-                      actif ? "text-white" : "text-attenue group-hover:text-encre",
+                      "group flex shrink-0 items-center gap-3 whitespace-nowrap rounded-xl px-3 py-2 text-sm font-medium transition",
+                      actif
+                        ? "bg-marque-600 text-white shadow-[0_6px_16px_-8px_rgb(76_93_228/0.9)]"
+                        : "text-encre/80 hover:bg-black/[0.04] hover:text-encre",
                     )}
-                    strokeWidth={1.9}
-                  />
-                  <span>{t(`loueur.nav.${cle}`)}</span>
-                  {href === "/reservations" && <CompteurDemandes actif={actif} />}
-                  {href === "/messages" && <CompteurMessages actif={actif} />}
-                </Link>
-              );
-            })}
+                  >
+                    <Icone
+                      className={cx(
+                        "size-[18px]",
+                        actif ? "text-white" : "text-attenue group-hover:text-encre",
+                      )}
+                      strokeWidth={1.9}
+                    />
+                    <span>{t(`loueur.nav.${cle}`)}</span>
+                    {href === "/reservations" && <CompteurDemandes actif={actif} />}
+                    {href === "/messages" && <CompteurMessages actif={actif} />}
+                  </Link>
+                );
+              },
+            )}
             <button
               type="button"
               onClick={() => void deconnecter()}

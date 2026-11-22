@@ -20,18 +20,21 @@
   /* Pastels (fond / texte lisible) */
   --color-menthe-50: #eefaf3;
   --color-menthe-100: #dcf4e6;
+  --color-menthe-300: #9fdcb8;
   --color-menthe-800: #1e6b44;
   --color-peche-50: #fff5ee;
   --color-peche-100: #ffe8d8;
   --color-peche-800: #8a4718;
   --color-lavande-50: #f5f2ff;
   --color-lavande-100: #ebe5ff;
+  --color-lavande-300: #c3b5fb;
   --color-lavande-800: #4d3a9c;
   --color-ciel-50: #eff7fe;
   --color-ciel-100: #ddeefd;
   --color-ciel-800: #1d5a8c;
   --color-rose-50: #fff1f4;
   --color-rose-100: #fde2e9;
+  --color-rose-300: #f6a9bc;
   --color-rose-800: #9b2c47;
   --color-citron-50: #fffbea;
   --color-citron-100: #fff3c4;
