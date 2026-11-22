@@ -64,6 +64,13 @@
       "when": 1795373923626,
       "tag": "0008_depenses",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1795377448198,
+      "tag": "0009_entreprises",
+      "breakpoints": true
     }
   ]
 }

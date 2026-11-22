@@ -27,6 +27,7 @@ import { CheckCircle2, ClipboardCheck, MessagesSquare, PenLine } from "lucide-re
 import { useLocale, useTranslations } from "next-intl";
 import { Fragment, use, useState } from "react";
 import { EnTete, usePeut } from "@/components/coquille";
+import { FactureeA } from "@/components/entreprise";
 import { FormulaireEtatDesLieux } from "@/components/etat-des-lieux";
 import { Link } from "@/i18n/navigation";
 import { URL_API } from "@/lib/config";
@@ -212,6 +213,12 @@ export default function DetailReservation({ params }: { params: Promise<{ id: st
                   ))}
                 </ul>
               )}
+              <FactureeA
+                reservationId={id}
+                entrepriseId={r.entrepriseId}
+                modifiable={peut("reservations.creer")}
+                onModifiee={() => void recharger()}
+              />
             </div>
           ) : (
             <p className="text-sm">{r.motifBlocage}</p>

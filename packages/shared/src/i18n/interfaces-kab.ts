@@ -14,6 +14,7 @@ export const interfacesKab: Pick<
   | "amendes"
   | "factures"
   | "finances"
+  | "entreprises"
 > = {
   ui: {
     espaceAgence: "Tallunt n tnixt",
@@ -656,6 +657,41 @@ export const interfacesKab: Pick<
       publicite: "Asmussen",
       autre: "Nniḍen",
     },
+  },
+  entreprises: {
+    particuliers: "Imdanen",
+    entreprises: "Tisuddiwin",
+    ajouter: "Rnu tasuddut",
+    modifier: "Beddel tasuddut",
+    raisonSociale: "Isem n tsuddut",
+    nif: "NIF",
+    nis: "NIS",
+    rc: "Asmil n tnezzut",
+    ai: "Amagrad n tɣerwit",
+    adresse: "Tansa",
+    telephone: "Tiliɣri",
+    email: "Imayl",
+    contact: "Amdan ara d-nenmeslay",
+    delai: "Tallit n uxelleṣ",
+    delaiJours: "{n, plural, =0 {S tedrimt} one {# n wass} other {# n wussan}}",
+    notes: "Tizmilin tigensanin",
+    aucune: "Ulac tasuddut yettwaseklasen.",
+    rechercher: "Isem, NIF neɣ tiliɣri",
+    locations: "{n, plural, =0 {Ulac tuṛṛit} one {# n tuṛṛit} other {# n tuṛṛiwin}}",
+    chiffreAffaires: "Azal n uxeddim",
+    resteAPayer: "Ayen yeqqimen ad yettwaxelleṣ",
+    conducteurs: "Imnehgen",
+    aucunConducteur: "Ulac amnehg ar tura.",
+    historique: "Tuṛṛiwin n tsuddut",
+    fiscal: "Talɣut n tɣerwit",
+    pourEntreprise: "I tsuddut",
+    pourEntrepriseAide: "Tafaturt ad tili s yisem n tsuddut; amsaɣ d amnehg.",
+    choisir: "Fren tasuddut",
+    aucuneChoisie: "Amdan (ulac tasuddut)",
+    facturee: "Tafaturt i",
+    rattacher: "Fatur i tsuddut",
+    detacher: "Kkes tasuddut",
+    nouvelle: "Tasuddut tamaynut",
   },
   factures: {
     moyen: "Abrid n uxelleṣ",

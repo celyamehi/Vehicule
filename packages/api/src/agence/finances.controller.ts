@@ -4,6 +4,7 @@ import {
   agences,
   amendes,
   categoriesVehicule,
+  entreprises,
   entretiens,
   factures,
   paiements,
@@ -267,6 +268,19 @@ export class FinancesController {
         ? [{ cle: "pdf.fraisRetour", detail: "", montant: r.fraisRetour.total }]
         : []),
     ];
+    const [ent] = r.entrepriseId
+      ? await this.db
+          .select({
+            raisonSociale: entreprises.raisonSociale,
+            adresse: entreprises.adresse,
+            nif: entreprises.nif,
+            nis: entreprises.nis,
+            registreCommerce: entreprises.registreCommerce,
+            articleImposition: entreprises.articleImposition,
+          })
+          .from(entreprises)
+          .where(eq(entreprises.id, r.entrepriseId))
+      : [];
     let logo: Buffer | null = null;
     if (ag!.logoUrl) logo = await this.stockage.lire(ag!.logoUrl).catch(() => null);
     const pdf = await this.pdf.facture({
@@ -286,6 +300,7 @@ export class FinancesController {
         nom: c ? [c.prenom, c.nom].filter(Boolean).join(" ") || c.telephone : "—",
         telephone: c?.telephone ?? "—",
       },
+      entreprise: ent ?? null,
       vehicule: `${v!.marque} ${v!.modele} (${v!.immatriculation})`,
       debut: r.debut,
       fin: r.retourLe ?? r.fin,
@@ -329,12 +344,14 @@ export class FinancesController {
         immatriculation: vehicules.immatriculation,
         categorie: categoriesVehicule.code,
         client: utilisateurs.telephone,
+        entreprise: entreprises.raisonSociale,
         facture: factures.numero,
       })
       .from(reservations)
       .innerJoin(vehicules, eq(vehicules.id, reservations.vehiculeId))
       .innerJoin(categoriesVehicule, eq(categoriesVehicule.id, vehicules.categorieId))
       .leftJoin(utilisateurs, eq(utilisateurs.id, reservations.clientId))
+      .leftJoin(entreprises, eq(entreprises.id, reservations.entrepriseId))
       .leftJoin(factures, eq(factures.reservationId, reservations.id))
       .where(
         and(
@@ -356,6 +373,7 @@ export class FinancesController {
       { header: t("loueur.reservations.vehicule"), key: "vehicule", width: 22 },
       { header: t("pdf.immatriculation"), key: "immatriculation", width: 16 },
       { header: t("loueur.reservations.client"), key: "client", width: 16 },
+      { header: t("entreprises.facturee"), key: "entreprise", width: 24 },
       { header: t("loueur.reservations.montant"), key: "montant", width: 14, style: montant },
       { header: t("pdf.fraisRetour"), key: "frais", width: 14, style: montant },
       { header: t("pdf.caution"), key: "caution", width: 14, style: montant },
@@ -373,6 +391,7 @@ export class FinancesController {
         vehicule: l.vehicule,
         immatriculation: l.immatriculation,
         client: l.client ?? "",
+        entreprise: l.entreprise ?? "",
         montant: l.r.prixTotal,
         frais: l.r.fraisRetour?.total ?? 0,
         caution: l.r.caution,

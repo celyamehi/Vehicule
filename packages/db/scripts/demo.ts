@@ -123,6 +123,9 @@ try {
   await db
     .delete(s.depenses)
     .where(and(eq(s.depenses.agenceId, agence.id), like(s.depenses.notes, "[démo]%")));
+  await db
+    .delete(s.entreprises)
+    .where(and(eq(s.entreprises.agenceId, agence.id), like(s.entreprises.notesInternes, "[démo]%")));
 
   const detail = (prixJour: number, jours: number, caution: number) => ({
     jours,
@@ -458,6 +461,28 @@ try {
       creePar: gerant?.id ?? null,
     },
   ]);
+
+  // Client entreprise : Yanis conduit pour une société, la location est facturée à son nom.
+  const [societe] = await db
+    .insert(s.entreprises)
+    .values({
+      agenceId: agence.id,
+      raisonSociale: "SARL Soummam Services",
+      nif: "000106019876543",
+      nis: "000106010012345",
+      registreCommerce: "06/00-0123456B12",
+      articleImposition: "06012345678",
+      adresse: "Zone industrielle Ihaddaden, Béjaïa",
+      telephone: "+21334212223",
+      contactNom: "Mme Benali",
+      delaiPaiementJours: 30,
+      notesInternes: "[démo] facturation mensuelle",
+    })
+    .returning();
+  await db
+    .update(s.reservations)
+    .set({ entrepriseId: societe!.id })
+    .where(and(eq(s.reservations.agenceId, agence.id), eq(s.reservations.code, "DEMO-ENCOURS")));
 
   console.log("Scénario de démonstration prêt :");
   console.log(

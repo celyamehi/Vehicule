@@ -65,6 +65,15 @@ export type DonneesFacture = {
     logo?: Buffer | null;
   };
   client: { nom: string; telephone: string };
+  /** Client professionnel : la facture est à son nom, le client devient le conducteur. */
+  entreprise?: {
+    raisonSociale: string;
+    adresse: string | null;
+    nif: string | null;
+    nis: string | null;
+    registreCommerce: string | null;
+    articleImposition: string | null;
+  } | null;
   vehicule: string;
   debut: Date;
   fin: Date;
@@ -437,9 +446,21 @@ export class GenerateurPdf {
     this.ligne(doc, "pdf.numeroFacture", d.numero);
     this.ligne(doc, "pdf.dateFacture", dateHeure(d.emiseLe));
     this.ligne(doc, "pdf.numero", d.codeReservation);
-    this.section(doc, "pdf.client");
-    this.ligne(doc, "commun.nom", d.client.nom);
-    this.ligne(doc, "commun.telephone", d.client.telephone);
+    if (d.entreprise) {
+      const e = d.entreprise;
+      this.section(doc, "pdf.factureA");
+      this.ligne(doc, "pdf.client", e.raisonSociale);
+      if (e.adresse) this.ligne(doc, "commun.adresse", e.adresse);
+      if (e.nif) this.ligne(doc, "pdf.nif", e.nif);
+      if (e.nis) this.ligne(doc, "pdf.nis", e.nis);
+      if (e.registreCommerce) this.ligne(doc, "pdf.rc", e.registreCommerce);
+      if (e.articleImposition) this.ligne(doc, "pdf.ai", e.articleImposition);
+      this.ligne(doc, "pdf.conducteur", `${d.client.nom} — ${d.client.telephone}`);
+    } else {
+      this.section(doc, "pdf.client");
+      this.ligne(doc, "commun.nom", d.client.nom);
+      this.ligne(doc, "commun.telephone", d.client.telephone);
+    }
     this.section(doc, "pdf.designation");
     this.ligne(doc, "pdf.vehicule", `${d.vehicule} — ${dateHeure(d.debut)} / ${dateHeure(d.fin)}`);
     for (const l of d.lignes)

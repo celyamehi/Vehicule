@@ -17,6 +17,8 @@ export type Reservation = {
   agenceId: string;
   vehiculeId: string;
   clientId: string | null;
+  /** Entreprise facturée (client professionnel), sinon null. */
+  entrepriseId?: string | null;
   debut: string;
   fin: string;
   origine: "plateforme" | "comptoir" | "telephone" | "blocage";

@@ -3,6 +3,7 @@ import {
   agences,
   categoriesVehicule,
   clientsAgence,
+  entreprises,
   documentsIdentite,
   etatsDesLieux,
   estViolationChevauchement,
@@ -416,6 +417,15 @@ export class ReservationsService {
       if (!existe) throw introuvable({ client: clientId });
     }
     await this.verifierListeNoire(agenceId, clientId);
+    if (entree.entrepriseId) {
+      // L'entreprise facturée doit appartenir à l'agence et ne pas être sur liste noire.
+      const [e] = await this.db
+        .select({ listeNoire: entreprises.listeNoire })
+        .from(entreprises)
+        .where(and(eq(entreprises.id, entree.entrepriseId), eq(entreprises.agenceId, agenceId)));
+      if (!e) throw introuvable({ entreprise: entree.entrepriseId });
+      if (e.listeNoire) throw new ErreurApi("CLIENT_LISTE_NOIRE");
+    }
 
     const detailPrix = this.calculer({
       debut: entree.debut,
@@ -455,6 +465,7 @@ export class ReservationsService {
         confirmeeLe: maintenant,
         departLe: statut === "en_cours" ? maintenant : null,
         noteInterne: entree.noteInterne ?? null,
+        entrepriseId: entree.entrepriseId ?? null,
         creePar: auteurId,
       },
       agence.wilaya,

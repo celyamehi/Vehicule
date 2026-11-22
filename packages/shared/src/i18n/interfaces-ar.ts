@@ -14,6 +14,7 @@ export const interfacesAr: Pick<
   | "amendes"
   | "factures"
   | "finances"
+  | "entreprises"
 > = {
   ui: {
     espaceAgence: "فضاء الوكالة",
@@ -658,6 +659,43 @@ export const interfacesAr: Pick<
       publicite: "إشهار",
       autre: "أخرى",
     },
+  },
+  entreprises: {
+    particuliers: "الخواص",
+    entreprises: "المؤسسات",
+    ajouter: "إضافة مؤسسة",
+    modifier: "تعديل المؤسسة",
+    raisonSociale: "الاسم التجاري",
+    nif: "الرقم الجبائي",
+    nis: "الرقم الإحصائي",
+    rc: "السجل التجاري",
+    ai: "مادة الضريبة",
+    adresse: "العنوان",
+    telephone: "الهاتف",
+    email: "البريد الإلكتروني",
+    contact: "الشخص المسؤول",
+    delai: "أجل الدفع",
+    delaiJours:
+      "{n, plural, =0 {نقدًا} one {يوم واحد} two {يومان} few {# أيام} many {# يومًا} other {# يوم}}",
+    notes: "ملاحظات داخلية",
+    aucune: "لا توجد مؤسسات مسجلة.",
+    rechercher: "الاسم أو الرقم الجبائي أو الهاتف",
+    locations:
+      "{n, plural, =0 {لا كراء} one {كراء واحد} two {كراءان} few {# عمليات كراء} many {# عملية كراء} other {# عملية كراء}}",
+    chiffreAffaires: "رقم الأعمال",
+    resteAPayer: "الباقي للدفع",
+    conducteurs: "السائقون",
+    aucunConducteur: "لا يوجد سائق بعد.",
+    historique: "عمليات كراء المؤسسة",
+    fiscal: "المعلومات الجبائية",
+    pourEntreprise: "لحساب مؤسسة",
+    pourEntrepriseAide: "تصدر الفاتورة باسم المؤسسة؛ الزبون أعلاه هو السائق.",
+    choisir: "اختر المؤسسة",
+    aucuneChoisie: "شخص عادي (بدون مؤسسة)",
+    facturee: "مفوترة إلى",
+    rattacher: "فوترة لمؤسسة",
+    detacher: "إزالة المؤسسة",
+    nouvelle: "مؤسسة جديدة",
   },
   factures: {
     moyen: "وسيلة الدفع",

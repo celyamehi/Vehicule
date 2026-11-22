@@ -187,6 +187,8 @@ export const reservationComptoirCreer = periodeBase
     prixTotal: montant.optional(),
     remise: montant.optional(),
     noteInterne: z.string().max(1000).optional(),
+    /** Location pour le compte d'une entreprise (facturée à son nom). */
+    entrepriseId: uuid.optional().nullable(),
   })
   .refine(finApresDebut, { message: "validation.fin_avant_debut", path: ["fin"] });
 
@@ -377,6 +379,48 @@ export const clientAgenceModifier = z.object({
   listeNoire: z.boolean().optional(),
   motifListeNoire: z.string().max(500).optional().nullable(),
 });
+
+/** Client entreprise : facturé au nom de la société (NIF, NIS, RC, article d'imposition). */
+const texteFacultatif = (max: number) =>
+  z
+    .string()
+    .trim()
+    .max(max)
+    .transform((v) => v || null)
+    .optional()
+    .nullable();
+export const entrepriseCreer = z.object({
+  raisonSociale: z.string().trim().min(2).max(200),
+  nif: z
+    .string()
+    .trim()
+    .regex(/^(\d{15,20})?$/, "validation.nif")
+    .transform((v) => v || null)
+    .optional()
+    .nullable(),
+  nis: texteFacultatif(30),
+  registreCommerce: texteFacultatif(50),
+  articleImposition: texteFacultatif(30),
+  adresse: texteFacultatif(300),
+  telephone: z
+    .union([z.literal(""), telephone])
+    .transform((v) => v || null)
+    .optional()
+    .nullable(),
+  email: z
+    .union([z.literal(""), z.email("validation.email")])
+    .transform((v) => v || null)
+    .optional()
+    .nullable(),
+  contactNom: texteFacultatif(150),
+  delaiPaiementJours: z.number().int().min(0).max(365).default(0),
+  notesInternes: texteFacultatif(5000),
+});
+export const entrepriseModifier = entrepriseCreer.extend({
+  listeNoire: z.boolean().optional(),
+});
+/** Rattacher (ou détacher, avec null) une réservation à une entreprise. */
+export const reservationEntreprise = z.object({ entrepriseId: uuid.nullable() });
 
 export const paiementEnregistrer = z.object({
   type: z.enum(TYPES_PAIEMENT),

@@ -16,10 +16,11 @@ import {
   Pastille,
   cx,
 } from "@lvb/ui";
-import { CheckCircle2 } from "lucide-react";
+import { Building2, CheckCircle2, Plus } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState, type FormEvent } from "react";
 import { EnTete } from "@/components/coquille";
+import { type Entreprise, ModaleEntreprise } from "@/components/entreprise";
 import { useRouter } from "@/i18n/navigation";
 import { useAction, useDonnees } from "@/lib/donnees";
 import type { Vehicule } from "@/lib/types";
@@ -59,6 +60,20 @@ export default function NouvelleReservation() {
     dateDelivrance: "",
   });
   const [prix, setPrix] = useState<number | null>(null);
+  const [pourEntreprise, setPourEntreprise] = useState(false);
+  const [entrepriseId, setEntrepriseId] = useState("");
+  const [creationEntreprise, setCreationEntreprise] = useState(false);
+  const { donnees: entreprises, recharger: rechargerEntreprises } =
+    useDonnees<Entreprise[]>("/agence/entreprises");
+
+  // Arrivée depuis la fiche d'une entreprise : ?entreprise=<id> la présélectionne.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("entreprise");
+    if (id) {
+      setPourEntreprise(true);
+      setEntrepriseId(id);
+    }
+  }, []);
 
   useEffect(() => {
     if (!vehiculeId && vehicules?.length) setVehiculeId(vehicules[0]!.id);
@@ -118,6 +133,7 @@ export default function NouvelleReservation() {
         options,
         departImmediat,
         prixTotal: prixNegocie ? Number(prixNegocie) : undefined,
+        entrepriseId: pourEntreprise && entrepriseId ? entrepriseId : null,
       });
       routeur.push(`/reservations/${r.id}`);
     });
@@ -323,15 +339,68 @@ export default function NouvelleReservation() {
             </div>
           )}
         </Carte>
+
+        <Carte>
+          <div className="flex flex-col gap-3">
+            <Case
+              libelle={
+                <span className="inline-flex items-center gap-2 font-medium">
+                  <Building2 className="size-4 text-ciel-800" />
+                  {t("entreprises.pourEntreprise")}
+                </span>
+              }
+              aide={t("entreprises.pourEntrepriseAide")}
+              checked={pourEntreprise}
+              onChange={(e) => setPourEntreprise(e.target.checked)}
+            />
+            {pourEntreprise && (
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
+                <Champ libelle={t("entreprises.choisir")} className="min-w-0 flex-1">
+                  <Liste value={entrepriseId} onChange={(e) => setEntrepriseId(e.target.value)}>
+                    <option value="">—</option>
+                    {entreprises
+                      ?.filter((x) => !x.listeNoire)
+                      .map((x) => (
+                        <option key={x.id} value={x.id}>
+                          {x.raisonSociale}
+                          {x.nif ? ` — ${x.nif}` : ""}
+                        </option>
+                      ))}
+                  </Liste>
+                </Champ>
+                <Bouton
+                  variante="secondaire"
+                  icone={Plus}
+                  onClick={() => setCreationEntreprise(true)}
+                >
+                  {t("entreprises.nouvelle")}
+                </Bouton>
+              </div>
+            )}
+          </div>
+        </Carte>
         {erreur && <Message ton="erreur">{erreur}</Message>}
         <Bouton
           type="submit"
           chargement={enCours}
-          disabled={!vehiculeId || (modeClient === "existant" && !clientId)}
+          disabled={
+            !vehiculeId ||
+            (modeClient === "existant" && !clientId) ||
+            (pourEntreprise && !entrepriseId)
+          }
         >
           {t("loueur.comptoir.creer")}
         </Bouton>
       </form>
+      <ModaleEntreprise
+        ouverte={creationEntreprise}
+        onFermer={() => setCreationEntreprise(false)}
+        onEnregistree={(x) => {
+          setCreationEntreprise(false);
+          setEntrepriseId(x.id);
+          void rechargerEntreprises();
+        }}
+      />
     </div>
   );
 }

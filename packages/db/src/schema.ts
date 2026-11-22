@@ -373,6 +373,43 @@ export const clientsAgence = pgTable(
   (t) => [uniqueIndex("clients_agence_uq").on(t.agenceId, t.utilisateurId)],
 );
 
+/**
+ * Clients entreprises d'une agence (facturation au nom de la société). Le conducteur reste
+ * un particulier (`reservations.client_id`) ; l'entreprise paie (`reservations.entreprise_id`).
+ */
+export const entreprises = pgTable(
+  "entreprises",
+  {
+    ...cleId,
+    agenceId: uuid()
+      .notNull()
+      .references(() => agences.id, { onDelete: "cascade" }),
+    raisonSociale: text().notNull(),
+    nif: text(),
+    nis: text(),
+    registreCommerce: text(),
+    articleImposition: text(),
+    adresse: text(),
+    telephone: text(),
+    email: text(),
+    /** Personne à contacter dans l'entreprise. */
+    contactNom: text(),
+    /** Délai de paiement accordé (jours) ; 0 = au comptant. */
+    delaiPaiementJours: integer().notNull().default(0),
+    notesInternes: text(),
+    listeNoire: boolean().notNull().default(false),
+    ...horodatage,
+  },
+  (t) => [
+    unique("entreprises_id_agence_uq").on(t.id, t.agenceId),
+    index("entreprises_agence_idx").on(t.agenceId, t.raisonSociale),
+    check(
+      "entreprises_delai_valide",
+      sql`${t.delaiPaiementJours} >= 0 AND ${t.delaiPaiementJours} <= 365`,
+    ),
+  ],
+);
+
 // ---------------------------------------------------------------------------
 // Flotte et tarifs
 // ---------------------------------------------------------------------------
@@ -572,6 +609,8 @@ export const reservations = pgTable(
     motifRefus: text(),
     motifBlocage: text(),
     noteInterne: text(),
+    /** Entreprise facturée (client professionnel) ; le conducteur reste `clientId`. */
+    entrepriseId: uuid(),
     creePar: uuid().references(() => utilisateurs.id),
     confirmeeLe: timestamp({ withTimezone: true }),
     departLe: timestamp({ withTimezone: true }),
@@ -603,6 +642,12 @@ export const reservations = pgTable(
       columns: [t.pointRetraitRetourId, t.agenceId],
       foreignColumns: [pointsRetrait.id, pointsRetrait.agenceId],
     }),
+    foreignKey({
+      name: "reservations_entreprise_meme_agence_fk",
+      columns: [t.entrepriseId, t.agenceId],
+      foreignColumns: [entreprises.id, entreprises.agenceId],
+    }),
+    index("reservations_entreprise_idx").on(t.entrepriseId),
     check("reservations_dates_coherentes", sql`${t.fin} > ${t.debut}`),
     check("reservations_battement_valide", sql`${t.battementMinutes} BETWEEN 0 AND 1440`),
     check("reservations_montants_positifs", sql`${t.prixTotal} >= 0 AND ${t.caution} >= 0`),
